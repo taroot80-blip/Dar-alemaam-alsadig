@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>تحدي لا للتنمر</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: dim warm hall background, two bright team boards side by side, a question dialog on top */
+:root{
+  --bg:#0b0805; --bg2:#2a1d12; --bg3:#1a120b;
+  --panel:rgba(24,16,10,.82); --line:rgba(242,182,50,.5);
+  --text:#FFF6E6; --muted:#E9D7B8; --ink:#1a120b;
+  --gold:#F2B632;
+  --teamA:#FF7A1A; --teamA-deep:#A84400; --teamA-soft:#FFD3B0;
+  --teamB:#1EA7FF; --teamB-deep:#005A9C; --teamB-soft:#BDE6FF;
+  --ok:#22C55E; --half:#FACC15; --bad:#DC2626;
+  --font-display:'Lalezar','Cairo',system-ui,sans-serif;
+  --font-body:'Cairo','Tajawal',system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+body{
+  margin:0; min-height:100vh; color:var(--text); font-family:var(--font-body); font-size:17px; line-height:1.7;
+  background-color:var(--bg);
+  background-image:
+    linear-gradient(rgba(11,8,5,.42),rgba(11,8,5,.42)),
+    radial-gradient(ellipse at 50% -10%,rgba(242,182,50,.16),transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23F2B632' stroke-opacity='.08' stroke-width='1.2'%3E%3Cpath d='M40 6l10 24 24 10-24 10-10 24-10-24L6 40l24-10z'/%3E%3Crect x='22' y='22' width='36' height='36' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(170deg,var(--bg) 0%,var(--bg2) 45%,var(--bg3) 100%);
+  background-attachment:fixed;
+}
+.wrap{max-width:1280px; margin:0 auto; padding-block:20px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex; flex-direction:column; gap:22px}
+button{font-family:inherit; cursor:pointer}
+button:focus-visible,input:focus-visible{outline:4px solid var(--gold); outline-offset:3px}
+
+/* header */
+.hero{display:flex; align-items:center; gap:18px; flex-wrap:wrap; justify-content:space-between}
+.brand{display:flex; align-items:center; gap:14px; min-width:0}
+.brand svg{width:64px; height:64px; color:var(--gold); flex:none}
+.brand h1{margin:0; font-family:var(--font-display); font-weight:400; font-size:clamp(30px,5vw,48px); line-height:1.2; text-wrap:balance}
+.brand h1 b{color:var(--gold); font-weight:400}
+.brand p{margin:0; color:var(--muted); font-size:15px}
+.legend{display:flex; gap:8px; flex-wrap:wrap}
+.legend span{border-radius:999px; padding:4px 14px; font-weight:800; font-size:14px; color:var(--ink)}
+
+/* team boxes */
+.teams{display:grid; grid-template-columns:1fr auto 1fr; gap:16px; align-items:stretch}
+.team-box{border-radius:22px; padding:16px 18px; color:var(--ink); border:4px solid #fff;
+  display:flex; flex-direction:column; gap:10px; min-width:0}
+.team-box.A{background:linear-gradient(135deg,var(--teamA),#FFB020); box-shadow:0 8px 0 var(--teamA-deep),0 14px 28px rgba(0,0,0,.5)}
+.team-box.B{background:linear-gradient(135deg,var(--teamB),#4AE3E0); box-shadow:0 8px 0 var(--teamB-deep),0 14px 28px rgba(0,0,0,.5)}
+.team-box label{font-weight:800; font-size:15px}
+.team-box input{width:100%; font:inherit; font-family:var(--font-display); font-size:28px; padding:6px 14px; border-radius:14px;
+  border:3px dashed rgba(26,18,11,.55); background:rgba(255,255,255,.85); color:var(--ink)}
+.team-box input::placeholder{color:#6b5a48; font-size:22px}
+.team-score{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+.team-score .pts{font-family:var(--font-display); font-size:46px; line-height:1; font-variant-numeric:tabular-nums}
+.team-score .sub{font-weight:700; font-size:15px}
+.vs{align-self:center; font-family:var(--font-display); font-size:40px; color:var(--gold); text-shadow:0 3px 0 #000}
+
+/* tabs */
+.tabs{display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
+.tab{min-height:52px; padding:8px 22px; border-radius:14px; font-weight:800; font-size:17px;
+  background:var(--panel); color:var(--text); border:2px solid var(--line)}
+.tab[aria-selected="true"]{background:var(--gold); color:var(--ink); border-color:#fff; box-shadow:0 5px 0 #8a5d00}
+
+/* boards */
+.page-title{text-align:center; margin:0; font-family:var(--font-display); font-weight:400; font-size:28px; color:var(--gold)}
+.page-note{text-align:center; margin:-14px 0 0; color:var(--muted)}
+.boards{display:grid; grid-template-columns:1fr 1fr; gap:22px}
+.board{background:var(--panel); border:2px solid var(--line); border-radius:22px; padding:16px; display:flex; flex-direction:column; gap:14px; min-width:0}
+.board-head{display:flex; justify-content:space-between; align-items:center; gap:10px; border-radius:14px; padding:8px 16px; color:var(--ink); font-weight:800}
+.board.A .board-head{background:var(--teamA)}
+.board.B .board-head{background:var(--teamB)}
+.board-head h3{margin:0; font-family:var(--font-display); font-weight:400; font-size:24px; min-width:0; overflow-wrap:anywhere}
+.grid{display:grid; grid-template-columns:repeat(5,1fr); gap:12px}
+
+.card{position:relative; border-radius:18px; border:4px solid #fff; padding:10px 6px 8px; min-height:150px;
+  display:flex; flex-direction:column; align-items:center; justify-content:space-between; gap:4px; color:var(--ink);
+  transition:transform .15s ease, box-shadow .15s ease}
+.board.A .card{background:linear-gradient(160deg,#FFB35C,var(--teamA)); box-shadow:0 6px 0 var(--teamA-deep),0 10px 18px rgba(0,0,0,.45)}
+.board.B .card{background:linear-gradient(160deg,#7FD3FF,var(--teamB)); box-shadow:0 6px 0 var(--teamB-deep),0 10px 18px rgba(0,0,0,.45)}
+.card:hover:not(:disabled){transform:translateY(-4px) rotate(-1deg)}
+.card:active:not(:disabled){transform:translateY(3px)}
+.card .num{font-family:var(--font-display); font-size:30px; line-height:1}
+.card .ico{width:54px; height:54px; border-radius:50%; background:rgba(255,255,255,.88); display:grid; place-items:center}
+.card .ico svg{width:34px; height:34px}
+.board.A .card .ico{color:var(--teamA-deep)}
+.board.B .card .ico{color:var(--teamB-deep)}
+.card .cat{font-weight:800; font-size:12.5px; line-height:1.35; text-align:center}
+.card .kind{font-size:11.5px; font-weight:700; background:rgba(26,18,11,.82); color:#fff; border-radius:999px; padding:1px 8px}
+.card.done{cursor:default; background:#2b2118 !important; border-color:var(--rc); box-shadow:0 6px 0 #000 !important; color:var(--text)}
+.card.done .ico{background:var(--rc)}
+.card.done .ico svg{color:var(--ink)}
+.card.done .got{font-family:var(--font-display); font-size:26px; color:var(--rc); line-height:1}
+.next-row{display:flex; justify-content:center}
+
+/* generic buttons */
+.btn{min-height:52px; padding:8px 26px; border-radius:14px; border:3px solid #fff; font-weight:800; font-size:18px}
+.btn-gold{background:var(--gold); color:var(--ink); box-shadow:0 5px 0 #8a5d00}
+.btn-teal{background:#14B8A6; color:var(--ink); box-shadow:0 5px 0 #0b6b61}
+.btn-ghost{background:transparent; color:var(--text); border-color:var(--line)}
+.btn:disabled{opacity:.45; cursor:not-allowed; box-shadow:none}
+.btn:active:not(:disabled){transform:translateY(3px)}
+
+/* dialog */
+.overlay{position:fixed; inset:0; background:rgba(5,3,2,.78); display:flex; align-items:center; justify-content:center; z-index:50;
+  padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.dialog{width:min(760px,100%); max-height:100%; overflow:auto; background:#1d140c; border:3px solid var(--gold); border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.dlg-head{display:flex; align-items:center; gap:12px; padding:14px 18px; color:var(--ink); position:sticky; top:0; z-index:2}
+.dlg-head.A{background:var(--teamA)} .dlg-head.B{background:var(--teamB)}
+.dlg-head .ico{width:52px; height:52px; border-radius:50%; background:#fff; display:grid; place-items:center; flex:none}
+.dlg-head .ico svg{width:34px; height:34px}
+.dlg-head.A .ico{color:var(--teamA-deep)} .dlg-head.B .ico{color:var(--teamB-deep)}
+.dlg-head .meta{flex:1; min-width:0; font-weight:800; line-height:1.4}
+.dlg-head .meta small{display:block; font-weight:700; font-size:14px}
+.x{width:46px; height:46px; border-radius:12px; border:3px solid var(--ink); background:rgba(255,255,255,.7); font-size:22px; font-weight:800; color:var(--ink)}
+.dlg-body{padding:20px 22px 24px; display:flex; flex-direction:column; gap:16px}
+.q{margin:0; font-size:21px; font-weight:800; line-height:1.75}
+.hint{margin:0; color:var(--gold); font-weight:700; font-size:15px}
+.opts{display:grid; gap:10px}
+.opt{text-align:right; min-height:54px; padding:10px 16px; border-radius:14px; border:3px solid rgba(255,246,230,.35);
+  background:rgba(255,255,255,.06); color:var(--text); font-size:17px; font-weight:700; display:flex; gap:12px; align-items:center}
+.opt .key{flex:none; width:32px; height:32px; border-radius:9px; background:rgba(255,255,255,.14); display:grid; place-items:center; font-weight:800}
+.opt:hover:not(:disabled){border-color:var(--gold)}
+.opt.sel{border-color:var(--gold); background:rgba(242,182,50,.22)}
+.opt.sel .key{background:var(--gold); color:var(--ink)}
+.opt.right{background:var(--ok); border-color:#fff; color:var(--ink)}
+.opt.right .key{background:var(--ink); color:#fff}
+.opt.wrong{background:var(--bad); border-color:#fff; color:#fff}
+.opt:disabled{cursor:default}
+.tf{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.tf .opt{justify-content:center; font-size:22px; min-height:64px}
+.blank{display:inline-block; min-width:96px; padding:0 10px; margin:0 3px; border-bottom:3px dashed var(--gold); text-align:center; color:var(--gold); border-radius:6px; cursor:pointer}
+.blank.active{background:rgba(242,182,50,.2)}
+.blank.right{background:var(--ok); color:var(--ink); border-bottom-color:#fff}
+.blank.wrong{background:var(--bad); color:#fff; border-bottom-color:#fff}
+.bank{display:flex; flex-direction:column; gap:12px}
+.bank-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+.bank-row b{min-width:84px}
+.chip{min-height:48px; padding:6px 18px; border-radius:999px; border:3px solid rgba(255,246,230,.35); background:rgba(255,255,255,.06); color:var(--text); font-weight:800; font-size:17px}
+.chip.sel{border-color:var(--gold); background:var(--gold); color:var(--ink)}
+.chip:disabled{cursor:default}
+.actions{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+.feedback{border-radius:16px; padding:14px 16px; border:3px solid var(--rc); background:rgba(255,255,255,.05); display:flex; flex-direction:column; gap:6px}
+.feedback .fb-top{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.feedback .fb-pts{font-family:var(--font-display); font-size:34px; color:var(--rc); line-height:1}
+.feedback .fb-msg{font-weight:800; font-size:19px}
+.feedback p{margin:0}
+.feedback .ans{color:var(--ok); font-weight:800}
+
+/* praise pop */
+.pop{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:80; pointer-events:none}
+.pop-in{pointer-events:auto; background:var(--rc); color:var(--ink); border:6px solid #fff; border-radius:32px; padding:22px 34px; text-align:center;
+  box-shadow:0 12px 0 rgba(0,0,0,.45),0 0 0 14px rgba(255,255,255,.12); animation:boom .55s cubic-bezier(.2,1.6,.4,1) both; max-width:min(520px,92vw)}
+.pop-in .big{font-family:var(--font-display); font-size:72px; line-height:1.05}
+.pop-in .say{font-family:var(--font-display); font-size:32px; line-height:1.4}
+.pop-in .emo{font-size:46px; line-height:1.1}
+@keyframes boom{0%{transform:scale(.2) rotate(-12deg); opacity:0}100%{transform:scale(1) rotate(0); opacity:1}}
+canvas#fx{position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:90}
+
+/* results */
+.results{display:grid; grid-template-columns:1fr 1fr; gap:22px}
+.res{border-radius:24px; border:4px solid #fff; padding:20px; color:var(--ink); display:flex; flex-direction:column; gap:10px}
+.res.A{background:linear-gradient(135deg,var(--teamA),#FFB020); box-shadow:0 8px 0 var(--teamA-deep)}
+.res.B{background:linear-gradient(135deg,var(--teamB),#4AE3E0); box-shadow:0 8px 0 var(--teamB-deep)}
+.res h3{margin:0; font-family:var(--font-display); font-weight:400; font-size:32px; overflow-wrap:anywhere}
+.res .pts{font-family:var(--font-display); font-size:64px; line-height:1; font-variant-numeric:tabular-nums}
+.res .rows{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+.res .rows div{background:rgba(255,255,255,.75); border-radius:14px; padding:8px; text-align:center; font-weight:800; line-height:1.4}
+.res .rows div b{display:block; font-size:24px}
+.bar{height:16px; border-radius:999px; background:rgba(26,18,11,.25); overflow:hidden}
+.bar i{display:block; height:100%; background:var(--ink); border-radius:999px}
+.winner{text-align:center; background:var(--panel); border:3px solid var(--gold); border-radius:22px; padding:18px}
+.winner .t{font-family:var(--font-display); font-size:clamp(28px,5vw,42px); color:var(--gold); line-height:1.4}
+.confirm{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; background:var(--panel); border:2px solid var(--bad); border-radius:16px; padding:12px}
+.foot{text-align:center; color:var(--muted); font-size:14px}
+
+@media (max-width:1040px){
+  .boards,.results{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .teams{grid-template-columns:1fr}
+  .vs{font-size:30px}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .q{font-size:19px}
+  .tf{grid-template-columns:1fr 1fr}
+  .pop-in .big{font-size:56px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important; transition:none !important}
+}
+</style>
+</head><body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-types" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 6 54 14v16c0 14-10 24-22 28C20 54 10 44 10 30V14Z"/><path d="M32 20v16"/></g><circle cx="32" cy="45" r="3.2" fill="currentColor"/></symbol>
+    <symbol id="i-causes" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="27" cy="27" r="17"/><path d="m40 40 15 15"/><path d="M21.5 22.5a5.5 5.5 0 1 1 8 4.8c-1.6.9-2.5 2-2.5 3.8"/></g><circle cx="27" cy="36.5" r="2.6" fill="currentColor"/></symbol>
+    <symbol id="i-person" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 54C14 42 8 32 8 23c0-8 6-13 13-13 5 0 9 3 11 7 2-4 6-7 11-7 7 0 13 5 13 13 0 9-6 19-24 31Z"/><path d="m32 17-5 10 8 5-6 10"/></g></symbol>
+    <symbol id="i-society" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 55h54"/><path d="M9 55V35l10-8 10 8v20"/><path d="M33 55V29l12-10 12 10v26"/><path d="M16 55v-9h6v9M41 37h8M41 45h8"/></g></symbol>
+    <symbol id="i-study" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 16c-6-5-16-6-24-4v38c8-2 18-1 24 4 6-5 16-6 24-4V12c-8-2-18-1-24 4Z"/><path d="M32 16v38M15 22c4-.5 8 0 11 1.5M15 31c4-.5 8 0 11 1.5M38 23.5c3-1.5 7-2 11-1.5M38 32.5c3-1.5 7-2 11-1.5"/></g></symbol>
+    <symbol id="i-solve" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h46v30H31L18 53V42H9Z"/><path d="m21 27 7 7 14-14"/></g></symbol>
+  </defs>
+</svg>
+
+<div class="wrap" dir="rtl" lang="ar">
+  <header class="hero">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#i-types"/></svg>
+      <div>
+        <h1>تحدّي البطاقات: <b>لا للتنمّر</b></h1>
+        <p>أنواعه وأسبابه وأثره على الفرد والمجتمع والدراسة · للمرحلة الثانوية</p>
+      </div>
+    </div>
+    <div class="legend" aria-label="نظام الدرجات">
+      <span style="background:var(--ok)">صحيحة كاملة 100</span>
+      <span style="background:var(--half)">منقوصة 50</span>
+      <span style="background:#F87171">محاولة 10</span>
+    </div>
+  </header>
+
+  <section class="teams" aria-label="الفريقان">
+    <div class="team-box A">
+      <label for="nameA">اسم الفريق الأول</label>
+      <input id="nameA" maxlength="30" placeholder="اكتب اسم الفريق الأول هنا" autocomplete="off">
+      <div class="team-score"><span class="pts" id="ptsA">0</span><span class="sub" id="subA"></span></div>
+    </div>
+    <div class="vs" aria-hidden="true">ضد</div>
+    <div class="team-box B">
+      <label for="nameB">اسم الفريق الثاني</label>
+      <input id="nameB" maxlength="30" placeholder="اكتب اسم الفريق الثاني هنا" autocomplete="off">
+      <div class="team-score"><span class="pts" id="ptsB">0</span><span class="sub" id="subB"></span></div>
+    </div>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="صفحات اللعبة">
+    <button class="tab" role="tab" id="tab-p1" data-view="p1">الصفحة الأولى</button>
+    <button class="tab" role="tab" id="tab-p2" data-view="p2">الصفحة الثانية · أسئلة أصعب</button>
+    <button class="tab" role="tab" id="tab-res" data-view="res">النتيجة النهائية</button>
+    <button class="tab" id="soundBtn" aria-pressed="true">🔊 الصوت</button>
+  </nav>
+
+  <main id="view"></main>
+
+  <p class="foot">كل فريق يجيب عن بطاقاته العشر في كل صفحة. الدرجة الكاملة لكل فريق 2000 نقطة.</p>
+</div>
+
+<div class="overlay" id="overlay" dir="rtl" lang="ar" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="qText" id="dialog"></div>
+</div>
+<div class="pop" id="pop" dir="rtl" hidden></div>
+<canvas id="fx"></canvas>
+
+<script>
+const CATS = {
+  types:  {label:'أنواع التنمّر', icon:'i-types'},
+  causes: {label:'أسباب التنمّر', icon:'i-causes'},
+  person: {label:'أثره على الفرد', icon:'i-person'},
+  society:{label:'المجتمع والقيم', icon:'i-society'},
+  study:  {label:'أثره على الدراسة', icon:'i-study'},
+  solve:  {label:'المواجهة والحلول', icon:'i-solve'}
+};
+const KINDS = {mcq:'اختيار متعدد', multi:'اختر إجابتين', tf:'صح أم خطأ', fill:'أكمل الفراغ'};
+
+// a = index of the correct option (options are shuffled on screen)
+const Q = {
+ 1:{
+  A:[
+   {t:'mcq',c:'types',q:'نشرُ الشائعات عن زميل، وتحريضُ الآخرين على مقاطعته وعدم إشراكه في الأنشطة يُعدّ تنمّرًا:',o:['اجتماعيًا (علائقيًا)','جسديًا','إلكترونيًا','ليس تنمّرًا بل خلافًا عاديًا'],a:0,e:'التنمّر الاجتماعي يستهدف علاقات الشخص ومكانته بين زملائه، مثل العزل المتعمَّد ونشر الشائعات.'},
+   {t:'tf',c:'types',q:'التنمّر هو أي شجار يحدث مرة واحدة بين طالبين متساويين في القوة.',a:false,fix:{o:['التنمّر سلوك عدواني متعمَّد ومتكرر يقوم على عدم تكافؤ في القوة','التنمّر هو الشجار الذي يحدث بين الأصدقاء فقط','التنمّر لا يحدث إلا داخل الفصل'],a:0},e:'الشجار العابر بين متكافئين ليس تنمّرًا. التنمّر متعمَّد، ومتكرر، وفيه طرف أقوى يستغل ضعف الآخر.'},
+   {t:'fill',c:'causes',q:'من أسباب التنمّر المرتبطة بالمتنمّر نفسه: ضعفُ {0} بالنفس، والرغبةُ في {1} على الآخرين.',b:[{o:['الثقة','المعرفة','الطاعة'],a:0},{o:['السيطرة','التعاون','الاعتذار'],a:0}],e:'كثير من المتنمّرين يعوّضون شعورهم الداخلي بالنقص بإظهار القوة والسيطرة على غيرهم.'},
+   {t:'multi',c:'causes',q:'اختر سببين من أسباب انتشار التنمّر بين طلاب المدارس:',o:['تقليد مشاهد العنف في الألعاب والأفلام','ضغط الأقران والرغبة في الظهور أمام المجموعة','ممارسة الرياضة الجماعية','المشاركة في الإذاعة المدرسية'],a:[0,1],e:'الإعلام العنيف وضغط المجموعة من أبرز ما يدفع الطالب إلى التنمّر ليبدو «قويًا» أمام زملائه.'},
+   {t:'mcq',c:'person',q:'من أبرز الآثار النفسية للتنمّر على الضحية:',o:['القلق وتدنّي تقدير الذات','زيادة الثقة بالنفس','تحسّن العلاقات مع الزملاء','زيادة حب المدرسة'],a:0,e:'الضحية يشعر غالبًا بالقلق والخوف ويبدأ في التقليل من قيمة نفسه.'},
+   {t:'tf',c:'person',q:'المتنمّر نفسه قد يتضرّر من سلوكه مستقبلًا، كأن يواجه مشكلات في علاقاته أو مع القانون.',a:true,fix:{o:['المتنمّر لا يتضرّر أبدًا من سلوكه','سلوك المتنمّر يجعله محبوبًا دائمًا','الضرر يقع على المعلمين فقط']},e:'العبارة صحيحة؛ السلوك العدواني إذا استمر يفسد علاقات صاحبه وقد يقوده إلى مشكلات أكبر.'},
+   {t:'fill',c:'society',q:'يؤدي انتشار التنمّر في المجتمع إلى ضعف {0} بين أفراده، وانتشار {1}.',b:[{o:['الترابط','الخلاف','الخوف'],a:0},{o:['العنف','التسامح','التعاون'],a:0}],e:'المجتمع الذي يسكت عن التنمّر تضعف فيه الثقة والترابط ويصبح العنف أمرًا مألوفًا.'},
+   {t:'mcq',c:'study',q:'كيف يؤثّر التنمّر على التحصيل الدراسي للضحية؟',o:['ضعف التركيز وتراجع الدرجات','يرفع درجاته لأنه يتفرّغ للدراسة','لا يوجد أي تأثير','يزيد مشاركته في الحصص'],a:0,e:'الخوف والتوتر يشغلان تفكير الطالب فيقل تركيزه وتنخفض درجاته.'},
+   {t:'tf',c:'study',q:'قد يدفع التنمّر المستمر بعض الطلاب إلى الغياب المتكرر أو ترك المدرسة.',a:true,fix:{o:['التنمّر يزيد حب الطالب للمدرسة','الغياب لا علاقة له بالتنمّر أبدًا','التنمّر يؤثّر على الدرجات فقط ولا يؤثّر على الحضور']},e:'العبارة صحيحة؛ يهرب بعض الضحايا من المكان الذي يُؤذَون فيه، فيكثر غيابهم وقد يتسرّبون.'},
+   {t:'multi',c:'solve',q:'اختر تصرّفين صحيحين إذا تعرّضت للتنمّر:',o:['إبلاغ المعلم أو المرشد الطلابي أو ولي الأمر','الحفاظ على الهدوء وعدم الرد بالعنف','الانتقام بالطريقة نفسها','كتمان الأمر خوفًا من السخرية'],a:[0,1],e:'طلب المساعدة شجاعة وليس ضعفًا، والرد بالعنف يزيد المشكلة ويجعلك طرفًا فيها.'}
+  ],
+  B:[
+   {t:'mcq',c:'types',q:'إرسال رسائل تهديد لزميل عبر تطبيقات الهاتف، ونشر صوره دون إذنه للسخرية منه يُسمّى تنمّرًا:',o:['إلكترونيًا','لفظيًا مباشرًا','جسديًا','مزاحًا عاديًا'],a:0,e:'التنمّر الإلكتروني يتم عبر الهاتف والإنترنت، وخطورته أنه ينتشر بسرعة ويلاحق الضحية في كل مكان.'},
+   {t:'tf',c:'types',q:'الإيذاء اللفظي كالسخرية والألقاب الجارحة نوع من أنواع التنمّر وليس مجرد مزاح.',a:true,fix:{o:['الألقاب الجارحة مزاح مقبول إذا ضحك الجميع','التنمّر يقتصر على الضرب فقط','السخرية لا تؤذي أحدًا']},e:'العبارة صحيحة؛ الكلمة الجارحة المتكررة تترك أثرًا قد يكون أعمق من الضرب.'},
+   {t:'fill',c:'causes',q:'من الأسباب الأسرية للتنمّر: {0} الأسري داخل البيت، و{1} رقابة الوالدين.',b:[{o:['العنف','الهدوء','الحوار'],a:0},{o:['ضعف','قوة','حسن'],a:0}],e:'الطفل الذي يعيش العنف في بيته قد ينقله إلى زملائه، وغياب المتابعة يفتح له الباب.'},
+   {t:'multi',c:'causes',q:'اختر سببين يجعلان بعض الطلاب أكثر عُرضة لأن يكونوا ضحايا للتنمّر:',o:['العزلة وقلة الأصدقاء','الخجل وصعوبة الدفاع عن النفس','الانضمام إلى الأنشطة مع زملائه','وجود علاقة جيدة مع المعلمين'],a:[0,1],e:'المتنمّر يبحث عادةً عن من يظن أنه وحيد ولن يدافع عن نفسه، ولذلك الصداقة حماية.'},
+   {t:'mcq',c:'person',q:'طالب كان نشيطًا، ثم أصبح منعزلًا يتجنّب الاستراحة ويشكو من الصداع كل صباح. ما التفسير الأقرب؟',o:['قد يكون ضحية تنمّر ويحتاج إلى من يسأله ويستمع إليه','أنه أصبح أكثر نضجًا فقط','أنه يحب الدراسة أكثر من اللعب','هذه التغيّرات لا تدل على شيء أبدًا'],a:0,e:'التغيّر المفاجئ في السلوك والشكاوى الجسدية الصباحية من علامات التعرّض للتنمّر.'},
+   {t:'tf',c:'person',q:'آثار التنمّر على الضحية تختفي تمامًا بمجرد انتهاء المرحلة الدراسية.',a:false,fix:{o:['قد تمتد آثار التنمّر سنوات طويلة بعد انتهاء الدراسة','آثار التنمّر تظهر على المتنمّر فقط','التنمّر ليس له أي آثار على أحد'],a:0},e:'بعض الضحايا يحملون آثار القلق وضعف الثقة إلى الجامعة والعمل إذا لم يجدوا دعمًا.'},
+   {t:'fill',c:'society',q:'قال تعالى: ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا لَا {0} قَوْمٌ مِّن قَوْمٍ عَسَىٰ أَن يَكُونُوا {1} مِّنْهُمْ﴾',b:[{o:['يَسْخَرْ','يَضْرِبْ','يَغْضَبْ'],a:0},{o:['خَيْرًا','أَقْوَى','أَكْثَرَ'],a:0}],e:'سورة الحجرات، الآية 11: نهيٌ صريح عن السخرية من الآخرين، وهي من أكثر صور التنمّر انتشارًا.'},
+   {t:'mcq',c:'study',q:'أيّ مما يلي يُعدّ أثرًا مباشرًا للتنمّر على البيئة المدرسية كلها؟',o:['زيادة الغياب وانتشار الخوف بين الطلاب','ارتفاع مستوى الأنشطة','زيادة الحماس للتعلّم','تحسّن الانضباط في الفصول'],a:0,e:'التنمّر لا يؤذي الضحية وحده، بل يجعل المدرسة كلها مكانًا أقل أمانًا.'},
+   {t:'tf',c:'study',q:'التنمّر يؤثّر على الضحية فقط، ولا يؤثّر على تحصيل الطلاب الذين يشاهدونه.',a:false,fix:{o:['الطلاب المشاهدون قد يشعرون بالخوف والتوتر فيتأثّر تركيزهم أيضًا','المشاهدون يستفيدون من مشاهدة التنمّر','التنمّر يرفع تحصيل المشاهدين'],a:0},e:'المشاهد يخاف أن يكون الضحية التالية، وهذا القلق يضعف تركيزه في الدراسة.'},
+   {t:'multi',c:'solve',q:'اختر تصرّفين صحيحين إذا شاهدت زميلًا يتعرّض للتنمّر:',o:['الوقوف بجانبه وعدم الضحك أو المشاركة','إبلاغ أحد المعلمين أو الإدارة','تصوير الموقف ونشره','الانصراف وكأن شيئًا لم يحدث'],a:[0,1],e:'المشاهد الإيجابي يستطيع إيقاف التنمّر؛ فالمتنمّر يتوقف غالبًا حين يفقد جمهوره.'}
+  ]
+ },
+ 2:{
+  A:[
+   {t:'mcq',c:'types',q:'أنشأ مجموعة من الطلاب حسابًا وهميًا باسم زميلهم، ينشرون منه تعليقات محرجة. هذا السلوك يجمع بين:',o:['التنمّر الإلكتروني وانتحال الشخصية والإساءة إلى السمعة','التنمّر الجسدي فقط','المزاح المقبول بين الأصدقاء','النقد البنّاء'],a:0,e:'انتحال الشخصية على الإنترنت تنمّر إلكتروني خطير، وقد يعرّض أصحابه للمساءلة النظامية.'},
+   {t:'multi',c:'types',q:'اختر مثالين على التنمّر الاجتماعي (العلائقي):',o:['استبعاد زميل عمدًا من المجموعة','نشر الإشاعات لتشويه سمعته','دفعه في الممر','أخذ أدواته بالقوة'],a:[0,1],e:'الدفع وأخذ الأدوات بالقوة تنمّر جسدي، أما العزل والإشاعات فيستهدفان علاقات الشخص.'},
+   {t:'tf',c:'causes',q:'إذا كان المتنمّر قويًا جسديًا فهذا يعني أنه واثق من نفسه، ولا توجد دوافع نفسية وراء سلوكه.',a:false,fix:{o:['كثير من المتنمّرين يخفون ضعفًا داخليًا أو مشكلات نفسية وراء سلوكهم العدواني','القوة الجسدية هي السبب الوحيد للتنمّر','المتنمّر لا يعاني من أي مشكلة'],a:0},e:'القوة الظاهرة قد تخفي غضبًا أو غيرة أو مشكلات أسرية، وفهم الدافع يساعد على العلاج.'},
+   {t:'fill',c:'causes',q:'عندما يرى المتنمّر أن سلوكه يحقق له {0} بين زملائه دون {1}، فإنه يكرّره.',b:[{o:['الشهرة','الخسارة','الندم'],a:0},{o:['عقاب','تشجيع','مكافأة'],a:0}],e:'غياب المحاسبة وتصفيق الآخرين يجعلان التنمّر «مربحًا» في نظر المتنمّر.'},
+   {t:'mcq',c:'person',q:'أيّ مما يلي يُعدّ أثرًا طويل المدى للتنمّر على الضحية؟',o:['صعوبة بناء الثقة بالآخرين واضطرابات القلق','زيادة مهارات التواصل','حب العمل الجماعي','لا توجد آثار طويلة المدى'],a:0,e:'قد يستمر الخوف من الناس وضعف الثقة سنوات إن لم يحصل الضحية على دعم.'},
+   {t:'fill',c:'person',q:'يشعر ضحية التنمّر غالبًا بـ{0} الاجتماعية، وقد يصل إلى {1} إذا لم يجد من يسانده.',b:[{o:['العزلة','الشهرة','القيادة'],a:0},{o:['الاكتئاب','النجاح','الراحة'],a:0}],e:'العزلة بداية الطريق، والدعم المبكر من الأصدقاء والأسرة والمرشد يحمي من الاكتئاب.'},
+   {t:'multi',c:'society',q:'اختر أثرين للتنمّر على المجتمع:',o:['انتشار ثقافة العنف وضعف الشعور بالأمان','إضعاف روح التعاون والانتماء','زيادة التسامح بين الناس','قوة الروابط الاجتماعية'],a:[0,1],e:'ما يبدأ في الساحة المدرسية ينتقل إلى الشارع والعمل إذا لم يُعالَج.'},
+   {t:'fill',c:'study',q:'التنمّر يقلّل {0} الطالب في الحصة، ويرفع نسبة {1} عن المدرسة.',b:[{o:['مشاركة','تأخّر','خوف'],a:0},{o:['الغياب','الحضور','الالتزام'],a:0}],e:'الطالب الخائف يتجنّب رفع يده خشية السخرية، وقد يختلق الأعذار ليغيب.'},
+   {t:'tf',c:'study',q:'المدرسة التي تضع قواعد واضحة ضد التنمّر وتطبّقها بعدل، تقلّ فيها حالات التنمّر ويتحسّن فيها التحصيل.',a:true,fix:{o:['القواعد المدرسية تزيد التنمّر','التنمّر لا يتأثّر بقوانين المدرسة','تطبيق القواعد يضعف التحصيل']},e:'العبارة صحيحة؛ البيئة الآمنة شرط للتعلّم الجيد.'},
+   {t:'mcq',c:'solve',q:'لاحظت أن زميلك يتعرّض لتنمّر إلكتروني في مجموعة الصف. ما التصرّف الأفضل؟',o:['عدم المشاركة، والاحتفاظ بلقطات شاشة دليلًا، ثم إبلاغ المعلم أو ولي الأمر','الرد على المتنمّرين بالشتائم','الخروج من المجموعة وتجاهل الأمر','نشر المحادثة في مجموعات أخرى'],a:0,e:'الدليل يساعد المسؤولين على التصرّف، والشتائم أو النشر يوسّعان الأذى.'}
+  ],
+  B:[
+   {t:'mcq',c:'types',q:'ما العنصر الذي يميّز التنمّر عن الشجار العادي؟',o:['تكرار الإيذاء المتعمَّد مع اختلال ميزان القوة','ارتفاع الصوت أثناء الخلاف','حدوثه في ساحة المدرسة','أن يكون بين طالبين من صفّين مختلفين'],a:0,e:'التعمّد والتكرار وعدم تكافؤ القوة هي الأركان الثلاثة للتنمّر.'},
+   {t:'multi',c:'types',q:'اختر مثالين على التنمّر الجسدي:',o:['الدفع والضرب','إتلاف ممتلكات الزميل أو أخذها بالقوة','إطلاق الألقاب الجارحة','التعليقات الساخرة على الإنترنت'],a:[0,1],e:'الألقاب تنمّر لفظي، والتعليقات على الإنترنت تنمّر إلكتروني.'},
+   {t:'tf',c:'causes',q:'صمت الطلاب المشاهدين وضحكهم قد يشجّع المتنمّر على الاستمرار في سلوكه.',a:true,fix:{o:['صمت المشاهدين يوقف المتنمّر فورًا','ضحك الزملاء لا يؤثّر على المتنمّر','المشاهدون لا دور لهم في التنمّر']},e:'العبارة صحيحة؛ الجمهور يمنح المتنمّر شعورًا بالقوة، وانسحاب الجمهور يضعفه.'},
+   {t:'fill',c:'causes',q:'قد يتحوّل الطالب الذي {0} للتنمّر سابقًا إلى {1} إذا لم يجد دعمًا وعلاجًا.',b:[{o:['تعرّض','انتبه','استمع'],a:0},{o:['متنمّر','مرشد','قائد'],a:0}],e:'بعض الضحايا ينقلون الأذى إلى من هم أضعف منهم، ولذلك نكسر الدائرة بالدعم المبكر.'},
+   {t:'mcq',c:'person',q:'طالب يتنمّر على زملائه باستمرار دون أي تدخّل تربوي. ما المتوقَّع له مستقبلًا؟',o:['ارتفاع احتمال السلوك العدواني ومشكلات في العمل والعلاقات','أن يصبح قائدًا محبوبًا','أن يتفوّق دراسيًا تلقائيًا','لن يتأثّر بأي شيء'],a:0,e:'المتنمّر يحتاج إلى توجيه ومساعدة أيضًا، وإلا تحوّل سلوكه إلى عادة تضرّه طوال حياته.'},
+   {t:'fill',c:'society',q:'قال رسول الله ﷺ: «المسلم مَن سَلِمَ المسلمون من {0} و{1}».',b:[{o:['لسانه','ماله','بيته'],a:0},{o:['يده','علمه','جاره'],a:0}],e:'رواه البخاري. اللسان يشمل التنمّر اللفظي والإلكتروني، واليد تشمل التنمّر الجسدي.'},
+   {t:'multi',c:'society',q:'اختر نتيجتين لانتشار التنمّر في المجتمع على المدى البعيد:',o:['خسارة طاقات شبابية بسبب التسرّب وضعف الثقة','زيادة الحاجة إلى العلاج النفسي والخدمات الاجتماعية','ارتفاع مستوى الإبداع','انخفاض الجرائم'],a:[0,1],e:'كل طالب يُكسَر بالتنمّر خسارة لمجتمعه، ومعالجة الآثار تكلّف أكثر من الوقاية.'},
+   {t:'fill',c:'study',q:'من أخطر آثار التنمّر الدراسية: {0} من المدرسة نهائيًا، و{1} الرغبة في التعلّم.',b:[{o:['التسرّب','التخرّج','التفوّق'],a:0},{o:['فقدان','زيادة','تجدّد'],a:0}],e:'حين تصبح المدرسة مكانًا مؤلمًا قد يترك الطالب التعليم كله.'},
+   {t:'tf',c:'study',q:'الطالب المتفوّق دراسيًا لا يمكن أن يكون ضحية للتنمّر.',a:false,fix:{o:['يمكن أن يتعرّض أي طالب للتنمّر، وقد يكون التفوّق نفسه سببًا للغيرة والتنمّر','التنمّر يصيب الضعفاء دراسيًا فقط','المتفوّقون هم المتنمّرون دائمًا'],a:0},e:'يتعرّض بعض المتفوّقين للسخرية بسبب الغيرة، ولا يوجد طالب محصَّن من التنمّر.'},
+   {t:'mcq',c:'solve',q:'أيّ الحلول التالية أكثر فاعلية للحد من التنمّر في المدرسة؟',o:['برنامج شامل يجمع التوعية والقواعد الواضحة والدعم النفسي وإشراك الأسرة','معاقبة الضحية لأنه أبلغ','تجاهل المشكلة حتى تختفي وحدها','منع الطلاب من الحديث مع بعضهم'],a:0,e:'لا يكفي حل واحد؛ المدرسة والأسرة والطلاب شركاء في بيئة خالية من التنمّر.'}
+  ]
+ }
+};
+
+const PRAISE = {
+  100:{emo:['🏆','🌟','🔥','💪','🥇'],say:['ممتاز يا بطل!','إجابة نموذجية!','رائع! فريقك فخور بك','عبقري! استمر هكذا','أحسنت، أنت قدوة!','ما شاء الله! إجابة كاملة']},
+  50:{emo:['👏','✨','🚀'],say:['قريب جدًا! نصف الطريق','جيد! خطوة واحدة وتصل','أحسنت المحاولة، ركّز أكثر','بداية قوية، أكمل المشوار']},
+  10:{emo:['💪','🌱','🙌'],say:['لا بأس! المحاولة شجاعة','كل خطأ درس جديد','شكرًا على المحاولة، القادمة لك','لا تستسلم، أنت قادر']}
+};
+const RCOLOR = {100:'var(--ok)',50:'var(--half)',10:'#F87171'};
+const LETTERS = ['أ','ب','ج','د'];
+const KEY = 'bully-cards-v1';
+
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+let state = load() || {};
+state.names = state.names || {A:'',B:''};
+state.res = state.res || {};
+state.view = state.view || 'p1';
+if(state.sound===undefined) state.sound = true;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+const teamName = t => (state.names[t]||'').trim() || (t==='A'?'الفريق الأول':'الفريق الثاني');
+const icon = (id) => `<svg viewBox="0 0 64 64" aria-hidden="true"><use href="#${id}"/></svg>`;
+
+function seeded(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19}
+  return ()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return((h^=h>>>16)>>>0)/4294967296}}
+function order(n,seed){const r=seeded(seed),a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function totals(t,page){
+  const out={pts:0,n:0,c:{100:0,50:0,10:0}};
+  for(const [k,v] of Object.entries(state.res)){
+    const [p,tm]=k.split('-');
+    if(tm!==t || (page && p!=='p'+page)) continue;
+    out.pts+=v; out.n++; out.c[v]++;
+  }
+  return out;
+}
+
+/* ---------- rendering ---------- */
+function renderScores(){
+  for(const t of ['A','B']){
+    const s=totals(t);
+    $('#pts'+t).textContent=s.pts;
+    $('#sub'+t).textContent = s.n ? `نقطة · ${s.n} من 20 بطاقة · ${Math.round(s.pts/(s.n*100)*100)}%` : 'نقطة · لم تبدأ بعد';
+  }
+}
+
+function renderView(){
+  document.querySelectorAll('.tab[data-view]').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===state.view));
+  const v=$('#view');
+  if(state.view==='res'){ v.innerHTML=resultsHTML(); return; }
+  const p = state.view==='p1'?1:2;
+  const title = p===1 ? 'الصفحة الأولى: بطاقات التحدّي' : 'الصفحة الثانية: أسئلة أصعب';
+  const note = p===1 ? 'اختر بطاقة من بطاقات فريقك وأجب عن سؤالها' : 'مواقف وتحليل وآيات وأحاديث، ركّزوا جيدًا!';
+  v.innerHTML = `<div style="display:flex;flex-direction:column;gap:22px">
+    <h2 class="page-title">${title}</h2><p class="page-note">${note}</p>
+    <div class="boards">${['A','B'].map(t=>boardHTML(p,t)).join('')}</div>
+    <div class="next-row">${p===1
+      ? '<button class="btn btn-gold" data-go="p2">انتقل إلى الصفحة الثانية ←</button>'
+      : '<button class="btn btn-gold" data-go="res">اعرض النتيجة النهائية 🏆</button>'}</div></div>`;
+}
+
+function boardHTML(p,t){
+  const s=totals(t,p);
+  const cards=Q[p][t].map((q,i)=>{
+    const key=`p${p}-${t}-${i}`, r=state.res[key], cat=CATS[q.c];
+    if(r!==undefined){
+      return `<button class="card done" style="--rc:${RCOLOR[r]}" disabled aria-label="بطاقة ${i+1} تمت الإجابة: ${r} نقطة">
+        <span class="num">${i+1}</span><span class="ico">${icon(cat.icon)}</span><span class="got">+${r}</span><span class="cat">${r===100?'صحيحة':r===50?'منقوصة':'محاولة'}</span></button>`;
+    }
+    return `<button class="card" data-key="${key}" aria-label="بطاقة ${i+1}: ${cat.label}، ${KINDS[q.t]}">
+      <span class="num">${i+1}</span><span class="ico">${icon(cat.icon)}</span><span class="cat">${cat.label}</span><span class="kind">${KINDS[q.t]}</span></button>`;
+  }).join('');
+  return `<section class="board ${t}" aria-label="${esc(teamName(t))}">
+    <div class="board-head"><h3>${esc(teamName(t))}</h3><span>${s.pts} نقطة · ${s.n}/10</span></div>
+    <div class="grid">${cards}</div></section>`;
+}
+
+function resultsHTML(){
+  const A=totals('A'),B=totals('B');
+  let win;
+  if(!A.n && !B.n) win='ابدأوا اللعب لتظهر النتيجة هنا';
+  else if(A.pts===B.pts) win='تعادل رائع! كلا الفريقين أبطال 🤝';
+  else win=`🏆 الفائز: ${esc(teamName(A.pts>B.pts?'A':'B'))} 🏆`;
+  const card=(t,s)=>{
+    const pct = s.n ? Math.round(s.pts/(s.n*100)*100) : 0;
+    return `<div class="res ${t}"><h3>${esc(teamName(t))}</h3>
+      <div><span class="pts">${s.pts}</span> <b>نقطة من 2000</b></div>
+      <div class="bar" aria-hidden="true"><i style="width:${s.pts/2000*100}%"></i></div>
+      <div><b>نسبة الإجابات: ${pct}%</b> · أجاب عن ${s.n} من 20 بطاقة</div>
+      <div class="rows"><div><b>${s.c[100]}</b>صحيحة (100)</div><div><b>${s.c[50]}</b>منقوصة (50)</div><div><b>${s.c[10]}</b>محاولة (10)</div></div></div>`;
+  };
+  return `<div style="display:flex;flex-direction:column;gap:22px">
+    <div class="winner"><div class="t">${win}</div><p style="margin:0;color:var(--muted)">«المسلم من سَلِمَ المسلمون من لسانه ويده» · معًا ضد التنمّر</p></div>
+    <div class="results">${card('A',A)}${card('B',B)}</div>
+    <div class="next-row" id="resetZone"><button class="btn btn-ghost" id="resetAsk">ابدأ لعبة جديدة</button></div></div>`;
+}
+
+/* ---------- question dialog ---------- */
+let cur=null;
+
+function openCard(key){
+  const [p,t,i]=key.split('-'); const q=Q[p.slice(1)][t][+i];
+  cur={key,q,t,i:+i,sel:null,multi:new Set(),fix:null,blanks:q.b?q.b.map(()=>null):null,active:0,done:false,
+       ord:q.o?order(q.o.length,key):null, ford:q.fix?order(q.fix.o.length,key+'f'):null, bord:q.b?q.b.map((b,j)=>order(b.o.length,key+'b'+j)):null};
+  drawDialog();
+  $('#overlay').hidden=false;
+  setTimeout(()=>{const f=$('#dialog .opt, #dialog .chip'); f&&f.focus()},30);
+}
+
+function drawDialog(){
+  const {q,t,i}=cur, cat=CATS[q.c];
+  let body='';
+  if(q.t==='mcq'||q.t==='multi'){
+    body+=`<p class="q" id="qText">${esc(q.q)}</p>`;
+    if(q.t==='multi') body+=`<p class="hint">اختر إجابتين بالضبط · إجابة واحدة صحيحة = 50 نقطة</p>`;
+    body+=`<div class="opts">${cur.ord.map((oi,pos)=>{
+      const sel = q.t==='mcq' ? cur.sel===oi : cur.multi.has(oi);
+      let cls = sel?' sel':'';
+      if(cur.done){ const isRight = q.t==='mcq' ? oi===q.a : q.a.includes(oi);
+        cls = isRight ? ' right' : (sel?' wrong':''); }
+      return `<button class="opt${cls}" data-opt="${oi}" ${cur.done?'disabled':''}><span class="key">${LETTERS[pos]}</span><span>${esc(q.o[oi])}</span></button>`;
+    }).join('')}</div>`;
+  }
+  if(q.t==='tf'){
+    body+=`<p class="q" id="qText">${esc(q.q)}</p>`;
+    body+=`<div class="tf">${[true,false].map(v=>{
+      let cls=cur.sel===v?' sel':'';
+      if(cur.done) cls = v===q.a ? ' right' : (cur.sel===v?' wrong':'');
+      return `<button class="opt${cls}" data-tf="${v}" ${cur.done?'disabled':''}>${v?'✔ صح':'✘ خطأ'}</button>`;}).join('')}</div>`;
+    if(cur.sel===false){
+      body+=`<p class="hint">اخترت «خطأ»، فما التصحيح الصحيح للعبارة؟ (التصحيح الخاطئ = 50 نقطة)</p>`;
+      body+=`<div class="opts">${cur.ford.map((oi,pos)=>{
+        let cls=cur.fix===oi?' sel':'';
+        if(cur.done && q.a===false) cls = oi===q.fix.a ? ' right' : (cur.fix===oi?' wrong':'');
+        if(cur.done && q.a===true) cls = cur.fix===oi?' wrong':'';
+        return `<button class="opt${cls}" data-fix="${oi}" ${cur.done?'disabled':''}><span class="key">${LETTERS[pos]}</span><span>${esc(q.fix.o[oi])}</span></button>`;}).join('')}</div>`;
+    }
+  }
+  if(q.t==='fill'){
+    let n=0;
+    const text=esc(q.q).replace(/\{(\d)\}/g,(m,d)=>{
+      const j=+d, v=cur.blanks[j];
+      let cls = cur.active===j && !cur.done ? ' active':'';
+      if(cur.done) cls = v===q.b[j].a ? ' right':' wrong';
+      return `<span class="blank${cls}" data-blank="${j}" role="button" tabindex="0" aria-label="الفراغ ${j+1}">${v===null?'( '+(j+1)+' )':esc(q.b[j].o[v])}</span>`;
+    });
+    body+=`<p class="q" id="qText">${text}</p><p class="hint">املأ الفراغين · فراغ واحد صحيح = 50 نقطة</p>`;
+    body+=`<div class="bank">${q.b.map((b,j)=>`<div class="bank-row"><b>الفراغ ${j+1}:</b>${cur.bord[j].map(oi=>
+      `<button class="chip${cur.blanks[j]===oi?' sel':''}" data-chip="${j}:${oi}" ${cur.done?'disabled':''}>${esc(b.o[oi])}</button>`).join('')}</div>`).join('')}</div>`;
+  }
+
+  if(cur.done){
+    const r=cur.r, c=RCOLOR[r];
+    let ans='';
+    if(q.t==='fill') ans = esc(q.q).replace(/\{(\d)\}/g,(m,d)=>`«${esc(q.b[+d].o[q.b[+d].a])}»`);
+    if(q.t==='tf') ans = q.a ? 'العبارة صحيحة ✔' : `العبارة خاطئة، وتصحيحها: ${esc(q.fix.o[q.fix.a])}`;
+    if(q.t==='multi') ans = q.a.map(x=>esc(q.o[x])).join(' + ');
+    if(q.t==='mcq') ans = esc(q.o[q.a]);
+    body+=`<div class="feedback" style="--rc:${c}" role="status">
+      <div class="fb-top"><span class="fb-pts">+${r}</span><span class="fb-msg">${cur.msg}</span></div>
+      <p><span class="ans">الإجابة الصحيحة:</span> ${ans}</p><p>💡 ${esc(q.e)}</p></div>
+      <div class="actions"><button class="btn btn-gold" data-close>العودة إلى البطاقات</button></div>`;
+  } else {
+    body+=`<div class="actions"><button class="btn btn-gold" id="checkBtn" ${ready()?'':'disabled'}>تحقّق من الإجابة</button>
+      <button class="btn btn-ghost" data-close>إغلاق</button></div>`;
+  }
+
+  $('#dialog').innerHTML = `<div class="dlg-head ${t}"><span class="ico">${icon(cat.icon)}</span>
+    <div class="meta">${esc(teamName(t))} · البطاقة ${i+1}<small>${cat.label} · ${KINDS[q.t]}</small></div>
+    <button class="x" data-close aria-label="إغلاق">✕</button></div><div class="dlg-body">${body}</div>`;
+}
+
+function ready(){
+  const q=cur.q;
+  if(q.t==='mcq') return cur.sel!==null;
+  if(q.t==='multi') return cur.multi.size===2;
+  if(q.t==='tf') return cur.sel===true || (cur.sel===false && cur.fix!==null);
+  if(q.t==='fill') return cur.blanks.every(v=>v!==null);
+}
+
+function grade(){
+  const q=cur.q;
+  if(q.t==='mcq') return cur.sel===q.a?100:10;
+  if(q.t==='multi'){ const n=[...cur.multi].filter(x=>q.a.includes(x)).length; return n===2?100:n===1?50:10; }
+  if(q.t==='tf'){ if(cur.sel!==q.a) return 10; if(q.a) return 100; return cur.fix===q.fix.a?100:50; }
+  if(q.t==='fill'){ const n=cur.blanks.filter((v,j)=>v===q.b[j].a).length; return n===q.b.length?100:n===0?10:50; }
+}
+
+function check(){
+  const r=grade(); cur.r=r; cur.done=true;
+  const P=PRAISE[r]; cur.msg=pick(P.say); const emo=pick(P.emo);
+  state.res[cur.key]=r; save();
+  drawDialog(); renderScores(); renderView();
+  showPop(r,cur.msg,emo);
+  const b=$('#dialog [data-close]'); b&&b.focus();
+}
+
+function closeDialog(){
+  $('#overlay').hidden=true; const k=cur&&cur.key; cur=null;
+  const next = k && document.querySelector(`.card[data-key]`); next&&next.focus();
+}
+
+/* ---------- praise pop, confetti, sound ---------- */
+let popTimer;
+function showPop(r,msg,emo){
+  const pop=$('#pop');
+  pop.innerHTML=`<div class="pop-in" style="--rc:${RCOLOR[r]}"><div class="emo">${emo}</div><div class="big">+${r}</div><div class="say">${esc(msg)}</div></div>`;
+  pop.hidden=false; clearTimeout(popTimer);
+  popTimer=setTimeout(()=>pop.hidden=true,2200);
+  pop.onclick=()=>{pop.hidden=true};
+  sound(r);
+  if(r===100) confetti(140); else if(r===50) confetti(50);
+}
+
+const fx=$('#fx'), ctx=fx.getContext('2d'); let parts=[], raf=null;
+function confetti(n){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  fx.width=innerWidth; fx.height=innerHeight;
+  const cols=['#FF7A1A','#1EA7FF','#F2B632','#22C55E','#FFFFFF','#FACC15'];
+  for(let k=0;k<n;k++) parts.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*16,vy:Math.random()*-16-4,s:Math.random()*8+5,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:pick(cols),life:110});
+  if(!raf) raf=requestAnimationFrame(tick);
+}
+function tick(){
+  ctx.clearRect(0,0,fx.width,fx.height);
+  parts=parts.filter(p=>p.life-->0);
+  for(const p of parts){p.vy+=.45;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);ctx.restore();}
+  raf = parts.length ? requestAnimationFrame(tick) : (ctx.clearRect(0,0,fx.width,fx.height),null);
+}
+
+let ac;
+function sound(r){
+  if(!state.sound) return;
+  try{
+    ac = ac || new (window.AudioContext||window.webkitAudioContext)();
+    const notes = r===100?[523,659,784,1047]:r===50?[440,554]:[330,392];
+    notes.forEach((f,k)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;
+      const t0=ac.currentTime+k*.11;g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(.25,t0+.02);g.gain.exponentialRampToValueAtTime(.0001,t0+.25);
+      o.connect(g).connect(ac.destination);o.start(t0);o.stop(t0+.3);});
+  }catch(e){}
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+  const el=e.target.closest('button,[data-blank]'); if(!el) return;
+  if(el.dataset.view){ state.view=el.dataset.view; save(); renderView(); return; }
+  if(el.dataset.go){ state.view=el.dataset.go; save(); renderView(); scrollTo({top:0,behavior:'smooth'}); return; }
+  if(el.id==='soundBtn'){ state.sound=!state.sound; save(); syncSound(); return; }
+  if(el.dataset.key){ openCard(el.dataset.key); return; }
+  if(el.hasAttribute('data-close')){ closeDialog(); return; }
+  if(el.id==='checkBtn'){ check(); return; }
+  if(el.id==='resetAsk'){ $('#resetZone').innerHTML=`<div class="confirm"><b>هل تريد مسح كل الدرجات والبدء من جديد؟</b>
+      <button class="btn btn-teal" id="resetYes">نعم، ابدأ من جديد</button><button class="btn btn-ghost" id="resetNo">تراجع</button></div>`; return; }
+  if(el.id==='resetNo'){ renderView(); return; }
+  if(el.id==='resetYes'){ state.res={}; state.view='p1'; save(); renderScores(); renderView(); return; }
+  if(!cur || cur.done) return;
+  const q=cur.q;
+  if(el.dataset.opt!==undefined){ const v=+el.dataset.opt;
+    if(q.t==='mcq') cur.sel=v;
+    else { if(cur.multi.has(v)) cur.multi.delete(v); else if(cur.multi.size<2) cur.multi.add(v); else { cur.multi.delete([...cur.multi][0]); cur.multi.add(v);} }
+  }
+  else if(el.dataset.tf!==undefined){ cur.sel = el.dataset.tf==='true'; if(cur.sel) cur.fix=null; }
+  else if(el.dataset.fix!==undefined){ cur.fix=+el.dataset.fix; }
+  else if(el.dataset.chip){ const [j,oi]=el.dataset.chip.split(':').map(Number); cur.blanks[j]=oi; const nx=cur.blanks.findIndex(v=>v===null); cur.active = nx<0?j:nx; }
+  else if(el.dataset.blank!==undefined){ cur.active=+el.dataset.blank; }
+  else return;
+  drawDialog();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && !$('#overlay').hidden) closeDialog();
+  if((e.key==='Enter'||e.key===' ') && e.target.dataset && e.target.dataset.blank!==undefined){ e.preventDefault(); e.target.click(); }
+});
+$('#overlay').addEventListener('click',e=>{ if(e.target.id==='overlay') closeDialog(); });
+
+for(const t of ['A','B']){
+  const inp=$('#name'+t); inp.value=state.names[t]||'';
+  inp.addEventListener('input',()=>{ state.names[t]=inp.value; save(); renderView(); });
+}
+function syncSound(){ const b=$('#soundBtn'); b.textContent = state.sound?'🔊 الصوت':'🔇 الصوت'; b.setAttribute('aria-pressed',state.sound); }
+
+syncSound(); renderScores(); renderView();
+</script>
+</body></html>
