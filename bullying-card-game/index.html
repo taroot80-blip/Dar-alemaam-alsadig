@@ -119,6 +119,15 @@ button:focus-visible,input:focus-visible{outline:4px solid var(--gold); outline-
 .dlg-head .meta{flex:1; min-width:0; font-weight:800; line-height:1.4}
 .dlg-head .meta small{display:block; font-weight:700; font-size:14px}
 .x{width:46px; height:46px; border-radius:12px; border:3px solid var(--ink); background:rgba(255,255,255,.7); font-size:22px; font-weight:800; color:var(--ink)}
+.timer{display:flex; align-items:center; gap:12px; padding:12px 22px 0; font-weight:800}
+.timer .sec{flex:none; width:60px; height:60px; border-radius:50%; display:grid; place-items:center; font-family:var(--font-display); font-size:32px; line-height:1;
+  background:var(--gold); color:var(--ink); border:3px solid #fff; font-variant-numeric:tabular-nums}
+.timer .track{flex:1; min-width:0; height:18px; border-radius:999px; background:rgba(255,255,255,.12); border:2px solid rgba(255,255,255,.3); overflow:hidden}
+.timer .fill{height:100%; border-radius:999px; background:linear-gradient(90deg,var(--gold),var(--ok)); transition:width .25s linear}
+.timer.low .sec{background:var(--bad); color:#fff; animation:beat .5s ease-in-out infinite alternate}
+.timer.low .fill{background:var(--bad)}
+.timer.end .sec{animation:none}
+@keyframes beat{to{transform:scale(1.14)}}
 .dlg-body{padding:20px 22px 24px; display:flex; flex-direction:column; gap:16px}
 .q{margin:0; font-size:21px; font-weight:800; line-height:1.75}
 .hint{margin:0; color:var(--gold); font-weight:700; font-size:15px}
@@ -221,6 +230,7 @@ canvas#fx{position:fixed; inset:0; width:100%; height:100%; pointer-events:none;
       <span style="background:var(--ok)">صحيحة كاملة 100</span>
       <span style="background:var(--half)">منقوصة 50</span>
       <span style="background:#F87171">محاولة 10</span>
+      <span style="background:#38BDF8">⏱ 15 ثانية لكل سؤال</span>
     </div>
   </header>
 
@@ -247,7 +257,7 @@ canvas#fx{position:fixed; inset:0; width:100%; height:100%; pointer-events:none;
 
   <main id="view"></main>
 
-  <p class="foot">كل فريق يجيب عن بطاقاته العشر في كل صفحة. الدرجة الكاملة لكل فريق 2000 نقطة.</p>
+  <p class="foot">كل فريق يجيب عن بطاقاته العشر في كل صفحة، ولكل سؤال 15 ثانية؛ عند انتهاء الوقت تُصحَّح الإجابة المختارة كما هي. الدرجة الكاملة لكل فريق 2000 نقطة.</p>
 </div>
 
 <div class="overlay" id="overlay" dir="rtl" lang="ar" hidden>
@@ -331,6 +341,9 @@ const PRAISE = {
 const RCOLOR = {100:'var(--ok)',50:'var(--half)',10:'#F87171'};
 const LETTERS = ['أ','ب','ج','د'];
 const KEY = 'bully-cards-v1';
+const LIMIT = 15; // seconds per question
+const deadlines = {}; // closing and reopening a card keeps its countdown running
+let tId = null, lastBeep = null;
 
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
@@ -427,8 +440,10 @@ function openCard(key){
   const [p,t,i]=key.split('-'); const q=Q[p.slice(1)][t][+i];
   cur={key,q,t,i:+i,sel:null,multi:new Set(),fix:null,blanks:q.b?q.b.map(()=>null):null,active:0,done:false,
        ord:q.o?order(q.o.length,key):null, ford:q.fix?order(q.fix.o.length,key+'f'):null, bord:q.b?q.b.map((b,j)=>order(b.o.length,key+'b'+j)):null};
+  deadlines[key] = deadlines[key] || Date.now()+LIMIT*1000; cur.deadline = deadlines[key];
   drawDialog();
   $('#overlay').hidden=false;
+  startTimer();
   setTimeout(()=>{const f=$('#dialog .opt, #dialog .chip'); f&&f.focus()},30);
 }
 
@@ -492,7 +507,26 @@ function drawDialog(){
 
   $('#dialog').innerHTML = `<div class="dlg-head ${t}"><span class="ico">${icon(cat.icon)}</span>
     <div class="meta">${esc(teamName(t))} · البطاقة ${i+1}<small>${cat.label} · ${KINDS[q.t]}</small></div>
-    <button class="x" data-close aria-label="إغلاق">✕</button></div><div class="dlg-body">${body}</div>`;
+    <button class="x" data-close aria-label="إغلاق">✕</button></div>${timerHTML()}<div class="dlg-body">${body}</div>`;
+}
+
+const remaining = () => Math.max(0, Math.ceil((cur.deadline-Date.now())/1000));
+function timerHTML(){
+  const left = cur.done ? cur.left : remaining();
+  const lbl = cur.done ? (cur.timeout ? '⏰ انتهى الوقت!' : `أجبت قبل نهاية الوقت بـ ${left} ثانية`) : 'ثانية متبقية';
+  return `<div class="timer${left<=5?' low':''}${cur.done?' end':''}" id="timer"><span class="sec" id="tSec">${left}</span>
+    <div class="track" aria-hidden="true"><div class="fill" id="tFill" style="width:${left/LIMIT*100}%"></div></div><span id="tLbl">${lbl}</span></div>`;
+}
+function startTimer(){
+  clearInterval(tId); lastBeep=null;
+  const step=()=>{
+    if(!cur || cur.done){ clearInterval(tId); return; }
+    const left=remaining(), box=$('#timer');
+    if(box){ $('#tSec').textContent=left; $('#tFill').style.width=(left/LIMIT*100)+'%'; box.classList.toggle('low',left<=5); }
+    if(left<=5 && left>0 && left!==lastBeep){ lastBeep=left; beep(); }
+    if(left<=0){ cur.timeout=true; check(); }
+  };
+  step(); tId=setInterval(step,250);
 }
 
 function ready(){
@@ -512,8 +546,10 @@ function grade(){
 }
 
 function check(){
+  clearInterval(tId);
+  cur.left=remaining();
   const r=grade(); cur.r=r; cur.done=true;
-  const P=PRAISE[r]; cur.msg=pick(P.say); const emo=pick(P.emo);
+  const P=PRAISE[r]; cur.msg=(cur.timeout?'انتهى الوقت! ':'')+pick(P.say); const emo=cur.timeout?'⏰':pick(P.emo);
   state.res[cur.key]=r; save();
   drawDialog(); renderScores(); renderView();
   showPop(r,cur.msg,emo);
@@ -521,7 +557,7 @@ function check(){
 }
 
 function closeDialog(){
-  $('#overlay').hidden=true; const k=cur&&cur.key; cur=null;
+  clearInterval(tId); $('#overlay').hidden=true; const k=cur&&cur.key; cur=null;
   const next = k && document.querySelector(`.card[data-key]`); next&&next.focus();
 }
 
@@ -553,6 +589,13 @@ function tick(){
 }
 
 let ac;
+function beep(){
+  if(!state.sound) return;
+  try{ ac = ac || new (window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(),g=ac.createGain(),t0=ac.currentTime; o.type='square'; o.frequency.value=880;
+    g.gain.setValueAtTime(.08,t0); g.gain.exponentialRampToValueAtTime(.0001,t0+.08); o.connect(g).connect(ac.destination); o.start(t0); o.stop(t0+.1);
+  }catch(e){}
+}
 function sound(r){
   if(!state.sound) return;
   try{
@@ -576,7 +619,7 @@ document.addEventListener('click',e=>{
   if(el.id==='resetAsk'){ $('#resetZone').innerHTML=`<div class="confirm"><b>هل تريد مسح كل الدرجات والبدء من جديد؟</b>
       <button class="btn btn-teal" id="resetYes">نعم، ابدأ من جديد</button><button class="btn btn-ghost" id="resetNo">تراجع</button></div>`; return; }
   if(el.id==='resetNo'){ renderView(); return; }
-  if(el.id==='resetYes'){ state.res={}; state.view='p1'; save(); renderScores(); renderView(); return; }
+  if(el.id==='resetYes'){ for(const k in deadlines) delete deadlines[k]; state.res={}; state.view='p1'; save(); renderScores(); renderView(); return; }
   if(!cur || cur.done) return;
   const q=cur.q;
   if(el.dataset.opt!==undefined){ const v=+el.dataset.opt;
