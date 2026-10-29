@@ -169,10 +169,10 @@ tr.blocked td{color:var(--faint)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .tab{background:transparent;border:1px solid var(--gold-dim);color:var(--muted);border-radius:999px;min-height:40px;padding:0 16px;font:inherit;font-weight:700;cursor:pointer}
 .tab[aria-selected=true]{background:var(--gold);color:#1a120b;border-color:var(--gold)}
-.empty{color:var(--faint);text-align:center;padding:18px}
+.empty{color:var(--faint);text-align:right;padding:18px 0}
 .src{font-size:13px;color:var(--faint);line-height:1.9}
 .src a{color:var(--sky)}
-footer{text-align:center;color:var(--faint);font-size:13px;margin-top:26px;line-height:1.8}
+footer{text-align:right;color:var(--faint);font-size:13px;margin-top:26px;line-height:1.8}
 
 /* النص العربي يبدأ من اليمين، وما زاد يُقصّ من جهة الشمال بنقاط */
 input,select,.auto{direction:rtl;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -224,7 +224,14 @@ label.f{min-width:0}
 .appbar-row{display:flex;align-items:center;gap:14px}
 .appbar .arch{width:46px;height:46px;margin:0;flex:none}
 .appbar-t{min-width:0}
-.appbar h1{font-size:clamp(22px,5.5vw,30px);letter-spacing:0}
+.appbar h1{font-size:clamp(16px,4.9vw,30px);letter-spacing:0;white-space:nowrap}
+.appbar-t{flex:1 1 auto;min-width:0;text-align:center}
+.appbar-photo{flex:none;width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);box-shadow:0 0 0 3px rgba(242,182,50,.15)}
+.logo-v{flex:none;width:62px;height:62px;display:grid;place-items:center}
+.appbar .logo-v .arch{width:62px;height:62px}
+.appbar .sub{text-align:center;margin-top:8px}
+.trial-note{text-align:center;margin:8px auto 0;width:fit-content;max-width:100%;font-size:13.5px;font-weight:700;color:var(--warn);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.4);border-radius:999px;padding:4px 14px}
+@media (max-width:380px){ .appbar-photo,.logo-v,.appbar .logo-v .arch{width:48px;height:48px} .appbar-row{gap:8px} .appbar h1{font-size:min(5.2vw,30px)} .trial-note{font-size:12px;padding:4px 10px} }
 .appbar .sub{margin:2px 0 0;font-size:14px}
 .views{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px;border-bottom:1px solid var(--line)}
 .view-tab{font:inherit;font-weight:700;font-size:15.5px;background:none;border:0;color:var(--muted);padding:12px 6px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px}
@@ -303,10 +310,10 @@ details.more[open] summary::after{content:"−"}
 .rv-head h3{margin:0;font-size:18px;color:var(--ink);display:flex;align-items:center;gap:10px}
 .rv-head h3 .heir-ico{width:38px;height:38px}
 .rv dl{margin:0;display:grid}
-.rv dl div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(242,182,50,.1)}
+.rv dl div{display:grid;grid-template-columns:minmax(110px,40%) 1fr;gap:12px;padding:9px 0;border-bottom:1px solid rgba(242,182,50,.1);align-items:baseline}
 .rv dl div:last-child{border-bottom:0}
 .rv dt{color:var(--muted)}
-.rv dd{margin:0;color:var(--ink);font-weight:700;text-align:left;font-variant-numeric:tabular-nums}
+.rv dd{margin:0;color:var(--ink);font-weight:700;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .rv dl div.tot dt,.rv dl div.tot dd{color:var(--gold)}
 .rv .empty{padding:6px 0;text-align:right}
 .rv-link{width:100%;display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;color:var(--ink);font:inherit;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:12px}
@@ -360,7 +367,9 @@ footer{margin-top:18px}
 <div class="wrap" dir="rtl" lang="ar">
 <header class="appbar">
   <div class="basm">بسم الله الرحمن الرحيم</div>
-  <div class="appbar-row"><svg class="arch" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 60V30C10 16 20 6 32 4c12 2 22 12 22 26v30"/><path d="M18 60V32c0-9 6-16 14-18 8 2 14 9 14 18v28"/><path d="M32 4v-2M6 60h52"/><circle cx="32" cy="30" r="4"/></svg><div class="appbar-t"><h1>حاسبة المواريث الجعفرية</h1><p class="sub" id="subTitle">على مذهب أهل البيت عليهم السلام، خطوة بخطوة</p></div></div>
+  <div class="appbar-row"><img class="appbar-photo" id="hdrPhoto" alt="المصمم والمعد"><div class="appbar-t"><h1>حاسبة المواريث الجعفرية</h1></div><span class="logo-v" role="img" aria-label="الشعار، الإصدار الأول"><svg class="arch" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 60V30C10 16 20 6 32 4c12 2 22 12 22 26v30"/><path d="M18 60V32c0-9 6-16 14-18 8 2 14 9 14 18v28"/><path d="M32 4v-2M6 60h52"/><text x="32" y="46" text-anchor="middle" fill="currentColor" stroke="none" font-family="El Messiri, serif" font-weight="700" font-size="22">١</text></svg></span></div>
+  <p class="sub" id="subTitle">على مذهب أهل البيت عليهم السلام، خطوة بخطوة</p>
+  <p class="trial-note">التطبيق حاليًا للتجربة ما قبل الترخيص الشرعي</p>
   <nav class="views no-print" role="tablist" aria-label="أقسام الحاسبة">
     <button class="view-tab" role="tab" type="button" id="tab-calc" data-view="calc" aria-selected="true">الحاسبة</button>
     <button class="view-tab" role="tab" type="button" id="tab-must" data-view="must" aria-selected="false">المسائل</button>
@@ -1202,7 +1211,7 @@ let openIds = new Set();
 const heirLabel = h => I.REL[h.rel].label[h.gender==='f'?1:0];
 function renderHeirs(){
   const box = $('#heirs');
-  if (!heirs.length){ box.innerHTML = '<div class="panel" style="text-align:center;border-style:dashed"><b style="font-size:17px">لم يُضف وارث بعد</b><span class="hint" style="margin:0">أجب عن أسئلة القرابة، ثم أضف الورثة.</span></div>'; return; }
+  if (!heirs.length){ box.innerHTML = '<div class="panel" style="border-style:dashed"><b style="font-size:17px">لم يُضف وارث بعد</b><span class="hint" style="margin:0">أجب عن أسئلة القرابة، ثم أضف الورثة.</span></div>'; return; }
   box.innerHTML = heirs.map((h,i)=>`
   <div class="heir${openIds.has(h.id)?' open':''}" data-id="${h.id}">
     <div class="heir-sum">
@@ -1476,7 +1485,57 @@ document.addEventListener('click', e=>{
   const t = e.target.closest('.tab');
   if (t){ tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected', b===t)); renderKhilaf(last ? last.inp : null, last ? last.est : null); }
 });
-$('#calc').onclick = calculate;
+$('#calc').onclick = () => {
+  calculate();
+  const sh = last && last.est.shareInfo;
+  const bad = !heirs.length || (sh && Object.values(sh.status).some(x => x === 'خطأ')) || heirs.some(h => !relAllowed(h.rel, h.gender));
+  bad ? sndErr() : Snd.done();
+};
+
+// ---------- الأصوات: نقرات وأجراس خفيفة بلا موسيقى، تُولَّد في المتصفح ----------
+const Snd = (() => {
+  let ctx = null;
+  const ac = () => { try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === 'suspended') ctx.resume(); } catch(e){ ctx = null; } return ctx; };
+  // نغمة واحدة: تردد، نوع الموجة، المدة، الشدة، وانزلاق اختياري للتردد
+  function tone(f, {type='sine', dur=.12, vol=.08, to=null, at=0} = {}){
+    const c = ac(); if (!c) return;
+    const t = c.currentTime + at, o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t); if (to) o.frequency.exponentialRampToValueAtTime(to, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(c.destination); o.start(t); o.stop(t + dur + 0.02);
+  }
+  // جرس: ترددات غير متناغمة تخبو تدريجيًا
+  const bell = (f, dur, vol, at=0) => [[1, 1], [2.76, .45], [5.4, .22], [8.93, .1]].forEach(([k, w]) => tone(f*k, {dur: dur/(k>2?1.8:1), vol: vol*w, at}));
+  return {
+    unlock: ac,
+    tap:  () => tone(1400, {dur:.05, vol:.05, to:1100}),
+    // تدحرج: رنّات جرس صغيرة متلاحقة تنحدر قليلًا «تِلِي تِلِين»
+    drop: () => [1760, 1560, 1640, 1420, 1500, 1320].forEach((f, i) => { tone(f, {dur:.09, vol:.045 - i*.004, at:i*.038}); tone(f*2.76, {dur:.05, vol:.012, at:i*.038}); }),
+    type: () => bell(1320, .55, .045),
+    err:  () => { tone(150, {type:'sawtooth', dur:.28, vol:.06, to:110}); tone(157, {type:'square', dur:.28, vol:.035, to:115}); },
+    done: () => { bell(880, 2.2, .07); bell(1318, 1.8, .03, .02); },
+  };
+})();
+let sndGuard = 0;
+const sndErr = () => { sndGuard = Date.now(); Snd.err(); };
+document.addEventListener('pointerdown', () => Snd.unlock(), {capture: true});
+document.addEventListener('click', e => {
+  const b = e.target.closest('button, a, [role=tab]');
+  if (!b || b.id === 'calc' || Date.now() - sndGuard < 300) return;
+  Snd.tap();
+}, true);
+document.addEventListener('focusin', e => {
+  const t = e.target;
+  if (t.matches('select')) Snd.drop();
+  else if (t.matches('textarea, input:not([type=checkbox]):not([type=radio])')) Snd.type();
+});
+// اختيار خاطئ: قرابة لا أصل لها، أو رقم سالب
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.k === 'relg'){ const [r, g] = t.value.split('|'); if (!relAllowed(r, g)) sndErr(); }
+  if (t.type === 'number' && Number(t.value) < 0) sndErr();
+});
+
 // ---------- الواجهة: الأقسام والخطوات ----------
 let step = 1;
 const STEPS = 4, AR = n => n.toLocaleString('ar-EG');
@@ -1583,7 +1642,7 @@ async function initAsk(){
 }
 $('#askSend').onclick = async () => {
   const text = $('#askText').value.trim();
-  if (text.length < 10) { askNote('اكتب نص المسألة أولًا (عشرة أحرف على الأقل).'); $('#askText').focus(); return; }
+  if (text.length < 10) { sndErr(); askNote('اكتب نص المسألة أولًا (عشرة أحرف على الأقل).'); $('#askText').focus(); return; }
   if (!askDb || !askUid) return;
   const item = {id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), kind: $('#askKind').value, text,
     name: $('#askName').value.trim(), contact: $('#askContact').value.trim(), at: new Date().toISOString(), status: 'جديدة', answer: ''};
@@ -1734,6 +1793,7 @@ $('#marja').innerHTML = '<option value="">— لم يُحدَّد (مقارنة 
 const src = (window.MARAJI && window.MARAJI.sources) || [];
 $('#sources').innerHTML = src.map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join(' · ');
 renderHeirs(); goStep(1); refresh(); resetResult(); syncMarja();
+$('#hdrPhoto').src = $('.designer-photo').src;
 // تطبيق ويب: يعمل بعد أول زيارة بدون إنترنت على الآيفون وغيره (لا يعمل داخل إطار Claude)
 if ('serviceWorker' in navigator && location.protocol === 'https:' && window.top === window && !/claude/.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();
