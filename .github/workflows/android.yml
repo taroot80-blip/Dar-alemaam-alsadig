@@ -1,0 +1,61 @@
+name: Android build
+
+on:
+  push:
+    branches: [ccr-491a6156-z33u4z]
+    paths:
+      - 'android/**'
+      - 'mawarith/index.html'
+      - '.github/workflows/android.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.3'
+
+      # الحاسبة نفسها، ومكتبتا ملف PDF محليًا ليعمل الحفظ بدون إنترنت
+      - name: Prepare web assets
+        run: |
+          A=android/app/src/main/assets
+          mkdir -p "$A/lib"
+          cp mawarith/index.html "$A/index.html"
+          curl -sSfL https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js -o "$A/lib/html2canvas.min.js"
+          curl -sSfL https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js -o "$A/lib/jspdf.umd.min.js"
+          sed -i 's#https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js#lib/html2canvas.min.js#; s#https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js#lib/jspdf.umd.min.js#' "$A/index.html"
+          grep -c 'lib/html2canvas.min.js' "$A/index.html"
+
+      - name: Build bundle and test APK
+        run: gradle -p android bundleRelease assembleDebug --no-daemon --stacktrace
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mawarith-android
+          path: |
+            android/app/build/outputs/bundle/release/app-release.aab
+            android/app/build/outputs/apk/debug/app-debug.apk
+
+      # تُحفظ المخرجات في الفرع ليُوقَّع الحزمة لاحقًا بمفتاح الرفع
+      - name: Commit outputs
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/bundle/release/app-release.aab dist/mawarith-unsigned.aab
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/mawarith-test.apk
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist
+          git commit -m "Build Android bundle and test APK [skip ci]" || exit 0
+          git push

@@ -1695,6 +1695,8 @@ async function makePdf(){
       pdf.setFontSize(9); pdf.setTextColor(120); pdf.text(`${k+1} / ${pages.length}`, 105, 290, {align:'center'});
     });
     const name = 'قسمة تركة' + ($('#dName').value.trim() ? ' ' + $('#dName').value.trim() : '') + ' ' + last.at.toISOString().slice(0,10) + '.pdf';
+    // داخل تطبيق أندرويد: يُحفظ الملف في «التنزيلات» عبر جسر التطبيق
+    if (window.AndroidApp && window.AndroidApp.savePdf){ $('#pdfMsg').textContent = window.AndroidApp.savePdf(pdf.output('datauristring').split(',')[1], name) || 'حُفظ الملف في التنزيلات.'; return; }
     const dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null;
     if (dl){
       try { await dl.save({filename:name, data:pdf.output('blob')}); $('#pdfMsg').textContent = 'تم حفظ الملف.'; }
@@ -1710,7 +1712,7 @@ $('#pdfBtn').onclick = makePdf;
 
 $('#copyMail').onclick = async () => {
   const b = $('#copyMail'), mail = 'taroot80@gmail.com';
-  try { await navigator.clipboard.writeText(mail); b.textContent = 'نُسخ البريد'; }
+  try { if (window.AndroidApp && window.AndroidApp.copy) window.AndroidApp.copy(mail); else await navigator.clipboard.writeText(mail); b.textContent = 'نُسخ البريد'; }
   catch (e) { const r = document.createRange(); r.selectNodeContents($('#designerMail')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = 'البريد محدد، انسخه'; }
   setTimeout(() => { b.textContent = 'نسخ البريد'; }, 2500);
 };
