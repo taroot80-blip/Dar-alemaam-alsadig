@@ -38,8 +38,8 @@ jobs:
           sed -i 's#https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js#lib/html2canvas.min.js#; s#https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js#lib/jspdf.umd.min.js#' "$A/index.html"
           grep -c 'lib/html2canvas.min.js' "$A/index.html"
 
-      - name: Build bundle and test APK
-        run: gradle -p android bundleRelease assembleDebug --no-daemon --stacktrace
+      - name: Build bundle, release APK and test APK
+        run: gradle -p android bundleRelease assembleRelease assembleDebug --no-daemon --stacktrace
 
       - uses: actions/upload-artifact@v4
         with:
@@ -47,6 +47,7 @@ jobs:
           path: |
             android/app/build/outputs/bundle/release/app-release.aab
             android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/build/outputs/apk/release/app-release-unsigned.apk
 
       # تُحفظ المخرجات في الفرع ليُوقَّع الحزمة لاحقًا بمفتاح الرفع
       - name: Commit outputs
@@ -54,6 +55,7 @@ jobs:
           mkdir -p dist
           cp android/app/build/outputs/bundle/release/app-release.aab dist/mawarith-unsigned.aab
           cp android/app/build/outputs/apk/debug/app-debug.apk dist/mawarith-test.apk
+          cp android/app/build/outputs/apk/release/app-release-unsigned.apk dist/mawarith-unsigned.apk
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add dist
