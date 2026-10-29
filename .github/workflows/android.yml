@@ -5,7 +5,7 @@ on:
     branches: [ccr-491a6156-z33u4z]
     paths:
       - 'android/**'
-      - 'mawarith/index.html'
+      - 'index.html'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
@@ -32,7 +32,7 @@ jobs:
         run: |
           A=android/app/src/main/assets
           mkdir -p "$A/lib"
-          cp mawarith/index.html "$A/index.html"
+          cp index.html "$A/index.html"
           curl -sSfL https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js -o "$A/lib/html2canvas.min.js"
           curl -sSfL https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js -o "$A/lib/jspdf.umd.min.js"
           sed -i 's#https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js#lib/html2canvas.min.js#; s#https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js#lib/jspdf.umd.min.js#' "$A/index.html"
