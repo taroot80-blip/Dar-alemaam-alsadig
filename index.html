@@ -302,6 +302,14 @@ details.more[open] summary::after{content:"−"}
 .linkbtn{font:inherit;background:none;border:0;color:var(--gold);cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:15px;padding:8px 4px;text-decoration:underline;text-underline-offset:4px}
 .linkbtn svg{width:17px;height:17px}
 .addlike{margin-top:6px;font-size:14.5px}
+.heir-body .relbox{grid-column:1/-1}
+.heir-body .rel-auto{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:4px;height:auto;min-height:46px;line-height:1.7;white-space:normal;overflow:visible;text-overflow:clip;text-align:right;padding:10px 12px}
+.rel-auto b,.rel-auto small{white-space:normal;overflow-wrap:anywhere}
+.rel-auto b{color:var(--ink)}
+.rel-auto small{color:var(--gold);font-size:13.5px}
+.other-add{margin-top:14px}
+.other-add label.f{flex:1 1 100%}
+.other-add .lt{font-size:15.5px;font-weight:700;color:var(--ink);white-space:normal}
 .heir-body{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
 .heir.open .heir-body{display:block}
 .heir-body .heir-tools{display:flex;justify-content:flex-start;margin-top:10px}
@@ -351,11 +359,11 @@ footer{margin-top:18px}
 
 .designer{display:flex;align-items:center;gap:14px;margin:16px auto 0;max-width:520px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;text-align:right}
 .designer-photo{flex:none;width:84px;height:84px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);box-shadow:0 0 0 4px rgba(242,182,50,.15)}
-.designer-info{display:flex;flex-direction:column;gap:3px;min-width:0}
+.designer-info{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;flex:1 1 auto;text-align:center}
 .designer-label{font-size:13px;color:var(--faint)}
-.designer-mail{font-weight:700;font-size:16px;color:var(--gold);user-select:all;text-align:right;overflow-wrap:anywhere}
+.designer-mail{font-weight:700;font-size:16px;color:var(--gold);user-select:all;text-align:center;overflow-wrap:anywhere}
 .designer-note{font-size:14px;color:var(--muted)}
-.designer-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.designer-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
 .btn-sm{min-height:38px;padding:0 14px;font-size:14px;display:inline-flex;align-items:center;text-decoration:none}
 @media print{
   body{background:#fff;color:#000}body::before,body::after{display:none}
@@ -448,6 +456,10 @@ footer{margin-top:18px}
   <div class="row-actions no-print">
     <button class="btn btn-ghost btn-wide" id="addHeir" type="button">＋ إضافة وارث</button>
   </div>
+  <div class="row-actions no-print other-add">
+    <label class="f"><span class="lt">إضافة وارث من فئة أخرى (غير الزوجين والأولاد والأبوين)</span><select id="otherHeir"></select></label>
+  </div>
+  <p class="hint" id="otherNote" style="margin:6px 0 0"></p>
   <div class="row-actions no-print" style="margin-top:8px">
     <button class="btn btn-ghost btn-sm" id="example" type="button">مثال جاهز</button>
     <button class="btn btn-ghost btn-sm" id="clear" type="button">مسح الكل</button>
@@ -1150,9 +1162,44 @@ function canAdd(rel, g){
 const PRIO = r => r==='ولد' ? 0 : (r==='ولد ابن' || r==='ولد بنت') ? 1 : r==='زوج' ? 3 : r==='والد' ? 4 : 2;
 // «إضافة وارث»: أول فئة أُجيب بوجودها ولم تُضف، وإلا أول قرابة متاحة، والأولاد قبل غيرهم
 function firstAllowed(){
-  const m = missingHeirs().find(x => canAdd(x.rel, x.gender)); if (m) return {rel: m.rel, gender: m.gender};
-  return allowedList().filter(x => canAdd(x.rel, x.gender)).sort((x, y) => PRIO(x.rel) - PRIO(y.rel))[0] || null;
+  const m = missingHeirs().find(x => CORE.includes(x.rel) && canAdd(x.rel, x.gender)); if (m) return {rel: m.rel, gender: m.gender};
+  return allowedList().filter(x => CORE.includes(x.rel) && canAdd(x.rel, x.gender)).sort((x, y) => PRIO(x.rel) - PRIO(y.rel))[0] || null;
 }
+// قائمة الفئات الأخرى المتاحة: تتبع الإجابات والحجب، فما حُجب لا يظهر
+function syncOther(){
+  const ly = layer(), list = allowedList().filter(x => !CORE.includes(x.rel) && canAdd(x.rel, x.gender));
+  const groups = REL_GROUPS.map(([g, rs], L) => [g, list.filter(x => LAYER_OF[x.rel] === L)]).filter(([, xs]) => xs.length);
+  const html = '<option value="">— اختر نوع الوارث لإضافته —</option>' + groups.map(([g, xs]) => `<optgroup label="${g}">${xs.map(x => `<option value="${x.rel}|${x.gender}">${I.REL[x.rel].label[x.gender==='f'?1:0]}</option>`).join('')}</optgroup>`).join('');
+  const sel = $('#otherHeir');
+  if (sel.dataset.html !== html){ sel.innerHTML = html; sel.dataset.html = html; }
+  sel.disabled = !list.length; sel.closest('label').classList.toggle('off', !list.length);
+  $('#otherNote').textContent = list.length ? (ly === 1 && list.some(x => LAYER_OF[x.rel] === 2) ? 'الإخوة هنا لأثرهم في نصيب الأم فقط، ولا يرثون مع الطبقة الأولى.' : '')
+    : ly === null ? 'يُتاح بعد إكمال أسئلة القرابة.'
+    : ly === 1 ? 'مُعطَّل: الطبقة الأولى تحجب الطبقتين الثانية والثالثة حجب حرمان، فلا وارث من غيرها.'
+    : 'لا فئة أخرى بحسب إجاباتك عن أسئلة القرابة.';
+}
+
+// بيان الحجب لكل وارث، على قواعد الفقه الجعفري:
+// حجب الحرمان بين الطبقات (الأولى تحجب الثانية والثالثة، والثانية تحجب الثالثة)، والأقرب يحجب الأبعد داخل الطبقة،
+// وحجب النقصان للزوجين وللأم، والزوجان لا يُحجبان حجب حرمان ويرثان مع كل الطبقات.
+function hajbText(h){
+  const r = h.rel, f = h.gender === 'f', L = LAYER_OF[r], y = f ? 'ت' : 'ي';   // الفعل بحسب الجنس: يرث/ترث
+  if (L === 0) return y + 'رث مع جميع الطبقات ولا ' + (f ? 'تُحجب' : 'يُحجب') + ' حجب حرمان. ' + (f ? 'نصيبها الربع، وينقص إلى الثمن مع الولد أو ولد الولد.' : 'نصيبه النصف، وينقص إلى الربع مع الولد أو ولد الولد.');
+  if (layer() === 1 && L === 2) return 'لا ' + y + 'رث مع وجود الطبقة الأولى، وإنما ' + (f ? 'تُدخل' : 'يُدخل') + ' لأثر الإخوة في نصيب الأم.';
+  const head = ['', y + 'حجب الطبقتين الثانية والثالثة حجب حرمان.', y + 'حجب الطبقة الثالثة حجب حرمان.', y + 'رث عند عدم الطبقتين الأولى والثانية.'][L];
+  const more = {
+    'ولد': 'والولد للصلب يحجب أولاد الأولاد، ويُنقص نصيب الزوجين والأم.',
+    'ولد ابن': y + 'رث عند عدم الولد للصلب، و' + y + 'قوم مقام ' + (f ? 'أبيها' : 'أبيه') + '.',
+    'ولد بنت': y + 'رث عند عدم الولد للصلب، و' + y + 'قوم مقام ' + (f ? 'أمها' : 'أمه') + '.',
+    'والد': f ? 'نصيبها الثلث، وينقص إلى السدس بالولد أو بالإخوة الحاجبين.' : 'نصيبه السدس مع الولد، والباقي بلا ولد.',
+    'أخ شقيق': 'والإخوة يحجبون أولاد الإخوة، والشقيق يحجب الأخ لأب.', 'أخ لأب': 'و' + y + 'حجبه الأخ الشقيق، و' + y + 'حجب أولاد الإخوة.',
+    'أخ لأم': 'و' + y + 'حجب أولاد الإخوة.', 'جد لأب': y + 'شارك الإخوة وأولادهم.', 'جد لأم': y + 'شارك الإخوة وأولادهم.',
+    'عم أبويني': 'والعم يحجب أولاد الأعمام والأخوال، والشقيق يحجب العم لأب.', 'عم لأب': 'ويحجبه العم الشقيق، وابن العم الشقيق إذا انفرد معه.',
+    'عم لأم': 'و' + y + 'حجب أولاد الأعمام والأخوال.', 'خال': 'و' + y + 'حجب أولاد الأعمام والأخوال.',
+  }[r] || (L === 2 ? y + 'رث عند عدم الإخوة.' : L === 3 ? y + 'رث عند عدم الأعمام والأخوال.' : '');
+  return head + (more ? ' ' + more : '');
+}
+const CORE = ['زوج','ولد','والد'];   // الزوجان والأولاد للصلب والأبوان: تُضاف من الإجابات وأزرار الفئة
 const likeLabel = h => 'إضافة ' + heirLabel(h) + (h.gender==='f' ? ' أخرى' : ' آخر');
 function renderQs(){
   const dg = $('#dGender').value, box = $('#gQs');
@@ -1168,6 +1215,7 @@ function syncGuide(){
   computeVisible(); renderQs();
   const dg = $('#dGender').value, ly = layer(), allowed = allowedList();
   $('#addHeir').disabled = !firstAllowed();
+  syncOther();
   let msg;
   if (!A.spouse) msg = 'ابدأ بالسؤال الأول: هل للمتوفى زوجية قائمة عند الوفاة؟';
   else if (ly===null) msg = 'أجب عن السؤال التالي لتتحدد الطبقة الوارثة.';
@@ -1178,10 +1226,10 @@ function syncGuide(){
     const names = allowed.map(x => I.REL[x.rel].label[x.gender==='f'?1:0]);
     msg = `<b>الطبقة الوارثة: ${ORD[ly]}.</b> المتاح في قائمة القرابة: ${esc(names.join('، '))}.`;
     const missing = missingHeirs();
-    if (missing.length) msg += ` <b>لم تُضف بعد:</b> ${esc(missing.map(m=>m.label).join('، '))}.`;
+    if (missing.length) msg += ` <b>لم تُضف بعد:</b> ${esc(missing.map(m=>m.label).join('، '))}.` + (missing.some(m => !CORE.includes(m.rel)) ? ' وتُضاف الفئات الأخرى من مربع «إضافة وارث من فئة أخرى» أسفل البطاقات.' : '');
   }
   $('#guideMsg').innerHTML = msg;
-  $('#fillHeirs').disabled = !(ly!==null && missingHeirs().length);
+  $('#fillHeirs').disabled = !(ly!==null && missingHeirs().some(m => CORE.includes(m.rel)));
   // خانات عامة تتوقف على غيرها
   const son = heirs.some(h => h.rel==='ولد' && h.gender==='m');
   setOff('#habwa', !(dg==='m' && son));                 // الحبوة للولد الأكبر من تركة الأب
@@ -1259,7 +1307,7 @@ function renderHeirs(){
     <div class="heir-body">
     <div class="grid">
       <label class="f"><span class="lt">الاسم</span><input data-k="name" value="${esc(h.name)}" placeholder="اختياري"></label>
-      <label class="f"><span class="lt">القرابة للمتوفى (الوارث هو…)</span><select data-k="relg">${relSelect(h)}</select></label>
+      <div class="f relbox"><span class="lt">صلة القرابة</span><div class="auto rel-auto"><b data-auto="relT"></b><small data-auto="relH"></small></div></div>
       <label class="f"><span class="lt">الجنس</span><div class="auto" data-auto="gender"></div></label>
       <label class="f" data-countbox style="${maxCount(h)>1?'':'display:none'}"><span class="lt">العدد (من هذه القرابة)</span><select data-k="count">${countOpts(h)}</select></label>
       <label class="f"><span class="lt">المتوفى <span class="rh">(إلى رحمة الله)</span> بالنسبة له</span><div class="auto" data-auto="rev"></div></label>
@@ -1321,8 +1369,8 @@ function refresh(){
   const dg = $('#dGender').value;
   heirs.forEach(h=>{
     const el = document.querySelector(`.heir[data-id="${h.id}"]`); if(!el) return;
-    const rs = el.querySelector('[data-k=relg]'), html = relSelect(h);
-    if (rs.dataset.html !== html){ rs.innerHTML = html; rs.dataset.html = html; }
+    el.querySelector('[data-auto=relT]').textContent = heirLabel(h) + ' · ' + (LAYER_OF[h.rel] ? 'الطبقة ' + ORD[LAYER_OF[h.rel]] : 'وارث بالسبب');
+    el.querySelector('[data-auto=relH]').textContent = hajbText(h);
     const dupOf = heirs.findIndex(x => x.rel===h.rel && x.gender===h.gender);
     const warn = !relAllowed(h.rel, h.gender) ? 'هذه القرابة لا أصل لها في المسألة كما بُنيت أعلاه، فغيّرها أو احذف الوارث'
       : ((h.rel==='والد' || (h.rel==='زوج' && h.gender==='m')) && heirs[dupOf] !== h) ? 'لا يتكرر ' + DEF[h.rel][h.gender==='f'?1:0] + '، فاحذف هذه البطاقة'
@@ -1832,7 +1880,14 @@ $('#copyMail').onclick = async () => {
 function resetResult(){ last = null; stale = false; syncPdf(); $('#staleNote').hidden = true; $('#result').classList.remove('is-stale');
   $('#result').innerHTML = '<p class="empty">أدخل التركة والورثة، ثم اضغط «احسب القسمة».</p>';
   $('#khilaf').innerHTML = '<p class="empty">تظهر مسائل هذه التركة بعد الحساب. اختر «كل المسائل» لعرضها جميعًا.</p>'; }
-$('#fillHeirs').onclick = ()=>{ missingHeirs().forEach(m => { const nh = newHeir({rel:m.rel, gender:m.gender}); openIds.add(nh.id); heirs.push(nh); }); renderHeirs(); refresh(); markStale(); };
+$('#otherHeir').addEventListener('change', e => {
+  const v = e.target.value; if (!v) return;
+  const [rel, gender] = v.split('|'); e.target.value = '';
+  if (!canAdd(rel, gender)) return sndErr();
+  const nh = newHeir({rel, gender}); openIds.add(nh.id); heirs.push(nh); renderHeirs(); refresh(); markStale();
+  const c = document.querySelector(`.heir[data-id="${nh.id}"]`); c && c.scrollIntoView({behavior:'smooth', block:'center'});
+});
+$('#fillHeirs').onclick = ()=>{ missingHeirs().filter(m => CORE.includes(m.rel)).forEach(m => { const nh = newHeir({rel:m.rel, gender:m.gender}); openIds.add(nh.id); heirs.push(nh); }); renderHeirs(); refresh(); markStale(); };
 $('#addHeir').onclick = ()=>{ const a = firstAllowed(); if (!a) return; const nh = newHeir(a); openIds.add(nh.id); heirs.push(nh); renderHeirs(); refresh(); markStale(); const last = document.querySelector('.heir:last-child'); last && last.scrollIntoView({behavior:'smooth',block:'center'}); };
 $('#clear').onclick = ()=>{ heirs = []; document.querySelectorAll('input[type=number]').forEach(i=>i.value=0); $('#dName').value=''; $('#dGender').value='m'; $('#currency').value='KWD'; $('#currencyCustom').value=''; syncCurrency(); $('#hajbFather').value='1'; $('#willOk').checked=false; A = {}; renderHeirs(); refresh(); resetResult(); };
 $('#example').onclick = ()=>{
