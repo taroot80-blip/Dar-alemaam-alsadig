@@ -978,7 +978,18 @@ footer{margin-top:18px}
     res.will = willAllowed;
     res.net = Math.max(0, after - willAllowed);
     res.factor = T > 0 ? res.net / T : 0;
-    const f = res.factor;
+    // الديون والتجهيز من جميع التركة بالتناسب، والوصية من نوع المال الذي أوصى منه:
+    // المنقول (ومعه الدية) أو غير المنقول. وبلا تحديد تُوزَّع على النوعين بقدرهما.
+    const MS = M + Y, IS = L + B, d = T > 0 ? Math.max(0, after) / T : 0;
+    let wm = n(input.willMov), wi = n(input.willImm);
+    if (wm + wi > 0) { const k = willAllowed / (wm + wi); wm *= k; wi *= k; }   // تقييد المجموع بالثلث بالتناسب
+    else { wm = T > 0 ? willAllowed * MS / T : 0; wi = willAllowed - wm; }
+    // ما زاد على الباقي من نوعٍ يُكمل من النوع الآخر
+    const capM = MS * d, capI = IS * d;
+    if (wm > capM) { wi += wm - capM; wm = capM; }
+    if (wi > capI) { wm += wi - capI; wi = capI; }
+    const fm = MS > 0 ? Math.max(0, (capM - wm) / MS) : 0, fi = IS > 0 ? Math.max(0, (capI - wi) / IS) : 0;
+    res.willSplit = { movable: wm, immovable: wi };
 
     const sh = computeShares(input.heirs, input.deceasedGender, opts);
     res.shareInfo = sh;
@@ -989,12 +1000,12 @@ footer{margin-top:18px}
       if (sons.length) {
         const ages = sons.map(h => Number(h.age) || 0); const mx = Math.max(...ages);
         habwaTo = sons.filter((h, i) => ages[i] === mx);
-        res.habwa = { to: habwaTo.map(h => h.id), value: H * f };
+        res.habwa = { to: habwaTo.map(h => h.id), value: H * fm };
         if (habwaTo.length > 1) res.notes.push('تساوى أكبر الأبناء في السن، فقُسمت الحبوة بينهم بالسوية.');
         if (sons.some(h => !h.age)) res.notes.push('لم يُدخل عمر بعض الأبناء؛ تأكد من تحديد الأكبر لاستحقاق الحبوة.');
       } else res.notes.push('لا يوجد ابن ذكر وارث، فدخلت أعيان الحبوة في التركة العامة.');
     }
-    const movPool = (M - (habwaTo.length ? H : 0)) * f, build = B * f, land = L * f, diya = Y * f;
+    const movPool = (M - (habwaTo.length ? H : 0)) * fm, build = B * fi, land = L * fi, diya = Y * fm;
     // الأرض: تُقسم على غير الزوجة بنسبهم
     const wifeIds = new Set(input.deceasedGender !== 'f' ? input.heirs.filter(h => h.rel === 'زوج' && h.gender === 'f').map(h => h.id) : []);
     const wifeTot = toNum(sum([...wifeIds].map(id => sh.shares[id] || Z)));
@@ -1015,7 +1026,7 @@ footer{margin-top:18px}
       else r.land = s * land;
       if (!opts.wifeNoLand && isWife) { r.land = s * land; }
       if (diyaSh) r.diya = (diyaSh.shares[h.id] ? toNum(diyaSh.shares[h.id]) : 0) * diya;
-      if (habwaTo.find(x => x.id === h.id)) r.habwa = (H * f) / habwaTo.length;
+      if (habwaTo.find(x => x.id === h.id)) r.habwa = (H * fm) / habwaTo.length;
       r.total = r.movable + r.buildings + r.land + r.diya + r.habwa;
       res.heirs[h.id] = r;
     });
@@ -1352,7 +1363,7 @@ function readInputs(){
   const n = id => $('#'+id).disabled ? 0 : (Number($('#'+id).value) || 0);
   return { deceasedGender: $('#dGender').value, heirs: expand(heirs), rows: heirs.map(h=>Object.assign({}, h, {count: cnt(h)})),
     movable:n('movable'), habwaValue:n('habwa'), land:n('land'), buildings:n('buildings'), diya:n('diya'),
-    funeral:n('funeral'), debts:n('debts'), mahr:n('mahr'), rights:n('rights'), will:n('will'), willApproved:$('#willOk').checked,
+    funeral:n('funeral'), debts:n('debts'), mahr:n('mahr'), rights:n('rights'), will:n('will'), willMov:n('willMov'), willImm:n('willImm'), willApproved:$('#willOk').checked,
     opts:{ hajbNeedsFather: $('#hajbFather').value === '1' } };
 }
 // العملات: [الرمز الدولي، الاسم، الرمز المعروض، عدد الخانات العشرية]
