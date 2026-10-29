@@ -284,6 +284,8 @@ details.more[open] summary::after{content:"−"}
 .more-in{display:grid;gap:16px;margin-top:12px}
 .total-box{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;background:rgba(242,182,50,.1);border:1px solid var(--gold-dim);border-radius:14px;padding:14px 16px;color:var(--gold);font-weight:700}
 .total-box b{color:var(--ink);font-size:18px;font-variant-numeric:tabular-nums}
+.will-box{margin-top:0}
+.money-in input[readonly]{opacity:.8;cursor:default}
 .btn-wide{width:100%;min-height:54px;font-size:16px}
 .stepnav{margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
 .stepnav-btns{display:grid;grid-template-columns:auto 1fr;gap:10px}
@@ -307,9 +309,8 @@ details.more[open] summary::after{content:"−"}
 .rel-auto b,.rel-auto small{white-space:normal;overflow-wrap:anywhere}
 .rel-auto b{color:var(--ink)}
 .rel-auto small{color:var(--gold);font-size:13.5px}
-.other-add{margin-top:14px}
-.other-add label.f{flex:1 1 100%}
-.other-add .lt{font-size:15.5px;font-weight:700;color:var(--ink);white-space:normal}
+.add-panel{margin-top:14px}
+.add-h{margin:0;font-family:"El Messiri",serif;font-size:19px;color:var(--gold)}
 .heir-body{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
 .heir.open .heir-body{display:block}
 .heir-body .heir-tools{display:flex;justify-content:flex-start;margin-top:10px}
@@ -432,7 +433,13 @@ footer{margin-top:18px}
       <label class="f"><span class="lt">ديون الناس</span><span class="money-in"><input type="number" min="0" id="debts" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span></label>
       <label class="f"><span class="lt">مؤخّر الصداق</span><span class="money-in"><input type="number" min="0" id="mahr" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">دين للزوجة</small></label>
       <label class="f"><span class="lt">الحقوق الشرعية</span><span class="money-in"><input type="number" min="0" id="rights" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">الخمس والزكاة وحجة الإسلام</small></label>
-      <label class="f"><span class="lt">الوصية</span><span class="money-in"><input type="number" min="0" id="will" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span></label>
+      <label class="f"><span class="lt">هل للمتوفى <span class="rh">(إلى رحمة الله)</span> وصية في ثلث ما ترك؟</span><select id="willHas"><option value="0">لا، ليس له وصية</option><option value="1">نعم، له وصية معتمدة</option></select></label>
+      <label class="f" id="willPctBox"><span class="lt">مقدار ما أوصى به من الثلث</span><select id="willPct"><option value="100">الثلث كاملًا (100٪)</option><option value="75">75٪ من الثلث</option><option value="50">50٪ من الثلث</option><option value="25">25٪ من الثلث</option><option value="amt">مبلغ محدد (لا يتجاوز الثلث)</option></select></label>
+      <label class="f"><span class="lt">الوصية من المال المنقول</span><span class="money-in"><input type="number" min="0" id="willMov" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span></label>
+      <label class="f"><span class="lt">الوصية من المال غير المنقول</span><span class="money-in"><input type="number" min="0" id="willImm" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span></label>
+      <input type="hidden" id="will" value="0">
+      <div class="total-box will-box"><span>مجموع الوصية النافذة</span><b id="willTotal"></b></div>
+      <p class="hint" id="willNote" style="margin:0"></p>
       <label class="chk" id="willOkBox"><input type="checkbox" id="willOk"> أجاز الورثة ما زاد على الثلث</label>
     </div>
     <div class="total-box"><span>مجموع الأصول الأساسية</span><b id="assetsTotal"></b></div>
@@ -453,13 +460,13 @@ footer{margin-top:18px}
       </span><select id="hajbFather"><option value="1">١. بشرط وجود الأب حيًّا (ولو كان ممنوعًا من الإرث)</option><option value="0">٢. بلا شرط</option></select></label>
   </div>
   <div id="heirs"></div>
-  <div class="row-actions no-print">
-    <button class="btn btn-ghost btn-wide" id="addHeir" type="button">＋ إضافة وارث</button>
+  <div class="panel add-panel no-print">
+    <h3 class="add-h">إضافة وارث</h3>
+    <label class="f"><span class="lt">الوارث</span><select id="pickHeir"></select></label>
+    <label class="f" id="pickCountBox" hidden><span class="lt" id="pickCountLbl">العدد</span><select id="pickCount"></select></label>
+    <button class="btn btn-gold btn-wide" id="addHeir" type="button" disabled>＋ إضافة</button>
+    <p class="hint" id="otherNote" style="margin:0"></p>
   </div>
-  <div class="row-actions no-print other-add">
-    <label class="f"><span class="lt">إضافة وارث من فئة أخرى (غير الزوجين والأولاد والأبوين)</span><select id="otherHeir"></select></label>
-  </div>
-  <p class="hint" id="otherNote" style="margin:6px 0 0"></p>
   <div class="row-actions no-print" style="margin-top:8px">
     <button class="btn btn-ghost btn-sm" id="example" type="button">مثال جاهز</button>
     <button class="btn btn-ghost btn-sm" id="clear" type="button">مسح الكل</button>
@@ -1166,17 +1173,35 @@ function firstAllowed(){
   return allowedList().filter(x => CORE.includes(x.rel) && canAdd(x.rel, x.gender)).sort((x, y) => PRIO(x.rel) - PRIO(y.rel))[0] || null;
 }
 // قائمة الفئات الأخرى المتاحة: تتبع الإجابات والحجب، فما حُجب لا يظهر
-function syncOther(){
-  const ly = layer(), list = allowedList().filter(x => !CORE.includes(x.rel) && canAdd(x.rel, x.gender));
-  const groups = REL_GROUPS.map(([g, rs], L) => [g, list.filter(x => LAYER_OF[x.rel] === L)]).filter(([, xs]) => xs.length);
-  const html = '<option value="">— اختر نوع الوارث لإضافته —</option>' + groups.map(([g, xs]) => `<optgroup label="${g}">${xs.map(x => `<option value="${x.rel}|${x.gender}">${I.REL[x.rel].label[x.gender==='f'?1:0]}</option>`).join('')}</optgroup>`).join('');
-  const sel = $('#otherHeir');
-  if (sel.dataset.html !== html){ sel.innerHTML = html; sel.dataset.html = html; }
-  sel.disabled = !list.length; sel.closest('label').classList.toggle('off', !list.length);
-  $('#otherNote').textContent = list.length ? (ly === 1 && list.some(x => LAYER_OF[x.rel] === 2) ? 'الإخوة هنا لأثرهم في نصيب الأم فقط، ولا يرثون مع الطبقة الأولى.' : '')
-    : ly === null ? 'يُتاح بعد إكمال أسئلة القرابة.'
-    : ly === 1 ? 'مُعطَّل: الطبقة الأولى تحجب الطبقتين الثانية والثالثة حجب حرمان، فلا وارث من غيرها.'
-    : 'لا فئة أخرى بحسب إجاباتك عن أسئلة القرابة.';
+// قائمة «الوارث»: الأقارب كلهم من الطبقات الثلاث، والمحجوب أو ما لا أصل له يظهر مُعطَّلًا
+const PLURAL = {'ولد|m':'الأبناء','ولد|f':'البنات','زوج|f':'الزوجات','ولد ابن|m':'أبناء الابن','ولد ابن|f':'بنات الابن','ولد بنت|m':'أبناء البنت','ولد بنت|f':'بنات البنت',
+  'أخ شقيق|m':'الإخوة الأشقاء','أخ شقيق|f':'الأخوات الشقيقات','أخ لأب|m':'الإخوة لأب','أخ لأب|f':'الأخوات لأب','أخ لأم|m':'الإخوة لأم','أخ لأم|f':'الأخوات لأم',
+  'عم أبويني|m':'الأعمام الأشقاء','عم أبويني|f':'العمات الشقيقات','خال|m':'الأخوال','خال|f':'الخالات'};
+// أقصى عدد يمكن إضافته الآن: الزوجات أربع مجموعًا، والأب والأم والزوج واحد
+const pickMax = (rel, g) => rel==='زوج' && g==='f' ? 4 - wivesTotal() : (rel==='والد' || rel==='زوج') ? 1 : 20;
+function syncPick(){
+  const ly = layer(), sel = $('#pickHeir');
+  const html = '<option value="">— اختر الوارث —</option>' + REL_GROUPS.map(([g, rs], L) =>
+    `<optgroup label="${g}${groupNote(L)}">${rs.map(r => ['m','f'].map(x => `<option value="${r}|${x}"${canAdd(r, x) ? '' : ' disabled'}>${I.REL[r].label[x==='f'?1:0]}</option>`).join('')).join('')}</optgroup>`).join('');
+  if (sel.dataset.html !== html){ const v = sel.value; sel.innerHTML = html; sel.dataset.html = html; sel.value = v && sel.querySelector(`option[value="${v}"]:not([disabled])`) ? v : ''; }
+  const any = !!sel.querySelector('option[value]:not([value=""]):not([disabled])');
+  sel.disabled = !any; sel.closest('label').classList.toggle('off', !any);
+  syncPickCount();
+  $('#otherNote').textContent = ly === null ? 'تُتاح القرابات بعد الإجابة عن أسئلة القرابة.'
+    : ly === 1 ? 'الطبقة الأولى تحجب الطبقتين الثانية والثالثة حجب حرمان، فتظهر قراباتهما مُعطَّلة' + (yes('hsibs') ? '، إلا الإخوة لأثرهم في نصيب الأم.' : '.')
+    : ly === 2 ? 'الطبقة الثانية تحجب الطبقة الثالثة حجب حرمان.'
+    : '';
+}
+function syncPickCount(){
+  const v = $('#pickHeir').value, box = $('#pickCountBox');
+  if (!v){ box.hidden = true; $('#addHeir').disabled = true; return; }
+  const [rel, g] = v.split('|'), mx = pickMax(rel, g);
+  box.hidden = mx <= 1;
+  $('#pickCountLbl').textContent = 'عدد ' + (PLURAL[v] || I.REL[rel].label[g==='f'?1:0]);
+  const cs = $('#pickCount'), cur = cs.value || '1';
+  const opts = Array.from({length: Math.max(1, mx)}, (_, i) => opt(String(i+1), i ? String(i+1) : 'واحد', cur)).join('');
+  if (cs.dataset.html !== opts + v){ cs.innerHTML = opts; cs.dataset.html = opts + v; }
+  $('#addHeir').disabled = !canAdd(rel, g);
 }
 
 // بيان الحجب لكل وارث، على قواعد الفقه الجعفري:
@@ -1214,8 +1239,7 @@ function renderQs(){
 function syncGuide(){
   computeVisible(); renderQs();
   const dg = $('#dGender').value, ly = layer(), allowed = allowedList();
-  $('#addHeir').disabled = !firstAllowed();
-  syncOther();
+  syncPick();
   let msg;
   if (!A.spouse) msg = 'ابدأ بالسؤال الأول: هل للمتوفى زوجية قائمة عند الوفاة؟';
   else if (ly===null) msg = 'أجب عن السؤال التالي لتتحدد الطبقة الوارثة.';
@@ -1365,7 +1389,7 @@ function legalFlags(h){
 
 // تحديث حيّ للخانات التلقائية فقط (لا حساب)
 function refresh(){
-  syncGuide(); syncShell();
+  syncWill(); syncGuide(); syncShell();
   const dg = $('#dGender').value;
   heirs.forEach(h=>{
     const el = document.querySelector(`.heir[data-id="${h.id}"]`); if(!el) return;
@@ -1649,6 +1673,29 @@ function goStep(n){
   if (step===STEPS) renderReview();
   showView('calc');
 }
+
+// الوصية في الثلث: بالنسبة من الثلث، أو بمبلغين من المنقول وغير المنقول، والمجموع يُخرج من الأصل قبل القسمة
+function syncWill(){
+  const n = id => Number($('#'+id).value) || 0;
+  const M = n('movable') + n('diya'), IM = n('land') + n('buildings'), T = M + IM;
+  const after = Math.max(0, T - (n('funeral') + n('debts') + n('mahr') + n('rights'))), third = after / 3;
+  const has = $('#willHas').value === '1', pct = $('#willPct').value, byAmt = pct === 'amt';
+  setOff('#willPct', !has);
+  [['#willMov', M], ['#willImm', IM]].forEach(([sel, part]) => {
+    const el = $(sel);
+    el.disabled = !has; el.readOnly = has && !byAmt; el.closest('label').classList.toggle('off', !has);
+    // بالنسبة: يُوزَّع المقدار على نوعي المال بقدر كل منهما
+    if (has && !byAmt) el.value = T > 0 ? Math.floor(third * Number(pct) / 100 * part / T * 1000) / 1000 : 0;
+    if (!has) el.value = 0;
+  });
+  const total = has ? n('willMov') + n('willImm') : 0;
+  $('#will').value = total;
+  const capped = $('#willOk').checked ? Math.min(total, after) : Math.min(total, third);
+  $('#willTotal').innerHTML = money(capped);
+  $('#willNote').textContent = !has ? 'لا وصية، فلا يُخرج شيء من التركة لها.'
+    : 'الحد الأقصى ثلث ما يبقى بعد التجهيز والديون والحقوق: ' + (Math.round(third * 100) / 100).toLocaleString('ar-EG') + '.'
+      + (total > third + 1e-9 ? (($('#willOk').checked ? ' زاد المبلغ على الثلث، وأجازه الورثة.' : ' زاد المبلغ على الثلث، فيُنفّذ منه الثلث فقط.')) : '');
+}
 function syncShell(){
   const g = $('#dGender').value;
   document.querySelectorAll('.seg [data-g]').forEach(b => b.setAttribute('aria-checked', b.dataset.g===g));
@@ -1880,19 +1927,20 @@ $('#copyMail').onclick = async () => {
 function resetResult(){ last = null; stale = false; syncPdf(); $('#staleNote').hidden = true; $('#result').classList.remove('is-stale');
   $('#result').innerHTML = '<p class="empty">أدخل التركة والورثة، ثم اضغط «احسب القسمة».</p>';
   $('#khilaf').innerHTML = '<p class="empty">تظهر مسائل هذه التركة بعد الحساب. اختر «كل المسائل» لعرضها جميعًا.</p>'; }
-$('#otherHeir').addEventListener('change', e => {
-  const v = e.target.value; if (!v) return;
-  const [rel, gender] = v.split('|'); e.target.value = '';
-  if (!canAdd(rel, gender)) return sndErr();
-  const nh = newHeir({rel, gender}); openIds.add(nh.id); heirs.push(nh); renderHeirs(); refresh(); markStale();
-  const c = document.querySelector(`.heir[data-id="${nh.id}"]`); c && c.scrollIntoView({behavior:'smooth', block:'center'});
-});
+$('#pickHeir').addEventListener('change', () => { $('#pickCount').value = '1'; syncPickCount(); });
 $('#fillHeirs').onclick = ()=>{ missingHeirs().filter(m => CORE.includes(m.rel)).forEach(m => { const nh = newHeir({rel:m.rel, gender:m.gender}); openIds.add(nh.id); heirs.push(nh); }); renderHeirs(); refresh(); markStale(); };
-$('#addHeir').onclick = ()=>{ const a = firstAllowed(); if (!a) return; const nh = newHeir(a); openIds.add(nh.id); heirs.push(nh); renderHeirs(); refresh(); markStale(); const last = document.querySelector('.heir:last-child'); last && last.scrollIntoView({behavior:'smooth',block:'center'}); };
-$('#clear').onclick = ()=>{ heirs = []; document.querySelectorAll('input[type=number]').forEach(i=>i.value=0); $('#dName').value=''; $('#dGender').value='m'; $('#currency').value='KWD'; $('#currencyCustom').value=''; syncCurrency(); $('#hajbFather').value='1'; $('#willOk').checked=false; A = {}; renderHeirs(); refresh(); resetResult(); };
+$('#addHeir').onclick = () => {
+  const v = $('#pickHeir').value; if (!v) return;
+  const [rel, gender] = v.split('|');
+  if (!canAdd(rel, gender)) return sndErr();
+  const nh = newHeir({rel, gender, count: Math.min(pickMax(rel, gender), Number($('#pickCount').value) || 1)});
+  openIds.add(nh.id); heirs.push(nh); $('#pickHeir').value = ''; renderHeirs(); refresh(); markStale();
+  const c = document.querySelector(`.heir[data-id="${nh.id}"]`); c && c.scrollIntoView({behavior:'smooth', block:'center'});
+};
+$('#clear').onclick = ()=>{ heirs = []; document.querySelectorAll('input[type=number]').forEach(i=>i.value=0); $('#dName').value=''; $('#dGender').value='m'; $('#currency').value='KWD'; $('#currencyCustom').value=''; syncCurrency(); $('#hajbFather').value='1'; $('#willOk').checked=false; $('#willHas').value='0'; $('#willPct').value='100'; A = {}; renderHeirs(); refresh(); resetResult(); };
 $('#example').onclick = ()=>{
   $('#dGender').value='m'; A = {spouse:'1', kids:'b', parents:'f'}; $('#movable').value=60000; $('#habwa').value=1500; $('#land').value=80000; $('#buildings').value=40000; $('#diya').value=0;
-  $('#funeral').value=1000; $('#debts').value=4000; $('#mahr').value=5000; $('#rights').value=2000; $('#will').value=10000; $('#willOk').checked=false;
+  $('#funeral').value=1000; $('#debts').value=4000; $('#mahr').value=5000; $('#rights').value=2000; $('#willHas').value='1'; $('#willPct').value='amt'; $('#willMov').value=6000; $('#willImm').value=4000; $('#willOk').checked=false;
   heirs = [ newHeir({name:'زينب', rel:'زوج', gender:'f', age:50}), newHeir({name:'فاطمة', rel:'والد', gender:'f', age:75}),
     newHeir({name:'محمد', rel:'ولد', gender:'m', age:28}), newHeir({name:'حسن وحسين', rel:'ولد', gender:'m', count:2, age:12}),
     newHeir({name:'مريم', rel:'ولد', gender:'f', age:20, cap:'مصروع (صرع يذهب بالعقل)'}) ];
