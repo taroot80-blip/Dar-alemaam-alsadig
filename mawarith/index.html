@@ -47,6 +47,44 @@ header{text-align:center;padding:18px 0 8px}
 header .arch{width:64px;height:64px;margin:0 auto 6px;color:var(--gold)}
 h1{font-family:"El Messiri",serif;font-weight:700;font-size:clamp(26px,5vw,40px);margin:0;color:var(--gold);letter-spacing:.5px}
 .sub{color:var(--muted);margin:6px 0 0;font-size:15px}
+.must-btn{margin-top:14px;font-size:17px;min-height:52px;padding:0 26px;box-shadow:0 0 0 4px rgba(242,182,50,.15)}
+.must{position:fixed;inset:0;z-index:50;background:var(--bg2);overflow-y:auto;overscroll-behavior:contain;
+  padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.must-in{max-width:760px;margin:0 auto}
+.must-top{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg2);padding:8px 0 12px;border-bottom:1px solid var(--line);z-index:1}
+.must-top h2{margin:0;font-family:"El Messiri",serif;color:var(--gold);font-size:24px;text-wrap:balance}
+.must-intro{color:var(--muted);font-size:16px;line-height:1.9;margin:14px 0 6px}
+.must ol{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:m}
+.must li{counter-increment:m;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:6px}
+.must li h3{margin:0;font-size:18px;color:var(--gold);font-weight:700;line-height:1.6}
+.must li h3::before{content:counter(m, arabic-indic) ". ";color:var(--gold)}
+.must li p{margin:0;font-size:18.5px;line-height:2;color:var(--ink)}
+.must-foot{margin:16px 0 0;color:var(--faint);font-size:15px;line-height:1.8}
+body.must-open{overflow:hidden}
+.pdf-bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+.pdf-bar .hint{margin:0}
+/* تقرير PDF: صفحة بيضاء بعرض A4 تُرسم خارج الشاشة */
+.rep-host{position:fixed;top:0;left:-10000px;width:794px;z-index:-1}
+.rep{width:794px;background:#fff;color:#1b1309;padding:34px 40px;font-family:Tajawal,Cairo,sans-serif;font-size:14px;line-height:1.7;direction:rtl}
+.rep .bas{text-align:center;font-family:Amiri,serif;font-size:20px;color:#7a5410}
+.rep h1{text-align:center;font-family:"El Messiri",serif;font-size:26px;margin:2px 0 2px;color:#5b3d07}
+.rep .rsub{text-align:center;color:#6b5a40;margin:0 0 14px;font-size:13px}
+.rep h3{font-family:"El Messiri",serif;font-size:17px;color:#5b3d07;margin:16px 0 6px;padding-bottom:4px;border-bottom:2px solid #d9a93a}
+.rep table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.rep th,.rep td{border:1px solid #cdbb98;padding:6px 8px;text-align:right;vertical-align:middle}
+.rep th{background:#f6ecd6;color:#3d2a08;font-weight:700}
+.rep th,.rep h1{display:table-cell;white-space:normal;overflow:visible;letter-spacing:normal}
+.rep h1{display:block}
+.rep *{letter-spacing:normal}
+.rep td.n{white-space:nowrap}
+.rep .kv td:first-child{background:#fbf6ea;font-weight:700;width:32%}
+.rep tr.tot td{font-weight:700;background:#fbf6ea}
+.rep tr.off td{color:#8a7a60}
+.rep .amt{white-space:nowrap}
+.rep ul{margin:6px 0 0;padding-inline-start:18px;color:#3d2a08}
+.rep .sign{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px}
+.rep .sign div{border-top:1px solid #8a7a60;padding-top:6px;color:#3d2a08}
+.rep .rfoot{margin-top:18px;font-size:12px;color:#6b5a40;text-align:center}
 .basm{font-family:Amiri,serif;color:var(--gold);opacity:.85;font-size:20px;margin-bottom:6px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:16px;backdrop-filter:blur(3px)}
 .card h2{font-family:"El Messiri",serif;font-size:21px;margin:0 0 4px;color:var(--gold);display:flex;align-items:center;gap:10px}
@@ -76,6 +114,8 @@ label.f.off .lt,label.chk.off{opacity:.55}
 .guide-msg{margin:10px 0 0;font-size:14px;color:var(--muted)}
 .guide-msg b{color:var(--gold)}
 .gwarn:empty{display:none}
+.guide .grid.gq{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.guide label.f .lt{white-space:normal;overflow:visible;line-height:1.5}
 .gwarn{margin-top:8px}
 .heir{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px}
 .heir-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
@@ -175,6 +215,129 @@ label.f{min-width:0}
   .wrap{padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
 }
 @media (max-width:380px){ .heir .grid{grid-template-columns:1fr} .summary{grid-template-columns:1fr} }
+
+/* ---------- واجهة الخطوات ---------- */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:760px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.appbar{text-align:right;padding:10px 0 0}
+.appbar .basm{text-align:center;font-size:17px;margin-bottom:8px}
+.appbar-row{display:flex;align-items:center;gap:14px}
+.appbar .arch{width:46px;height:46px;margin:0;flex:none}
+.appbar-t{min-width:0}
+.appbar h1{font-size:clamp(22px,5.5vw,30px);letter-spacing:0}
+.appbar .sub{margin:2px 0 0;font-size:14px}
+.views{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px;border-bottom:1px solid var(--line)}
+.view-tab{font:inherit;font-weight:700;font-size:15.5px;background:none;border:0;color:var(--muted);padding:12px 6px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px}
+.view-tab[aria-selected=true]{color:var(--gold);border-bottom-color:var(--gold)}
+.view-tab:focus-visible,.stepper button:focus-visible,.seg button:focus-visible,.subtabs button:focus-visible,.linkbtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.stepper{list-style:none;margin:22px 0 6px;padding:0;display:grid;grid-template-columns:repeat(4,1fr)}
+.stepper li{position:relative;display:flex;justify-content:center}
+.stepper li+li::before{content:"";position:absolute;top:19px;left:calc(50% + 24px);right:calc(-50% + 24px);height:2px;background:var(--line)}
+.stepper{overflow:hidden}
+.stepper li.done+li::before,.stepper li.done::before{background:var(--gold-dim)}
+.stepper button{background:none;border:0;font:inherit;color:var(--faint);display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:0 4px}
+.stepper .dot{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:16px;background:var(--card2);border:1px solid var(--line);color:var(--muted)}
+.stepper .sl{font-size:14px}
+.stepper li.done .dot{background:rgba(242,182,50,.14);border-color:var(--gold-dim);color:var(--gold);font-size:0}
+.stepper li.done .dot::after{content:"✓";font-size:17px}
+.stepper li.cur .dot{background:var(--gold);border-color:var(--gold);color:#1a120b}
+.stepper li.cur .sl{color:var(--ink);font-weight:700}
+.step-head{margin:18px 0 14px}
+.step-head h2{font-family:"El Messiri",serif;font-size:clamp(24px,6vw,30px);margin:0;color:var(--ink);text-wrap:balance}
+.step-head p{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.7}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:16px}
+.panel>label.f,.panel>.f{display:flex;flex-direction:column;gap:7px}
+.panel label.f .lt,.panel .f .lt{font-size:16px;font-weight:700;color:var(--ink);white-space:normal;overflow:visible}
+.f .lt small{font-weight:400;color:var(--faint);font-size:13px;margin-inline-start:6px}
+.fh{color:var(--faint);font-size:13px;line-height:1.6}
+.net{display:inline-block;width:1.05em;height:1.05em;vertical-align:-.15em;color:var(--sky);margin-inline:.25em;flex:none}
+.netnote{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:14px;line-height:1.9;color:var(--ink);font-size:15.5px}
+.netnote h3{margin:0 0 6px;font-family:"El Messiri",serif;color:var(--gold);font-size:19px}
+.netnote ul{margin:6px 0 0;padding-inline-start:20px;color:var(--muted)}
+.rh{white-space:nowrap;font-weight:400;color:var(--gold);font-size:.72em}
+.f .lt .rh,.heir-body .rh{font-size:13px}
+.heir-body label.f .lt{white-space:normal;overflow:visible}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg button{font:inherit;font-weight:700;font-size:17px;min-height:56px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--muted);cursor:pointer}
+.seg button[aria-checked=true]{background:rgba(242,182,50,.16);border-color:var(--gold);color:var(--gold)}
+.seg button[aria-checked=true]::before{content:"✓ "}
+.money-in{position:relative;display:block}
+.money-in input{padding-left:64px;-moz-appearance:textfield}
+.money-in input::-webkit-inner-spin-button,.money-in input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.cur-suf{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--faint);font-size:14px;pointer-events:none;max-width:50px;overflow:hidden;white-space:nowrap}
+.subtabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:5px;margin-bottom:12px}
+.subtabs button{font:inherit;font-weight:700;font-size:15px;min-height:46px;border:0;border-radius:10px;background:none;color:var(--muted);cursor:pointer}
+.subtabs button[aria-selected=true]{background:var(--field);color:var(--gold);box-shadow:0 0 0 1px var(--gold-dim)}
+details.more{border-top:1px solid var(--line);padding-top:12px}
+details.more summary{cursor:pointer;color:var(--gold);font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:36px}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:"+";font-size:24px;line-height:1}
+details.more[open] summary::after{content:"−"}
+.more-in{display:grid;gap:16px;margin-top:12px}
+.total-box{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;background:rgba(242,182,50,.1);border:1px solid var(--gold-dim);border-radius:14px;padding:14px 16px;color:var(--gold);font-weight:700}
+.total-box b{color:var(--ink);font-size:18px;font-variant-numeric:tabular-nums}
+.btn-wide{width:100%;min-height:54px;font-size:16px}
+.stepnav{margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.stepnav-btns{display:grid;grid-template-columns:auto 1fr;gap:10px}
+.stepnav-btns .btn{min-height:56px;font-size:17px}
+.stepnav-btns #prevStep{padding:0 24px}
+.stepnav.first .stepnav-btns{grid-template-columns:1fr}
+.stepcount{text-align:center;color:var(--faint);font-size:13.5px;margin:10px 0 0}
+/* بطاقات الورثة المطوية */
+.heir{padding:12px 14px}
+.heir-sum{display:flex;align-items:center;gap:12px}
+.heir-ico{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(242,182,50,.12);color:var(--gold)}
+.heir-ico svg{width:22px;height:22px}
+.heir-main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.heir-main b{font-size:17px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.heir-main small{color:var(--faint);font-size:13.5px}
+.linkbtn{font:inherit;background:none;border:0;color:var(--gold);cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:15px;padding:8px 4px;text-decoration:underline;text-underline-offset:4px}
+.linkbtn svg{width:17px;height:17px}
+.heir-body{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.heir.open .heir-body{display:block}
+.heir-body .heir-tools{display:flex;justify-content:flex-start;margin-top:10px}
+.heir .status:not(:empty),.heir .gwarn:not(:empty){margin-top:10px}
+/* المراجعة */
+.rv{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-bottom:12px}
+.rv-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.rv-head h3{margin:0;font-size:18px;color:var(--ink);display:flex;align-items:center;gap:10px}
+.rv-head h3 .heir-ico{width:38px;height:38px}
+.rv dl{margin:0;display:grid}
+.rv dl div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(242,182,50,.1)}
+.rv dl div:last-child{border-bottom:0}
+.rv dt{color:var(--muted)}
+.rv dd{margin:0;color:var(--ink);font-weight:700;text-align:left;font-variant-numeric:tabular-nums}
+.rv dl div.tot dt,.rv dl div.tot dd{color:var(--gold)}
+.rv .empty{padding:6px 0;text-align:right}
+.rv-link{width:100%;display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;color:var(--ink);font:inherit;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:12px}
+#view-calc .card{margin-top:14px}
+#view-must .must ol{display:grid;gap:12px}
+.must{position:static;background:none;padding:0;overflow:visible}
+.ask h3,.ask-list h3,.must-h{font-family:"El Messiri",serif;font-size:21px;color:var(--gold);margin:0}
+.must-h{margin:26px 0 12px}
+.ask textarea{font:inherit;color:var(--ink);background:var(--field);border:1px solid rgba(242,182,50,.28);border-radius:10px;padding:10px 12px;width:100%;resize:vertical;line-height:1.8;min-height:120px}
+.ask textarea:focus,.aq textarea:focus{outline:2px solid var(--gold);outline-offset:1px}
+.ask-list{margin-top:18px;display:grid;gap:10px}
+#askList{display:grid;gap:10px}
+.aq{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:8px}
+.aq-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:var(--faint);font-size:13.5px}
+.aq-text{font-size:16.5px;line-height:1.9;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.aq-who{color:var(--muted);font-size:14px;overflow-wrap:anywhere}
+.aq-ans{border-top:1px dashed var(--line);padding-top:8px;color:var(--ink);line-height:1.8;white-space:pre-wrap}
+.aq-ans b{color:var(--gold)}
+.aq-tools{display:grid;gap:8px}
+.aq textarea{font:inherit;color:var(--ink);background:var(--field);border:1px solid rgba(242,182,50,.28);border-radius:10px;padding:8px 10px;width:100%;min-height:70px;resize:vertical}
+.aq-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.aq-row select{width:auto;min-width:150px}
+.srch{display:flex;flex-wrap:wrap;gap:8px}
+.srch a,.srch span{display:inline-flex;align-items:center;min-height:42px;padding:0 14px;border-radius:999px;border:1px solid var(--gold-dim);color:var(--gold);text-decoration:none;font-weight:700;font-size:14.5px}
+.srch a:hover{background:rgba(242,182,50,.1)}
+.srch a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.srch span{opacity:.45;cursor:not-allowed}
+.aq .srch a{min-height:36px;font-size:13.5px;padding:0 12px}
+footer{margin-top:18px}
+@media (max-width:480px){ .stepper .sl{font-size:12.5px} .stepper .dot{width:36px;height:36px} .stepper li+li::before{top:17px} .panel{padding:16px} }
+
 @media print{ .rcards{display:none!important} .tbl-wrap{display:block!important} .calcbar,.stale-note{display:none!important} }
 
 .designer{display:flex;align-items:center;gap:14px;margin:16px auto 0;max-width:520px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;text-align:right}
@@ -195,11 +358,166 @@ label.f{min-width:0}
 </style>
 
 <div class="wrap" dir="rtl" lang="ar">
-<header>
+<header class="appbar">
   <div class="basm">بسم الله الرحمن الرحيم</div>
-  <svg class="arch" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 60V30C10 16 20 6 32 4c12 2 22 12 22 26v30"/><path d="M18 60V32c0-9 6-16 14-18 8 2 14 9 14 18v28"/><path d="M32 4v-2M6 60h52"/><circle cx="32" cy="30" r="4"/></svg>
-  <h1>حاسبة المواريث الجعفرية</h1>
-  <p class="sub">على مذهب أهل البيت عليهم السلام — وفق كتاب الميراث في منهاج الصالحين، مع بيان مواضع الخلاف بين المراجع</p>
+  <div class="appbar-row"><svg class="arch" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 60V30C10 16 20 6 32 4c12 2 22 12 22 26v30"/><path d="M18 60V32c0-9 6-16 14-18 8 2 14 9 14 18v28"/><path d="M32 4v-2M6 60h52"/><circle cx="32" cy="30" r="4"/></svg><div class="appbar-t"><h1>حاسبة المواريث الجعفرية</h1><p class="sub" id="subTitle">على مذهب أهل البيت عليهم السلام، خطوة بخطوة</p></div></div>
+  <nav class="views no-print" role="tablist" aria-label="أقسام الحاسبة">
+    <button class="view-tab" role="tab" type="button" id="tab-calc" data-view="calc" aria-selected="true">الحاسبة</button>
+    <button class="view-tab" role="tab" type="button" id="tab-must" data-view="must" aria-selected="false">المسائل</button>
+    <button class="view-tab" role="tab" type="button" id="tab-about" data-view="about" aria-selected="false">حول الحاسبة</button>
+  </nav>
+</header>
+
+<main class="view" id="view-calc" role="tabpanel" aria-labelledby="tab-calc">
+  <ol class="stepper no-print" id="stepper">
+    <li><button type="button" data-go="1"><span class="dot">١</span><span class="sl">البيانات</span></button></li>
+    <li><button type="button" data-go="2"><span class="dot">٢</span><span class="sl">التركة</span></button></li>
+    <li><button type="button" data-go="3"><span class="dot">٣</span><span class="sl">الورثة</span></button></li>
+    <li><button type="button" data-go="4"><span class="dot">٤</span><span class="sl">المراجعة</span></button></li>
+  </ol>
+
+  <section class="step" data-step="1">
+    <div class="step-head"><h2>بيانات المتوفى <span class="rh">(إلى رحمة الله)</span></h2><p>ابدأ بالمعلومات الأساسية. يُفترض أن يكون المتوفى <span class="rh">(إلى رحمة الله)</span> اثني عشريًّا.</p></div>
+    <div class="panel">
+      <label class="f"><span class="lt">معدّ البيانات <small>اختياري</small></span><input id="preparer" placeholder="اسم من يُدخل البيانات"></label>
+      <label class="f"><span class="lt">اسم المتوفى <span class="rh">(إلى رحمة الله)</span> <small>اختياري</small></span><input id="dName" placeholder="اكتب الاسم"></label>
+      <div class="f"><span class="lt" id="gLbl">جنس المتوفى <span class="rh">(إلى رحمة الله)</span></span>
+        <div class="seg" role="radiogroup" aria-labelledby="gLbl"><button type="button" role="radio" data-g="m">ذكر</button><button type="button" role="radio" data-g="f">أنثى</button></div>
+        <select id="dGender" class="sr-only" tabindex="-1" aria-hidden="true"><option value="m">ذكر</option><option value="f">أنثى</option></select></div>
+      <label class="f"><span class="lt">المرجع الذي يقلّده المتوفى <span class="rh">(إلى رحمة الله)</span></span><select id="marja"></select></label>
+      <label class="f"><span class="lt">العملة</span><select id="currency"></select></label>
+      <label class="f" id="currencyCustomBox" hidden><span class="lt">اسم العملة أو رمزها</span><input id="currencyCustom" placeholder="مثلًا: روبل"></label>
+    </div>
+  </section>
+
+  <section class="step" data-step="2" hidden>
+    <div class="step-head"><h2>التركة والالتزامات</h2><p>أدخل المبالغ المتوفرة، واترك غير المنطبق صفرًا.</p></div>
+    <div class="subtabs" role="tablist">
+      <button type="button" role="tab" data-sub="assets" aria-selected="true">الأصول</button>
+      <button type="button" role="tab" data-sub="dues" aria-selected="false">الالتزامات والوصية</button>
+    </div>
+    <div class="panel" data-subp="assets">
+      <label class="f"><span class="lt">المال المنقول</span><span class="money-in"><input type="number" min="0" id="movable" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">النقود والأرصدة والأثاث والسيارات والأسهم وغيرها</small></label>
+      <label class="f"><span class="lt">قيمة الأرض</span><span class="money-in"><input type="number" min="0" id="land" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">أرض الدار والبستان والعقار. الزوجة لا ترث منها</small></label>
+      <label class="f"><span class="lt">قيمة البناء والأشجار والمنشآت</span><span class="money-in"><input type="number" min="0" id="buildings" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">ترث الزوجة من قيمتها</small></label>
+      <details class="more" id="moreAssets"><summary>تفاصيل إضافية: الحبوة والدية</summary>
+        <div class="more-in">
+          <label class="f" id="habwaBox"><span class="lt">منه: قيمة أعيان الحبوة</span><span class="money-in"><input type="number" min="0" id="habwa" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">ثيابه وخاتمه وسيفه ومصحفه، وهي جزء من المنقول</small></label>
+          <label class="f"><span class="lt">مبلغ الدية</span><span class="money-in"><input type="number" min="0" id="diya" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">إن قُتل المتوفى <span class="rh">(إلى رحمة الله)</span></small></label>
+        </div>
+      </details>
+    </div>
+    <div class="panel" data-subp="dues" hidden>
+      <p class="hint" style="margin:0">تُخرج من أصل التركة بالترتيب: التجهيز، ثم الديون والحقوق، ثم الوصية في حدود الثلث.</p>
+      <label class="f"><span class="lt">تجهيز الميت</span><span class="money-in"><input type="number" min="0" id="funeral" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">الكفن والدفن الواجب</small></label>
+      <label class="f"><span class="lt">ديون الناس</span><span class="money-in"><input type="number" min="0" id="debts" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span></label>
+      <label class="f"><span class="lt">مؤخّر الصداق</span><span class="money-in"><input type="number" min="0" id="mahr" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">دين للزوجة</small></label>
+      <label class="f"><span class="lt">الحقوق الشرعية</span><span class="money-in"><input type="number" min="0" id="rights" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span><small class="fh">الخمس والزكاة وحجة الإسلام</small></label>
+      <label class="f"><span class="lt">الوصية</span><span class="money-in"><input type="number" min="0" id="will" value="0" inputmode="decimal"><span class="cur-suf" aria-hidden="true"></span></span></label>
+      <label class="chk" id="willOkBox"><input type="checkbox" id="willOk"> أجاز الورثة ما زاد على الثلث</label>
+    </div>
+    <div class="total-box"><span>مجموع الأصول الأساسية</span><b id="assetsTotal"></b></div>
+    <p class="hint" style="margin-top:8px">المنقول والأرض والبناء قبل أي خصم. تظهر الدية والالتزامات منفصلة في المراجعة.</p>
+  </section>
+
+  <section class="step" data-step="3" hidden>
+    <div class="step-head"><h2>الورثة</h2><p>أجب عن أسئلة القرابة، ثم أكمل تفاصيل كل وارث بالضغط على «تعديل».</p></div>
+  <div class="guide" id="guide">
+    <h3 style="margin:0 0 6px">أسئلة القرابة</h3>
+    <p class="hint" style="margin-bottom:10px">أجب عن كل سؤال ليظهر الذي يليه. تُسأل الطبقة الثانية عند انعدام الأولى، والثالثة عند انعدام الثانية، وداخل كل طبقة لا يُسأل عن الأبعد إلا عند انعدام الأقرب الذي يحجبه. ولا تُتاح في قائمة القرابة إلا ما أجبت بوجوده.</p>
+    <div class="grid gq" id="gQs"></div>
+    <p class="guide-msg" id="guideMsg" aria-live="polite"></p>
+    <div class="row-actions no-print" style="margin-top:10px"><button class="btn btn-ghost btn-sm" id="fillHeirs" type="button">＋ أضف الورثة المذكورين في الإجابات</button></div>
+  </div>
+  <div class="grid" style="margin-bottom:6px">
+    <label class="f" id="hajbFatherBox"><span class="lt">شرط حياة الأب في حجب الأم بالإخوة
+      </span><select id="hajbFather"><option value="1">١. بشرط وجود الأب حيًّا (ولو كان ممنوعًا من الإرث)</option><option value="0">٢. بلا شرط</option></select></label>
+  </div>
+  <div id="heirs"></div>
+  <div class="row-actions no-print">
+    <button class="btn btn-ghost btn-wide" id="addHeir" type="button">＋ إضافة وارث</button>
+  </div>
+  <div class="row-actions no-print" style="margin-top:8px">
+    <button class="btn btn-ghost btn-sm" id="example" type="button">مثال جاهز</button>
+    <button class="btn btn-ghost btn-sm" id="clear" type="button">مسح الكل</button>
+  </div>
+  </section>
+
+  <section class="step" data-step="4" hidden>
+    <div class="step-head"><h2>مراجعة البيانات</h2><p>يمكنك تعديل أي قسم قبل حساب القسمة.</p></div>
+    <div id="review"></div>
+<!-- 5. النتيجة -->
+<section class="card" id="resultCard">
+  <h2><span class="tt">القسمة</span></h2>
+  <p id="staleNote" class="pill p-warn stale-note" hidden>عدّلت البيانات بعد الحساب. اضغط «احسب القسمة» لتحديث النتيجة.</p>
+  <div id="result" aria-live="polite"><p class="empty">أضف الورثة وأدخل التركة لتظهر القسمة.</p></div>
+  <div class="pdf-bar no-print"><button class="btn btn-gold" id="pdfBtn" type="button" disabled><svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg>طباعة النتيجة (ملف PDF)</button><p class="hint" id="pdfMsg">يُتاح بعد «احسب القسمة».</p></div>
+  
+</section>
+
+<!-- 6. الخلافية -->
+<section class="card" id="khilafCard">
+  <h2><span class="tt">الخلافية بين المراجع</span></h2>
+  <p class="hint">تبيّن هل المسألة متفق عليها أم خلافية بين السيد علي السيستاني والسيد صادق الشيرازي والشيخ حسين الوحيد الخراساني، مع عبارة كل منهم ومصدرها.</p>
+  <div class="tabs no-print" role="tablist">
+    <button class="tab" role="tab" aria-controls="khilaf" aria-selected="true" data-tab="case">مسائل هذه التركة</button>
+    <button class="tab" role="tab" aria-controls="khilaf" aria-selected="false" data-tab="all">كل المسائل</button>
+    <button class="tab" role="tab" aria-controls="khilaf" aria-selected="false" data-tab="diff">الخلافية فقط</button>
+  </div>
+  <p class="marja-note" id="marjaNote"></p>
+  <div id="khilaf" class="khilaf" role="tabpanel"></div>
+</section>
+
+  </section>
+
+  <div class="stepnav no-print">
+    <div class="stepnav-btns">
+      <button class="btn btn-ghost" id="prevStep" type="button">السابق</button>
+      <button class="btn btn-gold" id="nextStep" type="button">التالي ←</button>
+      <button class="btn btn-gold" id="calc" type="button" hidden>احسب القسمة</button>
+    </div>
+    <p class="stepcount" id="stepCount"></p>
+  </div>
+</main>
+
+<section class="view" id="view-must" role="tabpanel" aria-labelledby="tab-must" hidden>
+  <div class="step-head"><h2>المسائل والمراسلة</h2><p>أرسل مسألتك ليُبحث عن حكمها في المصادر المعتمدة، واقرأ أحكامًا عامة يحتاجها الورثة. وتفاصيلها تُؤخذ من رسالة المرجع ومكتبه.</p></div>
+  <div class="ask panel" id="ask">
+    <h3>أرسل مسألة <svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg></h3>
+    <p class="hint" style="margin:0">مسألة جديدة أو مبتلى بها لم تجد جوابها هنا. تُحفظ ليُبحث عن حكمها الشرعي في المصادر المعتمدة لاحقًا، ولا يراها إلا صاحب الحاسبة ومرسلها.</p>
+    <label class="f"><span class="lt">نوع المسألة</span><select id="askKind"><option value="جديدة">مسألة جديدة</option><option value="مبتلى بها">مسألة مبتلى بها</option></select></label>
+    <label class="f"><span class="lt">نص المسألة</span><textarea id="askText" rows="5" maxlength="2000" placeholder="اكتب المسألة بوضوح، واذكر الورثة والحالة إن وُجدت"></textarea></label>
+    <label class="f"><span class="lt">الاسم <small>اختياري</small></span><input id="askName" maxlength="80"></label>
+    <label class="f"><span class="lt">وسيلة التواصل للرد <small>اختياري</small></span><input id="askContact" maxlength="120" placeholder="هاتف أو بريد"></label>
+    <button class="btn btn-gold" id="askSend" type="button">حفظ المسألة</button>
+    <p class="hint" id="askMsg" aria-live="polite" style="margin:0"></p>
+  </div>
+  <div class="ask panel ask-search" id="askSearch" style="margin-top:12px">
+    <h3>ابحث عن الجواب <svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg></h3>
+    <p class="hint" style="margin:0">يبحث بنص المسألة المكتوب أعلاه في الإنترنت وفي مواقع المراجع، وتفتح النتائج في صفحة جديدة. والمعتمد في الحكم مصدره المعتمد، لا نتيجة البحث.</p>
+    <div class="srch" id="srchLinks"></div>
+  </div>
+  <div class="ask-list" id="askListWrap" hidden>
+    <h3 id="askListTitle">مسائلي المحفوظة</h3>
+    <div id="askList"></div>
+  </div>
+  <h3 class="must-h">مسائل لا بد من معرفتها</h3>
+  <div class="must">
+    <ol>
+      <li><h3>مرجع الميت ومرجع الوارث</h3><p>يرجع الورثة إلى مرجع التقليد الخاص بالميت المتوفى <span class="rh">(إلى رحمة الله)</span> في كل ما يتعلق بالحقوق والواجبات المترتبة على التركة نفسها، بينما يرجع كل وارث إلى مرجع تقليده الخاص في الأحكام التي تخص حصته وتصرفه فيها.</p></li>
+      <li><h3>ما يُخرج من التركة قبل القسمة</h3><p>يُخرج من أصل التركة أولًا تجهيز الميت الواجب، ثم ديونه والحقوق الواجبة في ذمته كالخمس والزكاة وحجة الإسلام، ثم الوصية في حدود الثلث، وما بقي بعد ذلك يُقسم بين الورثة.</p></li>
+      <li><h3>الوصية فيما زاد على الثلث</h3><p>تنفذ الوصية في الثلث فما دونه، وما زاد على الثلث لا ينفذ إلا بإجازة الورثة، فإن أجاز بعضهم دون بعض نفذت في حصة من أجاز.</p></li>
+      <li><h3>التصرف في التركة قبل وفاء الدين</h3><p>لا يتصرف الورثة في التركة تصرفًا يفوّت أداء ديون الميت أو إخراج وصيته، فحق الدائن والموصى له مقدّم على الميراث.</p></li>
+      <li><h3>ترتيب الطبقات</h3><p>الوارثون بالقرابة ثلاث طبقات: الأبوان والأولاد وإن نزلوا، ثم الإخوة وأولادهم والأجداد، ثم الأعمام والأخوال وأولادهم. ولا يرث أحد من طبقة مع وجود وارث من الطبقة التي قبلها، والزوج والزوجة يرثان مع كل الطبقات.</p></li>
+      <li><h3>موانع الإرث</h3><p>يُمنع من الإرث الكافر من المسلم، والقاتل عمدًا ظلمًا، والرقيق. ومن مُنع من الإرث لا يحجب غيره، ويُعامل كأنه غير موجود.</p></li>
+      <li><h3>حصة القاصر والمحجور عليه</h3><p>حصة الصغير والمجنون ومن في حكمهما ملك لهم، يقبضها وليّهم الشرعي ويحفظها، ولا يتصرف فيها إلا بما فيه مصلحتهم.</p></li>
+      <li><h3>الحمل</h3><p>الجنين يرث إن انفصل حيًّا، فيُعزل له نصيب عند القسمة حتى يولد، ثم يُعطى نصيبه أو يُردّ المعزول على بقية الورثة.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="view" id="view-about" role="tabpanel" aria-labelledby="tab-about" hidden>
+  <div class="step-head"><h2>حول الحاسبة</h2><p>تقسم التركة على مذهب أهل البيت عليهم السلام وفق كتاب الميراث في منهاج الصالحين، وتبيّن مواضع الخلاف بين المراجع.</p></div>
   <div class="designer">
     <img class="designer-photo" src="data:image/jpeg;base64,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" alt="صورة مصمم الحاسبة" width="84" height="84">
     <div class="designer-info">
@@ -212,114 +530,21 @@ label.f{min-width:0}
       </div>
     </div>
   </div>
-</header>
-
-<!-- 1. المتوفى -->
-<section class="card">
-  <h2><span class="num">١</span><span class="tt">المتوفى (الموروث)</span></h2>
-  <p class="hint">يُفترض أن يكون المتوفى اثني عشريًّا.</p>
-  <div class="grid">
-    <label class="f"><span class="lt">اسم المتوفى</span><input id="dName" placeholder="اختياري"></label>
-    <label class="f"><span class="lt">جنس المتوفى
-      </span><select id="dGender"><option value="m">ذكر</option><option value="f">أنثى</option></select></label>
-    <label class="f"><span class="lt">المرجع الذي يقلّده المتوفى</span><select id="marja"></select></label>
-    <label class="f"><span class="lt">العملة</span><select id="currency"></select></label>
-    <label class="f" id="currencyCustomBox" hidden><span class="lt">اسم العملة أو رمزها</span><input id="currencyCustom" placeholder="مثلًا: روبل"></label>
+  <div class="netnote">
+    <h3>العمل بدون إنترنت</h3>
+    <p style="margin:0">تحسب الحاسبة قسمة التركة كاملة بدون اتصال بشبكة الإنترنت. وفيها أقسام ترتبط بالشبكة، وتجد أمام كل منها علامة الشبكة <svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg>:</p>
+    <ul>
+      <li><svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg>حفظ ملف PDF للنتيجة.</li>
+      <li><svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg>إرسال المسائل الجديدة أو المبتلى بها وحفظها.</li>
+      <li><svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg>البحث عن جواب المسألة في الإنترنت ومواقع المراجع.</li>
+      <li><svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg>روابط المصادر في مقارنة أقوال المراجع.</li>
+    </ul>
   </div>
+  <footer>
+    الحساب للاستئناس والتعليم، والمرجع في التطبيق الحاكم الشرعي ومكتب المرجع الذي تقلّده.<br>
+    <svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg><span class="src" id="sources"></span>
+  </footer>
 </section>
-
-<!-- 2. التركة -->
-<section class="card">
-  <h2><span class="num">٢</span><span class="tt">التركة</span></h2>
-  <p class="hint">أدخل القيم بعملة واحدة. الزوجة لا ترث من الأرض، وترث من البناء والأشجار قيمتها، ولذلك فُصل غير المنقول إلى خانتين.</p>
-  <div class="sec" style="border:0;margin:0;padding:0">
-    <h3>المال المنقول</h3>
-    <div class="grid">
-      <label class="f"><span class="lt">مجموع المنقول (نقد، أثاث، سيارات، أسهم…)</span><input type="number" min="0" id="movable" value="0"></label>
-      <label class="f" id="habwaBox"><span class="lt">منه: قيمة أعيان الحبوة (ثيابه وخاتمه وسيفه ومصحفه)</span><input type="number" min="0" id="habwa" value="0"></label>
-    </div>
-  </div>
-  <div class="sec">
-    <h3>المال غير المنقول</h3>
-    <div class="grid">
-      <label class="f"><span class="lt">قيمة الأرض (أرض الدار والبستان والعقار)</span><input type="number" min="0" id="land" value="0"></label>
-      <label class="f"><span class="lt">قيمة البناء والأشجار والمنشآت</span><input type="number" min="0" id="buildings" value="0"></label>
-    </div>
-  </div>
-  <div class="sec">
-    <h3>الدية (إن قُتل المتوفى)</h3>
-    <div class="grid"><label class="f"><span class="lt">مبلغ الدية</span><input type="number" min="0" id="diya" value="0"></label></div>
-  </div>
-</section>
-
-<!-- 3. ما يخرج قبل القسمة -->
-<section class="card">
-  <h2><span class="num">٣</span><span class="tt">ما يُخرج قبل القسمة</span></h2>
-  <p class="hint">تُخرج من أصل التركة بالترتيب: التجهيز، ثم الديون والحقوق، ثم الوصية في حدود الثلث.</p>
-  <div class="grid">
-    <label class="f"><span class="lt">تجهيز الميت (الكفن والدفن الواجب)</span><input type="number" min="0" id="funeral" value="0"></label>
-    <label class="f"><span class="lt">ديون الناس</span><input type="number" min="0" id="debts" value="0"></label>
-    <label class="f"><span class="lt">مؤخّر الصداق (دين للزوجة)</span><input type="number" min="0" id="mahr" value="0"></label>
-    <label class="f"><span class="lt">الحقوق الشرعية (خمس، زكاة، حجة الإسلام)</span><input type="number" min="0" id="rights" value="0"></label>
-    <label class="f"><span class="lt">الوصية</span><input type="number" min="0" id="will" value="0"></label>
-    <label class="chk" id="willOkBox"><input type="checkbox" id="willOk"> أجاز الورثة ما زاد على الثلث</label>
-  </div>
-</section>
-
-<!-- 4. الورثة -->
-<section class="card">
-  <h2><span class="num">٤</span><span class="tt">الورثة</span></h2>
-  <p class="hint">أضف كل قريب حيّ عند الوفاة. خانتا «المتوفى بالنسبة له» و«الحاجب» تُحسبان تلقائيًا. خانتا العمر والأهلية تحددان القاصر والمحجور عليه، فيُسلَّم نصيبه لوليّه. وخانة «العدد» تغني عن تكرار الإضافة لمن تساووا في القرابة والجنس، وتُظهر النتيجة نصيب الواحد منهم. أدخل الابن الأكبر في سطر مستقل لأجل الحبوة.</p>
-  <div class="guide" id="guide">
-    <h3 style="margin:0 0 6px">بناء المسألة خطوة بخطوة</h3>
-    <p class="hint" style="margin-bottom:10px">كل خطوة تُفتح بعد الإجابة عمّا قبلها، ولا يُتاح من القرابات إلا ما له أصل في المسألة: الطبقة الأولى تحجب الثانية، والثانية تحجب الثالثة.</p>
-    <div class="grid">
-      <label class="f"><span class="lt">١. الزوجية</span><select id="gSpouse"></select></label>
-      <label class="f"><span class="lt">٢. الطبقة الأولى (الأبوان والأولاد وإن نزلوا)</span><select id="gL1"><option value="">— اختر —</option><option value="1">يوجد وارث منها</option><option value="0">لا يوجد</option></select></label>
-      <label class="f"><span class="lt">٣. الطبقة الثانية (الإخوة وأولادهم والأجداد)</span><select id="gL2"><option value="">— اختر —</option><option value="1">يوجد وارث منها</option><option value="0">لا يوجد</option></select></label>
-      <label class="f"><span class="lt">٤. الطبقة الثالثة (الأعمام والأخوال وأولادهم)</span><select id="gL3"><option value="">— اختر —</option><option value="1">يوجد وارث منها</option><option value="0">لا يوجد</option></select></label>
-    </div>
-    <p class="guide-msg" id="guideMsg" aria-live="polite"></p>
-  </div>
-  <div class="grid" style="margin-bottom:6px">
-    <label class="f" id="hajbFatherBox"><span class="lt">شرط حياة الأب في حجب الأم بالإخوة
-      </span><select id="hajbFather"><option value="1">١. بشرط وجود الأب حيًّا (ولو كان ممنوعًا من الإرث)</option><option value="0">٢. بلا شرط</option></select></label>
-  </div>
-  <div id="heirs"></div>
-  <div class="row-actions no-print">
-    <button class="btn btn-gold" id="addHeir">＋ إضافة وارث</button>
-    <button class="btn btn-ghost" id="example">مثال جاهز</button>
-    <button class="btn btn-ghost" id="clear">مسح الكل</button>
-  </div>
-</section>
-
-<div class="calcbar no-print"><button class="btn btn-gold btn-calc" id="calc">احسب القسمة</button></div>
-
-<!-- 5. النتيجة -->
-<section class="card" id="resultCard">
-  <h2><span class="num">٥</span><span class="tt">القسمة</span></h2>
-  <p id="staleNote" class="pill p-warn stale-note" hidden>عدّلت البيانات بعد الحساب. اضغط «احسب القسمة» لتحديث النتيجة.</p>
-  <div id="result" aria-live="polite"><p class="empty">أضف الورثة وأدخل التركة لتظهر القسمة.</p></div>
-  
-</section>
-
-<!-- 6. الخلافية -->
-<section class="card" id="khilafCard">
-  <h2><span class="num">٦</span><span class="tt">الخلافية بين المراجع</span></h2>
-  <p class="hint">تبيّن هل المسألة متفق عليها أم خلافية بين السيد علي السيستاني والسيد صادق الشيرازي والشيخ حسين الوحيد الخراساني، مع عبارة كل منهم ومصدرها.</p>
-  <div class="tabs no-print" role="tablist">
-    <button class="tab" role="tab" aria-controls="khilaf" aria-selected="true" data-tab="case">مسائل هذه التركة</button>
-    <button class="tab" role="tab" aria-controls="khilaf" aria-selected="false" data-tab="all">كل المسائل</button>
-    <button class="tab" role="tab" aria-controls="khilaf" aria-selected="false" data-tab="diff">الخلافية فقط</button>
-  </div>
-  <p class="marja-note" id="marjaNote"></p>
-  <div id="khilaf" class="khilaf" role="tabpanel"></div>
-</section>
-
-<footer>
-  الحساب للاستئناس والتعليم، والمرجع في التطبيق الحاكم الشرعي ومكتب المرجع الذي تقلّده.<br>
-  <span class="src" id="sources"></span>
-</footer>
 </div>
 
 <script>
@@ -423,7 +648,7 @@ label.f{min-width:0}
       const k = REL[h.rel].kind;
       if (h.status === 'ميت') { out.status[h.id] = 'متوفى'; out.reason[h.id] = 'متوفى قبل المورّث فلا يرث'; return; }
       // الزوج يجب أن يكون من الجنس المقابل
-      if (k === 'spouse' && h.gender === deceasedG) { out.status[h.id] = 'خطأ'; out.reason[h.id] = 'جنس الزوج لا يناسب جنس المتوفى'; return; }
+      if (k === 'spouse' && h.gender === deceasedG) { out.status[h.id] = 'خطأ'; out.reason[h.id] = 'جنس الزوج لا يناسب جنس المتوفى (إلى رحمة الله)'; return; }
       if (k === 'spouse' && h.gender === 'm' && ++husbands > 1) { out.status[h.id] = 'خطأ'; out.reason[h.id] = 'لا يكون للمرأة إلا زوج واحد'; return; }
       if (k === 'parent') { if (seenParent[h.gender]) { out.status[h.id] = 'خطأ'; out.reason[h.id] = h.gender === 'm' ? 'أُدخل الأب أكثر من مرة' : 'أُدخلت الأم أكثر من مرة'; return; } seenParent[h.gender] = 1; }
       // المتوفى اثنا عشري: لا يرثه الكافر مطلقًا (م957)
@@ -799,76 +1024,156 @@ const REL_NAME = {'زوج':'زوج / زوجة','والد':'أب / أم','ولد'
  'عم أبويني':'عم / عمة (شقيق الأب)','عم لأب':'عم / عمة (أخو الأب لأبيه)','عم لأم':'عم / عمة (أخو الأب لأمه)','خال':'خال / خالة',
  'ولد عم أبويني':'ولد العم الشقيق','ولد عمة أبوينية':'ولد العمة الشقيقة','ولد عم لأب':'ولد العم لأب','ولد عمة لأب':'ولد العمة لأب','ولد عم لأم':'ولد العم لأم','ولد عمة لأم':'ولد العمة لأم','ولد خال':'ولد الخال','ولد خالة':'ولد الخالة'};
 const NEEDS_VIA = r => ['gchild','neph','cous'].includes((I.REL[r]||{}).kind);
-// ---------- البناء المتسلسل للمسألة: لا تُفتح خانة إلا بعد ما هي شرط لوجودها ----------
-let G = {spouse:'', l1:'', l2:'', l3:''};
+// ---------- البناء المتسلسل للمسألة: لا يُسأل عن شيء إلا بعد ما هو شرط لوجوده ----------
+let A = {};   // إجابات الأسئلة
 const LAYER_OF = {}; REL_GROUPS.forEach(([, rs], L) => rs.forEach(r => LAYER_OF[r] = L));   // 0 الزوجية، 1-3 الطبقات
-const HAJIB_SIBS = ['أخ شقيق','أخ لأب'];   // الإخوة لأب يحجبون الأم عن الثلث مع وجود الطبقة الأولى ولا يرثون
 const ORD = ['','الأولى','الثانية','الثالثة'];
-// الطبقة الوارثة: 1-3، أو 0 إن لم يوجد وارث نسبي، أو null ما لم تُحدَّد بعد
-function layer(){
-  if (G.l1==='1') return 1;
-  if (G.l1==='0' && G.l2==='1') return 2;
-  if (G.l1==='0' && G.l2==='0' && G.l3==='1') return 3;
-  if (G.l1==='0' && G.l2==='0' && G.l3==='0') return 0;
-  return null;
+const YN = [['1','نعم، يوجد'],['0','لا يوجد']];
+const yes = k => A[k]==='1', no = k => A[k]==='0';
+const L1_KEYS = ['kids','gkids'], L2_KEYS = ['fsib','psib','msib','fneph','pneph','mneph','gp'], L3_KEYS = ['uncF','uncP','uncM','khal','cousEx','fcous','pcous','mcous','kcous'];
+const noL1 = () => no('kids') && no('gkids') && A.parents==='0';
+const noL2 = () => noL1() && L2_KEYS.every(k => !qVisible(k) || no(k));
+const noSibs = () => no('fsib') && (no('psib')) && no('msib');
+const noUncles = () => no('uncF') && no('uncP') && no('uncM') && no('khal') && !yes('cousEx');
+const Q = [
+  {id:'spouse', t:'الزوجية القائمة عند الوفاة', o:()=>$('#dGender').value==='m' ? [['1','ترك زوجة أو أكثر'],['0','لا زوجة له']] : [['1','تركت زوجًا'],['0','لا زوج لها']]},
+  // الطبقة الأولى
+  {id:'kids', t:'أولاد المتوفى <span class="rh">(إلى رحمة الله)</span> للصلب (ابن أو بنت)'},
+  {id:'gkids', t:'أولاد الأولاد وإن نزلوا (لا يرثون مع الولد للصلب)', show:()=>no('kids')},
+  {id:'parents', t:'الأبوان الحيّان', o:()=>[['b','الأب والأم'],['m','الأب وحده'],['f','الأم وحدها'],['0','لا يوجد أحدهما']]},
+  {id:'hsibs', t:'إخوة من جهة الأب (يحجبون الأم عن الثلث ولا يرثون)', show:()=>!noL1() && ['b','f'].includes(A.parents)},
+  // الطبقة الثانية: عند انعدام الأولى
+  {id:'fsib', t:'إخوة أو أخوات أشقاء', show:noL1},
+  {id:'psib', t:'إخوة أو أخوات لأب (يحجبهم الأشقاء)', show:()=>noL1() && no('fsib')},
+  {id:'msib', t:'إخوة أو أخوات لأم', show:noL1},
+  {id:'fneph', t:'أولاد الإخوة الأشقاء (لا يرثون مع أخ أو أخت)', show:()=>noL1() && noSibs()},
+  {id:'pneph', t:'أولاد الإخوة لأب (يحجبهم أولاد الأشقاء)', show:()=>noL1() && noSibs() && no('fneph')},
+  {id:'mneph', t:'أولاد الإخوة لأم', show:()=>noL1() && noSibs()},
+  {id:'gp', t:'الأجداد والجدات (يشاركون الإخوة وأولادهم)', show:noL1},
+  // الطبقة الثالثة: عند انعدام الثانية
+  {id:'uncF', t:'أعمام أو عمات أشقاء للأب', show:noL2},
+  {id:'uncP', t:'أعمام أو عمات لأب (يحجبهم الأشقاء)', show:()=>noL2() && no('uncF')},
+  {id:'uncM', t:'أعمام أو عمات لأم', show:noL2},
+  {id:'khal', t:'أخوال أو خالات', show:noL2},
+  {id:'cousEx', t:'ابن عم شقيق (يحجب العم لأب: المسألة الإجماعية)', show:()=>noL2() && yes('uncP') && no('uncM') && no('khal')},
+  {id:'fcous', t:'أولاد الأعمام والعمات الأشقاء (لا يرثون مع عم أو خال)', show:()=>noL2() && noUncles()},
+  {id:'pcous', t:'أولاد الأعمام والعمات لأب (يحجبهم أولاد الأشقاء)', show:()=>noL2() && noUncles() && no('fcous')},
+  {id:'mcous', t:'أولاد الأعمام والعمات لأم', show:()=>noL2() && noUncles()},
+  {id:'kcous', t:'أولاد الأخوال والخالات', show:()=>noL2() && noUncles()},
+];
+// يظهر السؤال إذا تحقق شرطه وأُجيب كل ما ظهر قبله
+let VIS = new Set();
+function computeVisible(){
+  VIS = new Set();
+  for (const q of Q){
+    if (q.show && !q.show()) { delete A[q.id]; continue; }
+    VIS.add(q.id);
+    if (!A[q.id]) break;
+  }
+  Q.forEach(q => { if (!VIS.has(q.id)) delete A[q.id]; });
 }
-const hasMother = () => heirs.some(h => h.rel==='والد' && h.gender==='f');
+const qVisible = k => VIS.has(k);
+// الطبقة الوارثة: 1-3، أو 0 إن لم يوجد وارث نسبي، أو null ما لم تكتمل الإجابات
+function layer(){
+  if (!A.spouse) return null;
+  if (yes('kids') || yes('gkids') || ['b','m','f'].includes(A.parents)) return 1;
+  if (!noL1()) return null;
+  if (L2_KEYS.some(yes)) return 2;
+  if (!noL2()) return null;
+  if (L3_KEYS.some(yes)) return 3;
+  return L3_KEYS.every(k => !qVisible(k) || no(k)) && qVisible('kcous') ? 0 : null;
+}
+const ANS = {'ولد':'kids','ولد ابن':'gkids','ولد بنت':'gkids','أخ لأم':'msib','جد لأب':'gp','جد لأم':'gp',
+  'ولد أخ شقيق':'fneph','ولد أخت شقيقة':'fneph','ولد أخ لأب':'pneph','ولد أخت لأب':'pneph','ولد أخ لأم':'mneph','ولد أخت لأم':'mneph',
+  'عم أبويني':'uncF','عم لأب':'uncP','عم لأم':'uncM','خال':'khal',
+  'ولد عم أبويني':'fcous','ولد عمة أبوينية':'fcous','ولد عم لأب':'pcous','ولد عمة لأب':'pcous','ولد عم لأم':'mcous','ولد عمة لأم':'mcous','ولد خال':'kcous','ولد خالة':'kcous'};
 function relAllowed(r, gnd){
-  const L = LAYER_OF[r], ly = layer();
-  if (G.spouse==='') return false;
-  if (L===0) return G.spouse==='1' && gnd === ($('#dGender').value==='m' ? 'f' : 'm');
-  if (ly === L) return true;
-  return ly===1 && L===2 && HAJIB_SIBS.includes(r) && hasMother();
+  if (!A.spouse) return false;
+  if (r==='زوج') return A.spouse==='1' && gnd === ($('#dGender').value==='m' ? 'f' : 'm');
+  if (r==='والد') return A.parents==='b' || A.parents===gnd;
+  if (r==='أخ شقيق') return yes('fsib') || yes('hsibs');
+  if (r==='أخ لأب') return yes('psib') || yes('hsibs');
+  if (r==='ولد عم أبويني' && gnd==='m' && yes('cousEx')) return true;
+  return yes(ANS[r]);
 }
 function groupNote(L){
   const ly = layer();
-  if (G.spouse==='') return ' — ابدأ بخطوة الزوجية';
-  if (L===0) return G.spouse==='1' ? '' : ' — لا زوجية';
-  if (ly===null) return ' — حدّد الطبقات أولًا';
+  if (!A.spouse) return ' — ابدأ بسؤال الزوجية';
+  if (L===0) return A.spouse==='1' ? '' : ' — لا زوجية';
+  if (ly===null) return ' — أكمل الأسئلة أعلاه';
   if (ly===L) return '';
-  if (ly===1 && L===2) return hasMother() ? ' — الإخوة لأب لحجب الأم فقط' : ' — محجوبة بالطبقة الأولى';
+  if (ly===1 && L===2) return yes('hsibs') ? ' — الإخوة لحجب الأم فقط' : ' — محجوبة بالطبقة الأولى';
   if (ly && L>ly) return ' — محجوبة بالطبقة '+ORD[ly];
   return ' — لا يوجد منها';
 }
-function firstAllowed(){
-  for (const L of [1,2,3,0]) for (const r of REL_GROUPS[L][1]) for (const g of ['m','f']) if (relAllowed(r,g)) return {rel:r, gender:g};
-  return null;
+// قائمة القرابات المتاحة بحسب الإجابات
+function allowedList(){
+  const out = [];
+  for (const L of [0,1,2,3]) for (const r of REL_GROUPS[L][1]) for (const g of ['m','f']) if (relAllowed(r,g)) out.push({rel:r, gender:g});
+  return out;
+}
+function firstAllowed(){ const a = allowedList(); return a.find(x=>x.rel!=='زوج') || a[0] || null; }
+function renderQs(){
+  const dg = $('#dGender').value, box = $('#gQs');
+  const shown = Q.filter(q => VIS.has(q.id));
+  const sig = dg + '|' + shown.map(q=>q.id).join(',');
+  if (box.dataset.sig !== sig){
+    box.dataset.sig = sig;
+    box.innerHTML = shown.map((q,i)=>`<label class="f"><span class="lt">${(i+1).toLocaleString('ar-EG')}. ${q.t}</span><select data-q="${q.id}"><option value="">— اختر —</option>${(q.o?q.o():YN).map(([v,t])=>opt(v,t,A[q.id]||'')).join('')}</select></label>`).join('');
+  }
+  box.querySelectorAll('[data-q]').forEach(s => { s.value = A[s.dataset.q] || ''; });
 }
 function syncGuide(){
-  const dg = $('#dGender').value, sp = $('#gSpouse');
-  const spOpts = '<option value="">— اختر —</option>' + (dg==='m'
-    ? '<option value="1">ترك زوجة أو أكثر</option><option value="0">لا زوجة له</option>'
-    : '<option value="1">تركت زوجًا</option><option value="0">لا زوج لها</option>');
-  if (sp.dataset.g !== dg){ sp.innerHTML = spOpts; sp.dataset.g = dg; }
-  G.spouse = sp.value;
-  const chain = [['gL1','l1', G.spouse===''], ['gL2','l2', null], ['gL3','l3', null]];
-  let off = G.spouse==='';
-  chain.forEach(([id,k]) => {
-    const el = $('#'+id);
-    el.disabled = off; el.closest('label').classList.toggle('off', off);
-    if (off) el.value = '';
-    G[k] = el.value;
-    off = off || G[k] !== '0';   // الطبقة التالية لا محل لها إلا عند انعدام السابقة
-  });
-  const ly = layer();
-  $('#addHeir').disabled = !firstAllowed();
+  computeVisible(); renderQs();
+  const dg = $('#dGender').value, ly = layer(), allowed = allowedList();
+  $('#addHeir').disabled = !allowed.length;
   let msg;
-  if (G.spouse==='') msg = 'ابدأ بالخطوة الأولى: هل للمتوفى زوجية قائمة عند الوفاة؟';
-  else if (ly===null) msg = 'أجب عن الطبقة التالية لتُفتح قرابات الورثة.';
-  else if (ly===0) msg = G.spouse==='1'
+  if (!A.spouse) msg = 'ابدأ بالسؤال الأول: هل للمتوفى زوجية قائمة عند الوفاة؟';
+  else if (ly===null) msg = 'أجب عن السؤال التالي لتتحدد الطبقة الوارثة.';
+  else if (ly===0) msg = A.spouse==='1'
     ? 'لا وارث بالقرابة: يُضاف الزوج/الزوجة فقط، ويُرجع في الباقي إلى أحكام الولاء (المعتِق، ثم ضامن الجريرة، ثم الإمام عليه السلام).'
     : 'لا وارث بالقرابة ولا زوجية: الإرث بالولاء (المعتِق، ثم ضامن الجريرة، ثم الإمام عليه السلام)، ويُرجع فيه إلى الحاكم الشرعي.';
   else {
-    msg = '<b>المتاح:</b> '+(G.spouse==='1' ? (dg==='m'?'الزوجة، و':'الزوج، و') : '')+'قرابات الطبقة '+ORD[ly]+'.';
-    if (ly===1) msg += ' ويُتاح الإخوة لأب بعد إضافة الأم، لأنهم يحجبونها عن الثلث ولا يرثون.';
-    if (!heirs.some(h => LAYER_OF[h.rel]===ly)) msg += ' <b>لم تُضف بعدُ وارثًا من هذه الطبقة.</b>';
+    const names = allowed.map(x => I.REL[x.rel].label[x.gender==='f'?1:0]);
+    msg = `<b>الطبقة الوارثة: ${ORD[ly]}.</b> المتاح في قائمة القرابة: ${esc(names.join('، '))}.`;
+    const missing = missingHeirs();
+    if (missing.length) msg += ` <b>لم تُضف بعد:</b> ${esc(missing.map(m=>m.label).join('، '))}.`;
   }
   $('#guideMsg').innerHTML = msg;
+  $('#fillHeirs').disabled = !(ly!==null && missingHeirs().length);
   // خانات عامة تتوقف على غيرها
   const son = heirs.some(h => h.rel==='ولد' && h.gender==='m');
   setOff('#habwa', !(dg==='m' && son));                 // الحبوة للولد الأكبر من تركة الأب
   setOff('#willOk', !(Number($('#will').value) > 0));    // لا إجازة بلا وصية
-  setOff('#hajbFather', !(hasMother() && heirs.some(h => HAJIB_SIBS.includes(h.rel))));
+  setOff('#hajbFather', !yes('hsibs'));
+}
+// فئات أُجيب بوجودها ولم يُضف منها وارث: [{label, make}]
+function missingHeirs(){
+  const has = rs => heirs.some(h => rs.includes(h.rel));
+  const out = [], add = (cond, rs, rel, gender, label) => { if (cond && !has(rs)) out.push({label, rel, gender}); };
+  add(A.spouse==='1', ['زوج'], 'زوج', $('#dGender').value==='m'?'f':'m', $('#dGender').value==='m'?'الزوجة':'الزوج');
+  add(yes('kids'), ['ولد'], 'ولد', 'm', 'الأولاد');
+  add(yes('gkids'), ['ولد ابن','ولد بنت'], 'ولد ابن', 'm', 'أولاد الأولاد');
+  if (['b','m'].includes(A.parents) && !heirs.some(h=>h.rel==='والد'&&h.gender==='m')) out.push({label:'الأب', rel:'والد', gender:'m'});
+  if (['b','f'].includes(A.parents) && !heirs.some(h=>h.rel==='والد'&&h.gender==='f')) out.push({label:'الأم', rel:'والد', gender:'f'});
+  add(yes('hsibs'), ['أخ شقيق','أخ لأب'], 'أخ شقيق', 'm', 'الإخوة الحاجبين');
+  add(yes('fsib'), ['أخ شقيق'], 'أخ شقيق', 'm', 'الإخوة الأشقاء');
+  add(yes('psib'), ['أخ لأب'], 'أخ لأب', 'm', 'الإخوة لأب');
+  add(yes('msib'), ['أخ لأم'], 'أخ لأم', 'm', 'الإخوة لأم');
+  add(yes('fneph'), ['ولد أخ شقيق','ولد أخت شقيقة'], 'ولد أخ شقيق', 'm', 'أولاد الإخوة الأشقاء');
+  add(yes('pneph'), ['ولد أخ لأب','ولد أخت لأب'], 'ولد أخ لأب', 'm', 'أولاد الإخوة لأب');
+  add(yes('mneph'), ['ولد أخ لأم','ولد أخت لأم'], 'ولد أخ لأم', 'm', 'أولاد الإخوة لأم');
+  add(yes('gp'), ['جد لأب','جد لأم'], 'جد لأب', 'm', 'الأجداد');
+  add(yes('uncF'), ['عم أبويني'], 'عم أبويني', 'm', 'الأعمام الأشقاء');
+  add(yes('uncP'), ['عم لأب'], 'عم لأب', 'm', 'الأعمام لأب');
+  add(yes('uncM'), ['عم لأم'], 'عم لأم', 'm', 'الأعمام لأم');
+  add(yes('khal'), ['خال'], 'خال', 'm', 'الأخوال');
+  add(yes('cousEx'), ['ولد عم أبويني'], 'ولد عم أبويني', 'm', 'ابن العم الشقيق');
+  add(yes('fcous'), ['ولد عم أبويني','ولد عمة أبوينية'], 'ولد عم أبويني', 'm', 'أولاد الأعمام الأشقاء');
+  add(yes('pcous'), ['ولد عم لأب','ولد عمة لأب'], 'ولد عم لأب', 'm', 'أولاد الأعمام لأب');
+  add(yes('mcous'), ['ولد عم لأم','ولد عمة لأم'], 'ولد عم لأم', 'm', 'أولاد الأعمام لأم');
+  add(yes('kcous'), ['ولد خال','ولد خالة'], 'ولد خال', 'm', 'أولاد الأخوال');
+  return out;
 }
 function setOff(sel, off){ const el = $(sel); el.disabled = off; el.closest('label').classList.toggle('off', off); if (off && el.type==='checkbox') el.checked = false; }
 const CAP = ['عاقل رشيد','مجنون','خرِف (مختل الإدراك)','مصروع (صرع يذهب بالعقل)','سفيه (لا يحسن التصرف بالمال)','معتوه'];
@@ -891,28 +1196,38 @@ function relSelect(h){
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
+const ICO_P = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>';
+const ICO_PEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>';
+let openIds = new Set();
+const heirLabel = h => I.REL[h.rel].label[h.gender==='f'?1:0];
 function renderHeirs(){
   const box = $('#heirs');
-  if (!heirs.length){ box.innerHTML = '<p class="empty">لم يُضف وارث بعد.</p>'; return; }
+  if (!heirs.length){ box.innerHTML = '<div class="panel" style="text-align:center;border-style:dashed"><b style="font-size:17px">لم يُضف وارث بعد</b><span class="hint" style="margin:0">أجب عن أسئلة القرابة، ثم أضف الورثة.</span></div>'; return; }
   box.innerHTML = heirs.map((h,i)=>`
-  <div class="heir" data-id="${h.id}">
-    <div class="heir-top"><span class="heir-title">الوارث ${i+1}${h.name?' — '+esc(h.name):''}</span>
-      <button class="btn btn-del no-print" data-del="${h.id}" aria-label="حذف الوارث ${i+1}${h.name?' '+esc(h.name):''}">حذف</button></div>
+  <div class="heir${openIds.has(h.id)?' open':''}" data-id="${h.id}">
+    <div class="heir-sum">
+      <span class="heir-ico">${ICO_P}</span>
+      <span class="heir-main"><b data-auto="sumT"></b><small data-auto="sumS"></small></span>
+      <button class="linkbtn no-print" type="button" data-toggle="${h.id}" aria-expanded="${openIds.has(h.id)}">${ICO_PEN}<span>${openIds.has(h.id)?'إغلاق':'تعديل'}</span></button>
+    </div>
+    <div class="gwarn" data-auto="gwarn"></div>
+    <div class="status" data-auto="status"></div>
+    <div class="heir-body">
     <div class="grid">
       <label class="f"><span class="lt">الاسم</span><input data-k="name" value="${esc(h.name)}" placeholder="اختياري"></label>
       <label class="f"><span class="lt">القرابة للمتوفى (الوارث هو…)</span><select data-k="relg">${relSelect(h)}</select></label>
       <label class="f"><span class="lt">الجنس</span><div class="auto" data-auto="gender"></div></label>
       <label class="f" data-countbox style="${maxCount(h)>1?'':'display:none'}"><span class="lt">العدد (من هذه القرابة)</span><select data-k="count">${countOpts(h)}</select></label>
-      <label class="f"><span class="lt">المتوفى بالنسبة له</span><div class="auto" data-auto="rev"></div></label>
+      <label class="f"><span class="lt">المتوفى <span class="rh">(إلى رحمة الله)</span> بالنسبة له</span><div class="auto" data-auto="rev"></div></label>
       <label class="f"><span class="lt">العمر (بالسنة الهجرية)</span><input type="number" min="0" data-k="age" value="${esc(h.age)}" placeholder="مثلًا 12"></label>
       <label class="f"><span class="lt">الأهلية</span><select data-k="cap">${CAP.map(c=>opt(c,c,h.cap)).join('')}</select></label>
       <label class="f"><span class="lt">الحالة عند الوفاة</span><select data-k="status">${opt('حي','حيّ مولود',h.status)}${opt('حمل','حمل (جنين)',h.status)}${opt('ميت','ميت قبل المورّث',h.status)}</select></label>
       <label class="f"><span class="lt">مانع من الإرث</span><select data-k="imp">${IMPS.map(([v,t])=>opt(v,t,h.imp)).join('')}</select></label>
-      <label class="f" data-via style="${NEEDS_VIA(h.rel)?'':'display:none'}"><span class="lt">يتقرّب عن طريق (اسم الأصل المتوفى)</span><input data-k="via" value="${esc(h.via)}" placeholder="مثلًا: علي"></label>
+      <label class="f" data-via style="${NEEDS_VIA(h.rel)?'':'display:none'}"><span class="lt">يتقرّب عن طريق (اسم الأصل المتوفى <span class="rh">(إلى رحمة الله)</span>)</span><input data-k="via" value="${esc(h.via)}" placeholder="مثلًا: علي"></label>
     </div>
-    <div class="gwarn" data-auto="gwarn"></div>
-    <div class="status" data-auto="status"></div>
     <div class="hajib" data-auto="hajib"></div>
+    <div class="heir-tools"><button class="btn btn-del no-print" type="button" data-del="${h.id}" aria-label="حذف الوارث ${i+1}${h.name?' '+esc(h.name):''}">حذف الوارث</button></div>
+    </div>
   </div>`).join('');
 }
 
@@ -957,7 +1272,7 @@ function legalFlags(h){
 
 // تحديث حيّ للخانات التلقائية فقط (لا حساب)
 function refresh(){
-  syncGuide();
+  syncGuide(); syncShell();
   const dg = $('#dGender').value;
   heirs.forEach(h=>{
     const el = document.querySelector(`.heir[data-id="${h.id}"]`); if(!el) return;
@@ -970,6 +1285,8 @@ function refresh(){
     [['age', dead||fetus||barred], ['cap', dead||fetus||barred], ['imp', dead]].forEach(([k,off])=>{
       const f = el.querySelector(`[data-k=${k}]`); f.disabled = off; f.closest('label').classList.toggle('off', off);
     });
+    el.querySelector('[data-auto=sumT]').textContent = h.name || heirLabel(h);
+    el.querySelector('[data-auto=sumS]').textContent = (h.name ? heirLabel(h) + ' · ' : '') + 'العدد ' + cnt(h).toLocaleString('ar-EG');
     el.querySelector('[data-auto=rev]').textContent = I.reverseLabel(h, dg) || '—';
     el.querySelector('[data-auto=gender]').textContent = h.gender==='f' ? 'أنثى' : 'ذكر';
     el.querySelector('[data-via]').style.display = NEEDS_VIA(h.rel) ? '' : 'none';
@@ -979,23 +1296,28 @@ function refresh(){
   });
 }
 let last = null, stale = false;
+function syncPdf(){
+  const ok = !!last && !stale;
+  $('#pdfBtn').disabled = !ok;
+  if (!pdfBusy) $('#pdfMsg').textContent = ok ? 'يحفظ النتيجة المعتمدة في ملف PDF بتاريخ الحساب.' : (last ? 'عدّلت البيانات: اضغط «احسب القسمة» أولًا.' : 'يُتاح بعد «احسب القسمة».');
+}
 function markStale(){
   if (!last || stale) return;
-  stale = true;
+  stale = true; syncPdf();
   $('#staleNote').hidden = false; $('#result').classList.add('is-stale');
   document.querySelectorAll('[data-auto=status],[data-auto=hajib]').forEach(e=>e.classList.add('is-stale'));
 }
 function calculate(){
   refresh();
   compute();
-  stale = false; $('#staleNote').hidden = true; $('#result').classList.remove('is-stale');
+  stale = false; $('#staleNote').hidden = true; $('#result').classList.remove('is-stale'); syncPdf();
   $('#resultCard').scrollIntoView({behavior:'smooth', block:'start'});
 }
 function compute(){
   const inp = readInputs();
   const est = I.computeEstate(inp);
   const sh = est.shareInfo;
-  last = window.__last = { inp, est };
+  last = window.__last = { inp, est, at: new Date() };
   heirs.forEach(h=>{
     const el = document.querySelector(`.heir[data-id="${h.id}"]`); if(!el) return;
     el.querySelectorAll('.is-stale').forEach(e=>e.classList.remove('is-stale'));
@@ -1094,7 +1416,7 @@ function syncMarja(){
   const M = window.MARAJI, me = M && M.maraji.find(m=>m.key===marja());
   $('#marjaNote').innerHTML = me
     ? `المعتمد: فتاوى <b>${esc(me.name)}</b>. يبيّن المربع الجانبي هل المسألة متفق عليها أم خلافية بين المراجع، وأقوال الباقين مطويّة تحت كل مسألة.`
-    : 'تُعرض أقوال المراجع جميعًا للمقارنة. اختر مرجع المتوفى في القسم الأول لتُعتمد فتاواه وحدها.';
+    : 'تُعرض أقوال المراجع جميعًا للمقارنة. اختر مرجع المتوفى <span class="rh">(إلى رحمة الله)</span> في القسم الأول لتُعتمد فتاواه وحدها.';
 }
 function renderKhilaf(inp, est){
   syncMarja();
@@ -1106,7 +1428,7 @@ function renderKhilaf(inp, est){
   if (!list.length){ box.innerHTML = `<p class="empty">${tab==='case'?'لا توجد في هذه التركة مسألة من مسائل المقارنة. اختر «كل المسائل» لعرضها جميعًا.':'لا توجد مسائل.'}</p>`; return; }
   const vClass = v => v==='متفق' ? 'p-ok' : v==='خلافي' ? 'p-bad' : 'p-warn';
   const mk = marja(), me = M.maraji.find(m=>m.key===mk);
-  const view = (x, m) => { const o = x.views[m.key]||{}; return `<div class="mj"><div class="who">${esc(m.name)}${o.type?`<span class="typ">${esc(o.type)}</span>`:''}</div>${esc(o.ruling||'لم يُعثر على نص')}${o.masala?` <small>(${/^[0-9٠-٩]/.test(o.masala)?'م':''}${esc(o.masala)})</small>`:''}${o.url?`<br><a href="${esc(o.url)}" target="_blank" rel="noopener">المصدر</a>`:''}</div>`; };
+  const view = (x, m) => { const o = x.views[m.key]||{}; return `<div class="mj"><div class="who">${esc(m.name)}${o.type?`<span class="typ">${esc(o.type)}</span>`:''}</div>${esc(o.ruling||'لم يُعثر على نص')}${o.masala?` <small>(${/^[0-9٠-٩]/.test(o.masala)?'م':''}${esc(o.masala)})</small>`:''}${o.url?`<br><a href="${esc(o.url)}" target="_blank" rel="noopener"><svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg>المصدر</a>`:''}</div>`; };
   const vText = v => v==='متفق' ? 'متفق عليها بين المراجع المذكورين' : v==='خلافي' ? 'مسألة خلافية بين المراجع المذكورين' : v;
   box.innerHTML = list.map(x=>{
     if (!me) return `
@@ -1136,13 +1458,14 @@ function renderKhilaf(inp, est){
 
 // ---------- الأحداث ----------
 document.addEventListener('input', e=>{
+  if (e.target.closest('#view-must')) return;
+  if (e.target.dataset.q){ A[e.target.dataset.q] = e.target.value; }
   if (e.target.id === 'marja'){ renderKhilaf(last ? last.inp : null, last ? last.est : null); return; }
   const card = e.target.closest('.heir');
   if (card && e.target.dataset.k){
     const h = heirs.find(x=>x.id===card.dataset.id);
     if (e.target.dataset.k==='relg'){ const [r,g] = e.target.value.split('|'); h.rel = r; h.gender = g; }
     else h[e.target.dataset.k] = e.target.value;
-    if (e.target.dataset.k==='name'){ card.querySelector('.heir-title').textContent = 'الوارث '+(heirs.indexOf(h)+1)+(h.name?' — '+h.name:''); }
   }
   refresh(); markStale();
 });
@@ -1154,19 +1477,251 @@ document.addEventListener('click', e=>{
   if (t){ tab = t.dataset.tab; document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected', b===t)); renderKhilaf(last ? last.inp : null, last ? last.est : null); }
 });
 $('#calc').onclick = calculate;
+// ---------- الواجهة: الأقسام والخطوات ----------
+let step = 1;
+const STEPS = 4, AR = n => n.toLocaleString('ar-EG');
+function showView(v){
+  document.querySelectorAll('.view-tab').forEach(t => t.setAttribute('aria-selected', t.dataset.view===v));
+  document.querySelectorAll('.view').forEach(x => x.hidden = x.id !== 'view-'+v);
+  window.scrollTo({top:0});
+}
+function goStep(n){
+  step = Math.max(1, Math.min(STEPS, n));
+  document.querySelectorAll('.step').forEach(x => x.hidden = Number(x.dataset.step) !== step);
+  document.querySelectorAll('#stepper li').forEach((li,i) => { li.classList.toggle('cur', i+1===step); li.classList.toggle('done', i+1<step); });
+  document.querySelectorAll('#stepper button').forEach((b,i) => b.setAttribute('aria-current', i+1===step ? 'step' : 'false'));
+  $('#prevStep').hidden = step===1; $('.stepnav').classList.toggle('first', step===1);
+  $('#nextStep').hidden = step===STEPS; $('#calc').hidden = step!==STEPS;
+  $('#nextStep').textContent = step===STEPS-1 ? 'مراجعة البيانات ←' : 'التالي ←';
+  $('#stepCount').textContent = 'الخطوة ' + AR(step) + ' من ' + AR(STEPS);
+  if (step===STEPS) renderReview();
+  showView('calc');
+}
+function syncShell(){
+  const g = $('#dGender').value;
+  document.querySelectorAll('.seg [data-g]').forEach(b => b.setAttribute('aria-checked', b.dataset.g===g));
+  const c = cur();
+  document.querySelectorAll('.cur-suf').forEach(x => x.innerHTML = c);
+  const n = id => Number($('#'+id).value) || 0;
+  $('#assetsTotal').innerHTML = money(n('movable') + n('land') + n('buildings'));
+  if (step===STEPS) renderReview();
+}
+function renderReview(){
+  const inp = readInputs(), dg = inp.deceasedGender, mj = $('#marja').selectedOptions[0];
+  const cname = curInfo()[0]==='OTHER' ? ($('#currencyCustom').value.trim()||'غير محددة') : curInfo()[1];
+  const row = (k, v, cls) => `<div${cls?` class="${cls}"`:''}><dt>${k}</dt><dd>${v}</dd></div>`;
+  const card = (title, ico, go, body) => `<div class="rv"><div class="rv-head"><h3><span class="heir-ico">${ico}</span>${title}</h3><button class="linkbtn" type="button" data-go="${go}">${ICO_PEN}<span>تعديل</span></button></div>${body}</div>`;
+  const ICO_COIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>';
+  const ICO_FAM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M2.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5M14 14.6c.8-.4 1.6-.6 2.5-.6 2.8 0 5 2 5 5"/></svg>';
+  const assets = [['المال المنقول', inp.movable], ['الأرض', inp.land], ['البناء والأشجار والمنشآت', inp.buildings], ['منه: الحبوة', inp.habwaValue], ['الدية', inp.diya]];
+  const dues = [['تجهيز الميت', inp.funeral], ['ديون الناس', inp.debts], ['مؤخّر الصداق', inp.mahr], ['الحقوق الشرعية', inp.rights], ['الوصية', inp.will]].filter(x=>x[1]>0);
+  const heirsList = heirs.length ? `<dl>${heirs.map(h => row(esc(h.name || heirLabel(h)), (h.name ? heirLabel(h) + ' · ' : '') + 'العدد ' + AR(cnt(h)))).join('')}</dl>` : '<p class="empty">لم يُضف وارث بعد.</p>';
+  $('#review').innerHTML =
+    card('بيانات المتوفى <span class="rh">(إلى رحمة الله)</span>', ICO_P, 1, `<dl>${row('معدّ البيانات', esc($('#preparer').value.trim() || '—'))}${row('الاسم', esc($('#dName').value.trim() || 'لم يُحدَّد'))}${row('الجنس', dg==='f'?'أنثى':'ذكر')}${row('مرجع التقليد', marja() && mj ? esc(mj.textContent) : 'لم يُحدَّد')}${row('العملة', esc(cname))}</dl>`) +
+    card('التركة والالتزامات', ICO_COIN, 2, `<dl>${assets.filter(x=>x[1]>0 || x[0]==='المال المنقول').map(([k,v])=>row(k, money(v))).join('')}${row('مجموع الأصول الأساسية', money(inp.movable+inp.land+inp.buildings), 'tot')}${dues.map(([k,v])=>row('يُخرج: '+k, money(v))).join('')}</dl>`) +
+    card('الورثة المدخلون', ICO_FAM, 3, heirsList) +
+    `<button class="rv-link no-print" type="button" id="toKhilaf"><span>المسائل المتعلقة بالحالة</span><span aria-hidden="true">‹</span></button>`;
+}
+document.addEventListener('click', e => {
+  const v = e.target.closest('.view-tab'); if (v) showView(v.dataset.view);
+  const g = e.target.closest('[data-go]'); if (g) goStep(Number(g.dataset.go));
+  const sg = e.target.closest('.seg [data-g]');
+  if (sg){ $('#dGender').value = sg.dataset.g; $('#dGender').dispatchEvent(new Event('input', {bubbles:true})); }
+  const sb = e.target.closest('.subtabs [data-sub]');
+  if (sb){ document.querySelectorAll('.subtabs [data-sub]').forEach(b => b.setAttribute('aria-selected', b===sb)); document.querySelectorAll('[data-subp]').forEach(x => x.hidden = x.dataset.subp !== sb.dataset.sub); }
+  const t = e.target.closest('[data-toggle]');
+  if (t){ const id = t.dataset.toggle, el = t.closest('.heir'); const on = !openIds.has(id); on ? openIds.add(id) : openIds.delete(id);
+    el.classList.toggle('open', on); t.setAttribute('aria-expanded', on); t.querySelector('span').textContent = on ? 'إغلاق' : 'تعديل'; }
+  if (e.target.closest('#toKhilaf')){ if (tab!=='case' || !last){ tab = last ? 'case' : 'all'; document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===tab)); renderKhilaf(last ? last.inp : null, last ? last.est : null); } $('#khilafCard').scrollIntoView({behavior:'smooth', block:'start'}); }
+});
+
+// ---------- إرسال المسائل: يُحفظ في قاعدة الصفحة، ولا يرى المسائل كلها إلا المالك ----------
+const ASK_ST = ['جديدة','قيد البحث','أُجيب عنها'];
+let askDb = null, askUid = null, askOwner = false, askMine = {items:[]}, askAll = [], askBusy = false;
+function askNote(t){ $('#askMsg').textContent = t; }
+function askOff(t){ $('#askSend').disabled = true; askNote(t); }
+const askDate = t => { try { return new Date(t).toLocaleDateString('ar-EG', {day:'numeric', month:'long', year:'numeric'}); } catch(e){ return ''; } };
+function renderAsk(){
+  const list = askOwner ? askAll : (askMine.items||[]).map(it => Object.assign({doc: askUid}, it));
+  $('#askListWrap').hidden = !list.length;
+  $('#askListTitle').textContent = askOwner ? 'المسائل الواردة (' + list.length.toLocaleString('ar-EG') + ')' : 'مسائلي المحفوظة';
+  list.sort((a,b) => (b.at||'').localeCompare(a.at||''));
+  $('#askList').innerHTML = list.map(it => `<div class="aq" data-doc="${esc(it.doc)}" data-id="${esc(it.id)}">
+    <div class="aq-top"><span>${esc(it.kind||'')} · ${askDate(it.at)}</span><span class="pill ${it.status==='أُجيب عنها'?'p-ok':it.status==='قيد البحث'?'p-sky':'p-warn'}">${esc(it.status||'جديدة')}</span></div>
+    <div class="aq-text">${esc(it.text||'')}</div>
+    <div class="srch">${srchLinks(it.text)}</div>
+    ${askOwner && (it.name||it.contact) ? `<div class="aq-who">${esc([it.name, it.contact].filter(Boolean).join(' · '))}</div>` : ''}
+    ${!askOwner && it.answer ? `<div class="aq-ans"><b>الجواب من المصادر المعتمدة:</b> ${esc(it.answer)}</div>` : ''}
+    ${askOwner ? `<div class="aq-tools"><textarea data-ans placeholder="الحكم بعد البحث، واسم المصدر المعتمد ورقم المسألة">${esc(it.answer||'')}</textarea>
+      <div class="aq-row"><select data-st>${ASK_ST.map(x=>opt(x,x,it.status||'جديدة')).join('')}</select>
+      <button class="btn btn-gold btn-sm" type="button" data-save>حفظ</button><button class="btn btn-del" type="button" data-rm>حذف</button></div></div>` : ''}
+  </div>`).join('');
+}
+// تعديل قائمة مسائل مستند واحد وكتابتها كاملة، كتابة واحدة في كل مرة
+async function askWrite(docId, fn){
+  if (askBusy) return false; askBusy = true;
+  try {
+    const ref = askDb.doc('questions/' + docId), snap = await ref.get();
+    const body = snap.exists ? JSON.parse(JSON.stringify(snap.data())) : {items:[]};
+    body.items = fn(body.items || []); body.updated = new Date().toISOString();
+    await ref.set(body); return true;
+  } catch(e){
+    askNote(e && e.code==='quota_exceeded' ? 'امتلأت مساحة الحفظ. احذف مسائل قديمة ثم أعد المحاولة.' : e && e.code==='invalid_argument' ? 'لا تملك صلاحية الحفظ في هذه الصفحة.' : 'تعذّر الحفظ. أعد المحاولة بعد قليل.');
+    return false;
+  } finally { askBusy = false; }
+}
+async function initAsk(){
+  if (!(window.claude && window.claude.use)) return askOff('حفظ المسائل متاح في الصفحة المنشورة على Claude. ويمكنك مراسلة المصمم بالبريد من «حول الحاسبة».');
+  const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+  if (!db || !user) return askOff('حفظ المسائل غير متاح في هذا العرض. سجّل الدخول، أو راسل المصمم بالبريد من «حول الحاسبة».');
+  askDb = db; askUid = await user.id(); askOwner = await user.isOwner();
+  if (!askUid) return askOff('سجّل الدخول لحفظ مسألتك.');
+  if ((await user.can('data.write')) === false) askOff('صلاحيتك على هذه الصفحة للعرض فقط، فلا يمكنك حفظ مسألة. اطلب من صاحبها صلاحية «مساهم».');
+  const onErr = () => {};
+  if (askOwner) db.collection('questions').onSnapshot(snap => { askAll = snap.docs.flatMap(d => ((d.data()||{}).items||[]).map(it => Object.assign({doc: d.id}, it))); renderAsk(); }, onErr);
+  else db.doc('questions/' + askUid).onSnapshot(snap => { askMine = snap.exists ? snap.data() : {items:[]}; renderAsk(); }, onErr);
+}
+$('#askSend').onclick = async () => {
+  const text = $('#askText').value.trim();
+  if (text.length < 10) { askNote('اكتب نص المسألة أولًا (عشرة أحرف على الأقل).'); $('#askText').focus(); return; }
+  if (!askDb || !askUid) return;
+  const item = {id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), kind: $('#askKind').value, text,
+    name: $('#askName').value.trim(), contact: $('#askContact').value.trim(), at: new Date().toISOString(), status: 'جديدة', answer: ''};
+  $('#askSend').disabled = true; askNote('جارٍ الحفظ…');
+  const ok = await askWrite(askUid, items => items.concat(item).slice(-200));
+  $('#askSend').disabled = false;
+  if (ok){ $('#askText').value = ''; syncSrch(); askNote('حُفظت المسألة. يظهر حالها وجوابها في القائمة أدناه.'); }
+};
+$('#askList').addEventListener('click', async e => {
+  const card = e.target.closest('.aq'); if (!card || !askOwner) return;
+  const doc = card.dataset.doc, id = card.dataset.id;
+  if (e.target.closest('[data-save]')){
+    const st = card.querySelector('[data-st]').value, ans = card.querySelector('[data-ans]').value.trim();
+    if (await askWrite(doc, items => items.map(it => it.id===id ? Object.assign({}, it, {status: st, answer: ans}) : it))) askNote('حُفظ التعديل.');
+  }
+  if (e.target.closest('[data-rm]')){
+    const b = e.target.closest('[data-rm]');
+    if (b.dataset.sure !== '1'){ b.dataset.sure = '1'; b.textContent = 'تأكيد الحذف'; return; }
+    if (await askWrite(doc, items => items.filter(it => it.id !== id))) askNote('حُذفت المسألة.');
+  }
+});
+initAsk();
+
+// روابط البحث عن جواب المسألة: عام، ثم في مواقع المراجع
+const NET_ICO = '<svg class="net" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" role="img" aria-label="يحتاج اتصالًا بالإنترنت"><title>يحتاج اتصالًا بالإنترنت</title><path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/></svg>';
+const SRCH = [['بحث عام', ''], ['موقع السيد السيستاني', ' site:sistani.org'], ['موقع السيد الشيرازي', ' site:s-alshirazi.com'], ['موقع الشيخ الوحيد', ' site:wahidkhorasani.com']];
+function srchLinks(text){
+  const q = String(text||'').trim().replace(/\s+/g, ' ').slice(0, 300);
+  if (q.length < 10) return SRCH.map(([t]) => `<span aria-disabled="true">${t}</span>`).join('');
+  return SRCH.map(([t, site]) => `<a href="https://www.google.com/search?q=${encodeURIComponent(q + (site ? site : ' حكم الميراث'))}" target="_blank" rel="noopener">${NET_ICO}${t}</a>`).join('');
+}
+function syncSrch(){ $('#srchLinks').innerHTML = srchLinks($('#askText').value); }
+$('#askText').addEventListener('input', syncSrch);
+syncSrch();
+$('#prevStep').onclick = () => goStep(step - 1);
+$('#nextStep').onclick = () => goStep(step + 1);
+
+// ---------- تقرير PDF ----------
+let pdfBusy = false;
+function loadScript(src){ return new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => no(new Error('load')); document.head.appendChild(s); }); }
+async function pdfLibs(){
+  if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+  if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+}
+function reportHTML(){
+  const {inp, est, at} = last, sh = est.shareInfo;
+  const dn = $('#dName').value.trim(), f = inp.deceasedGender==='f';
+  const mj = $('#marja').selectedOptions[0], prep = $('#preparer').value.trim();
+  const greg = at.toLocaleDateString('ar-EG', {day:'numeric', month:'long', year:'numeric'}) + '، الساعة ' + at.toLocaleTimeString('ar-EG', {hour:'numeric', minute:'2-digit'});
+  let hijri = ''; try { hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', {day:'numeric', month:'long', year:'numeric'}).format(at); } catch(e) {}
+  const curName = curInfo()[0]==='OTHER' ? ($('#currencyCustom').value.trim()||'غير محددة') : curInfo()[1];
+  const kv = [['معدّ البيانات', prep ? esc(prep) : '—'], ['اسم المتوفى (إلى رحمة الله)', dn ? esc(dn) : '—'], ['جنس المتوفى (إلى رحمة الله)', f ? 'أنثى' : 'ذكر'], ['مرجع التقليد', marja() && mj ? mj.textContent : 'لم يُحدَّد'],
+    ['تاريخ الحساب', greg + (hijri ? '<br>' + esc(hijri) : '')], ['العملة', esc(curName)]];
+  const items = [['المال المنقول', inp.movable], ['منه: أعيان الحبوة', inp.habwaValue], ['الأرض', inp.land], ['البناء والأشجار والمنشآت', inp.buildings], ['الدية', inp.diya]].filter(x=>x[1]>0);
+  const ded = [['تجهيز الميت', inp.funeral], ['ديون الناس', inp.debts], ['مؤخّر الصداق', inp.mahr], ['الحقوق الشرعية', inp.rights]].filter(x=>x[1]>0);
+  const clsName = ['—','الطبقة الأولى','الطبقة الثانية','الطبقة الثالثة'][sh.cls] || '—';
+  let i = 0;
+  const rows = inp.rows.map(h => {
+    const r = est.heirs[one(h)] || {}, st = sh.status[one(h)], n = h.count, ok = st==='وارث';
+    const flags = legalFlags(h).map(x=>x[1].split(':')[0]).join('، ');
+    return `<tr class="${ok?'':'off'}"><td>${++i}</td><td>${esc(h.name||'—')}</td><td>${I.relLabel(h)}</td><td>${n}</td>
+      <td>${ok ? fracAr(r.share) + '<br><small>' + pct(r.share) + '</small>' : esc(st||'')}</td>
+      <td class="n">${money(r.total||0)}</td><td class="n">${money((r.total||0)*n)}</td><td>${esc(ok ? flags : (sh.reason[one(h)]||''))}</td></tr>`;
+  }).join('') + (est.imam > 0.0001 ? `<tr><td>${++i}</td><td>الإمام عليه السلام</td><td>يُراجع فيه الحاكم الشرعي</td><td>—</td><td>${fracAr(sh.imam)}</td><td class="n">—</td><td class="n">${money(est.imam)}</td><td></td></tr>` : '');
+  const notes = [...new Set([...est.notes, ...sh.notes])];
+  return `<div class="rep">
+    <div class="blk"><div class="bas">بسم الله الرحمن الرحيم</div><h1>قسمة تركة${dn ? ' المرحوم' + (f?'ة ':' ') + esc(dn) : ''}</h1>
+    <p class="rsub">على مذهب أهل البيت عليهم السلام — حاسبة المواريث الجعفرية</p></div>
+    <table class="kv">${kv.map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</table>
+    <h3 class="blk">البنود الأولية</h3>
+    <table><thead><tr><th>البند</th><th>المبلغ</th></tr></thead><tbody>
+      ${items.map(([k,v])=>`<tr><td>${k}</td><td class="n">${money(v)}</td></tr>`).join('')}
+      <tr class="tot"><td>مجموع التركة</td><td class="n">${money(est.T)}</td></tr>
+      ${ded.map(([k,v])=>`<tr><td>يُخرج: ${k}</td><td class="n">${money(v)}</td></tr>`).join('')}
+      ${est.will>0 ? `<tr><td>يُخرج: الوصية النافذة</td><td class="n">${money(est.will)}</td></tr>` : ''}
+      <tr class="tot"><td>الصافي للقسمة</td><td class="n">${money(est.net)}</td></tr>
+    </tbody></table>
+    <h3 class="blk">أسهم الورثة</h3>
+    <p class="blk" style="margin:0 0 6px">الطبقة الوارثة: <b>${sh.cls ? clsName : 'لا وارث بالنسب'}</b>${sh.hajbMother ? ' — الأم محجوبة حجب نقصان بالإخوة' : ''}${est.insolvent ? ' — الديون تستغرق التركة' : ''}</p>
+    <table><thead><tr><th>م</th><th>الاسم</th><th>القرابة</th><th>العدد</th><th>السهم</th><th>نصيب الواحد</th><th>المجموع</th><th>ملاحظة</th></tr></thead><tbody>${rows}</tbody></table>
+    ${notes.length ? `<h3 class="blk">ملاحظات</h3><ul class="blk">${notes.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+    <div class="sign blk"><div>معدّ البيانات: ${prep ? esc(prep) : ''}</div><div>التوقيع:</div></div>
+    <p class="rfoot blk">الحساب للاستئناس والتعليم، والمرجع في التطبيق الحاكم الشرعي ومكتب المرجع الذي تقلّده.</p>
+  </div>`;
+}
+async function makePdf(){
+  if (!last || stale || pdfBusy) return;
+  pdfBusy = true; $('#pdfBtn').disabled = true; $('#pdfMsg').textContent = 'جارٍ إعداد الملف…';
+  const host = document.createElement('div'); host.className = 'rep-host'; host.innerHTML = reportHTML(); document.body.appendChild(host);
+  try {
+    await pdfLibs(); await document.fonts.ready;
+    const el = host.firstElementChild, W = el.offsetWidth, S = 2;
+    const canvas = await window.html2canvas(el, {scale:S, backgroundColor:'#ffffff', useCORS:true});
+    // A4 بهامش 10 مم: تُقطع الصفحات عند حدود الصفوف والفقرات لا في وسطها
+    const pageH = Math.floor(W * 277 / 190), top = el.getBoundingClientRect().top;
+    const cuts = [...el.querySelectorAll('tr, .blk, .kv')].map(e => Math.round(e.getBoundingClientRect().bottom - top)).sort((a,b)=>a-b);
+    const pages = []; let y = 0;
+    while (y < el.offsetHeight - 1){
+      let end = Math.min(y + pageH, el.offsetHeight);
+      if (end < el.offsetHeight){ const c = cuts.filter(v => v > y + 40 && v <= end).pop(); if (c) end = c; }
+      pages.push([y, end]); y = end;
+    }
+    const { jsPDF } = window.jspdf, pdf = new jsPDF({unit:'mm', format:'a4'});
+    pages.forEach(([a,b], k) => {
+      const c = document.createElement('canvas'); c.width = canvas.width; c.height = Math.round((b-a)*S);
+      const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0,0,c.width,c.height); g.drawImage(canvas, 0, Math.round(a*S), c.width, c.height, 0, 0, c.width, c.height);
+      if (k) pdf.addPage();
+      pdf.addImage(c.toDataURL('image/jpeg', 0.92), 'JPEG', 10, 10, 190, (b-a) * 190 / W);
+      pdf.setFontSize(9); pdf.setTextColor(120); pdf.text(`${k+1} / ${pages.length}`, 105, 290, {align:'center'});
+    });
+    const name = 'قسمة تركة' + ($('#dName').value.trim() ? ' ' + $('#dName').value.trim() : '') + ' ' + last.at.toISOString().slice(0,10) + '.pdf';
+    const dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null;
+    if (dl){
+      try { await dl.save({filename:name, data:pdf.output('blob')}); $('#pdfMsg').textContent = 'تم حفظ الملف.'; }
+      catch(e){ $('#pdfMsg').textContent = e && e.code==='declined' ? 'أُلغي الحفظ.' : e && e.code==='rate_limited' ? 'نافذة حفظ مفتوحة بالفعل، أكملها أو انتظر قليلًا ثم أعد المحاولة.' : 'تعذّر الحفظ في هذه الصفحة.'; }
+    } else if (window.claude){
+      $('#pdfMsg').textContent = 'الحفظ غير متاح في هذا العرض. افتح الحاسبة في المتصفح لحفظ الملف.';
+    } else { pdf.save(name); $('#pdfMsg').textContent = 'تم تنزيل الملف.'; }
+  } catch(e){
+    $('#pdfMsg').textContent = 'تعذّر إنشاء الملف. تحقق من الاتصال بالإنترنت ثم أعد المحاولة.';
+  } finally { host.remove(); pdfBusy = false; $('#pdfBtn').disabled = !last || stale; }
+}
+$('#pdfBtn').onclick = makePdf;
+
 $('#copyMail').onclick = async () => {
   const b = $('#copyMail'), mail = 'taroot80@gmail.com';
   try { await navigator.clipboard.writeText(mail); b.textContent = 'نُسخ البريد'; }
   catch (e) { const r = document.createRange(); r.selectNodeContents($('#designerMail')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = 'البريد محدد، انسخه'; }
   setTimeout(() => { b.textContent = 'نسخ البريد'; }, 2500);
 };
-function resetResult(){ last = null; stale = false; $('#staleNote').hidden = true; $('#result').classList.remove('is-stale');
+function resetResult(){ last = null; stale = false; syncPdf(); $('#staleNote').hidden = true; $('#result').classList.remove('is-stale');
   $('#result').innerHTML = '<p class="empty">أدخل التركة والورثة، ثم اضغط «احسب القسمة».</p>';
   $('#khilaf').innerHTML = '<p class="empty">تظهر مسائل هذه التركة بعد الحساب. اختر «كل المسائل» لعرضها جميعًا.</p>'; }
-$('#addHeir').onclick = ()=>{ const a = firstAllowed(); if (!a) return; heirs.push(newHeir(a)); renderHeirs(); refresh(); markStale(); const last = document.querySelector('.heir:last-child'); last && last.scrollIntoView({behavior:'smooth',block:'center'}); };
-$('#clear').onclick = ()=>{ heirs = []; document.querySelectorAll('input[type=number]').forEach(i=>i.value=0); $('#dName').value=''; $('#dGender').value='m'; $('#currency').value='KWD'; $('#currencyCustom').value=''; syncCurrency(); $('#hajbFather').value='1'; $('#willOk').checked=false; ['gSpouse','gL1','gL2','gL3'].forEach(id=>$('#'+id).value=''); renderHeirs(); refresh(); resetResult(); };
+$('#fillHeirs').onclick = ()=>{ missingHeirs().forEach(m => { const nh = newHeir({rel:m.rel, gender:m.gender}); openIds.add(nh.id); heirs.push(nh); }); renderHeirs(); refresh(); markStale(); };
+$('#addHeir').onclick = ()=>{ const a = firstAllowed(); if (!a) return; const nh = newHeir(a); openIds.add(nh.id); heirs.push(nh); renderHeirs(); refresh(); markStale(); const last = document.querySelector('.heir:last-child'); last && last.scrollIntoView({behavior:'smooth',block:'center'}); };
+$('#clear').onclick = ()=>{ heirs = []; document.querySelectorAll('input[type=number]').forEach(i=>i.value=0); $('#dName').value=''; $('#dGender').value='m'; $('#currency').value='KWD'; $('#currencyCustom').value=''; syncCurrency(); $('#hajbFather').value='1'; $('#willOk').checked=false; A = {}; renderHeirs(); refresh(); resetResult(); };
 $('#example').onclick = ()=>{
-  $('#dGender').value='m'; syncGuide(); $('#gSpouse').value='1'; $('#gL1').value='1'; $('#movable').value=60000; $('#habwa').value=1500; $('#land').value=80000; $('#buildings').value=40000; $('#diya').value=0;
+  $('#dGender').value='m'; A = {spouse:'1', kids:'1', parents:'f', hsibs:'1'}; $('#movable').value=60000; $('#habwa').value=1500; $('#land').value=80000; $('#buildings').value=40000; $('#diya').value=0;
   $('#funeral').value=1000; $('#debts').value=4000; $('#mahr').value=5000; $('#rights').value=2000; $('#will').value=10000; $('#willOk').checked=false;
   heirs = [ newHeir({name:'زينب', rel:'زوج', gender:'f', age:50}), newHeir({name:'فاطمة', rel:'والد', gender:'f', age:75}),
     newHeir({name:'محمد', rel:'ولد', gender:'m', age:28}), newHeir({name:'حسن وحسين', rel:'ولد', gender:'m', count:2, age:12}),
@@ -1176,7 +1731,7 @@ $('#example').onclick = ()=>{
 $('#marja').innerHTML = '<option value="">— لم يُحدَّد (مقارنة بين الجميع) —</option>' + ((window.MARAJI && window.MARAJI.maraji) || []).map(m=>`<option value="${m.key}">${esc(m.name)}</option>`).join('');
 const src = (window.MARAJI && window.MARAJI.sources) || [];
 $('#sources').innerHTML = src.map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join(' · ');
-renderHeirs(); refresh(); resetResult(); syncMarja();
+renderHeirs(); goStep(1); refresh(); resetResult(); syncMarja();
 })();
 </script>
 
