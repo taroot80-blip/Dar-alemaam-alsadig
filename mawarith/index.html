@@ -114,6 +114,18 @@ tr.blocked td{color:var(--faint)}
 .mj .who{font-family:"El Messiri",serif;color:var(--gold);font-size:15.5px;margin-bottom:4px}
 .mj .typ{display:inline-block;font-size:12px;border:1px solid var(--gold-dim);border-radius:999px;padding:1px 9px;margin-inline-start:6px;color:var(--ink)}
 .mj a{color:var(--sky)}
+.kh-grid{display:grid;grid-template-columns:minmax(0,1fr) 230px}
+.kh-side{border-inline-start:1px solid var(--line);padding:12px 14px;background:rgba(242,182,50,.05);display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--muted)}
+.kh-side .sv{font-weight:700;color:var(--ink)}
+.kh-side ul{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+.kh-side li{display:flex;justify-content:space-between;gap:8px}
+.kh-side li.me{color:var(--gold);font-weight:700}
+.kh-side li span:last-child{white-space:nowrap;color:var(--faint);font-size:12.5px}
+.kh-more{border-top:1px solid rgba(242,182,50,.12)}
+.kh-more summary{cursor:pointer;padding:10px 14px;color:var(--sky);font-size:14px}
+.marja-note{margin:0 0 12px;font-size:14.5px;color:var(--muted)}
+.marja-note b{color:var(--gold)}
+@media (max-width:720px){ .kh-grid{grid-template-columns:1fr} .kh-side{border-inline-start:0;border-top:1px solid var(--line)} }
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .tab{background:transparent;border:1px solid var(--gold-dim);color:var(--muted);border-radius:999px;min-height:40px;padding:0 16px;font:inherit;font-weight:700;cursor:pointer}
 .tab[aria-selected=true]{background:var(--gold);color:#1a120b;border-color:var(--gold)}
@@ -210,6 +222,7 @@ label.f{min-width:0}
     <label class="f"><span class="lt">اسم المتوفى</span><input id="dName" placeholder="اختياري"></label>
     <label class="f"><span class="lt">جنس المتوفى
       </span><select id="dGender"><option value="m">ذكر</option><option value="f">أنثى</option></select></label>
+    <label class="f"><span class="lt">المرجع الذي يقلّده المتوفى</span><select id="marja"></select></label>
     <label class="f"><span class="lt">العملة</span><select id="currency"></select></label>
     <label class="f" id="currencyCustomBox" hidden><span class="lt">اسم العملة أو رمزها</span><input id="currencyCustom" placeholder="مثلًا: روبل"></label>
   </div>
@@ -299,6 +312,7 @@ label.f{min-width:0}
     <button class="tab" role="tab" aria-controls="khilaf" aria-selected="false" data-tab="all">كل المسائل</button>
     <button class="tab" role="tab" aria-controls="khilaf" aria-selected="false" data-tab="diff">الخلافية فقط</button>
   </div>
+  <p class="marja-note" id="marjaNote"></p>
   <div id="khilaf" class="khilaf" role="tabpanel"></div>
 </section>
 
@@ -1074,7 +1088,16 @@ function triggered(inp, est){
   if (sh.cls===0 && hs.some(h=>h.rel==='زوج'&&h.gender==='m')) set.add('husband_radd');
   return set;
 }
+// المرجع المختار: تغييره يعيد عرض المسائل فقط ولا يمس المعطيات
+const marja = () => $('#marja').value;
+function syncMarja(){
+  const M = window.MARAJI, me = M && M.maraji.find(m=>m.key===marja());
+  $('#marjaNote').innerHTML = me
+    ? `المعتمد: فتاوى <b>${esc(me.name)}</b>. يبيّن المربع الجانبي هل المسألة متفق عليها أم خلافية بين المراجع، وأقوال الباقين مطويّة تحت كل مسألة.`
+    : 'تُعرض أقوال المراجع جميعًا للمقارنة. اختر مرجع المتوفى في القسم الأول لتُعتمد فتاواه وحدها.';
+}
 function renderKhilaf(inp, est){
+  syncMarja();
   const box = $('#khilaf'); const M = window.MARAJI;
   if (!M || !M.issues || !M.issues.length){ box.innerHTML = '<p class="empty">جارٍ إعداد مقارنة الفتاوى…</p>'; return; }
   let list = M.issues;
@@ -1082,16 +1105,38 @@ function renderKhilaf(inp, est){
   if (tab==='diff') list = list.filter(x=>x.verdict!=='متفق');
   if (!list.length){ box.innerHTML = `<p class="empty">${tab==='case'?'لا توجد في هذه التركة مسألة من مسائل المقارنة. اختر «كل المسائل» لعرضها جميعًا.':'لا توجد مسائل.'}</p>`; return; }
   const vClass = v => v==='متفق' ? 'p-ok' : v==='خلافي' ? 'p-bad' : 'p-warn';
-  box.innerHTML = list.map(x=>`
+  const mk = marja(), me = M.maraji.find(m=>m.key===mk);
+  const view = (x, m) => { const o = x.views[m.key]||{}; return `<div class="mj"><div class="who">${esc(m.name)}${o.type?`<span class="typ">${esc(o.type)}</span>`:''}</div>${esc(o.ruling||'لم يُعثر على نص')}${o.masala?` <small>(${/^[0-9٠-٩]/.test(o.masala)?'م':''}${esc(o.masala)})</small>`:''}${o.url?`<br><a href="${esc(o.url)}" target="_blank" rel="noopener">المصدر</a>`:''}</div>`; };
+  const vText = v => v==='متفق' ? 'متفق عليها بين المراجع المذكورين' : v==='خلافي' ? 'مسألة خلافية بين المراجع المذكورين' : v;
+  box.innerHTML = list.map(x=>{
+    if (!me) return `
     <div class="kh">
       <div class="kh-head"><span class="t">${esc(x.title)}</span><span class="pill ${vClass(x.verdict)}">${esc(x.verdict)}</span></div>
       ${x.summary?`<div class="mj" style="border-bottom:1px solid rgba(242,182,50,.12)">${esc(x.summary)}</div>`:''}
-      <div class="kh-body">${M.maraji.map(m=>{ const o = x.views[m.key]||{}; return `<div class="mj"><div class="who">${esc(m.name)}${o.type?`<span class="typ">${esc(o.type)}</span>`:''}</div>${esc(o.ruling||'لم يُعثر على نص')}${o.masala?` <small>(${/^[0-9٠-٩]/.test(o.masala)?'م':''}${esc(o.masala)})</small>`:''}${o.url?`<br><a href="${esc(o.url)}" target="_blank" rel="noopener">المصدر</a>`:''}</div>`; }).join('')}</div>
-    </div>`).join('');
+      <div class="kh-body">${M.maraji.map(m=>view(x, m)).join('')}</div>
+    </div>`;
+    // مرجع محدد: تُعرض فتواه وحدها، ومربع جانبي يبيّن الاتفاق أو الخلاف، وأقوال الباقين مطويّة عند الحاجة
+    const others = M.maraji.filter(m=>m!==me);
+    return `
+    <div class="kh">
+      <div class="kh-head"><span class="t">${esc(x.title)}</span><span class="pill ${vClass(x.verdict)}">${esc(x.verdict)}</span></div>
+      <div class="kh-grid">
+        <div>${view(x, me)}</div>
+        <aside class="kh-side"><span class="sv">${esc(vText(x.verdict))}</span>
+          <ul>${M.maraji.map(m=>`<li class="${m===me?'me':''}"><span>${esc(m.name)}</span><span>${esc((x.views[m.key]||{}).type||'—')}</span></li>`).join('')}</ul>
+        </aside>
+      </div>
+      <details class="kh-more"><summary>أقوال ${others.length>1?'المراجع الآخرين':'المرجع الآخر'}</summary>
+        ${x.summary?`<div class="mj" style="border-bottom:1px solid rgba(242,182,50,.12)">${esc(x.summary)}</div>`:''}
+        <div class="kh-body">${others.map(m=>view(x, m)).join('')}</div>
+      </details>
+    </div>`;
+  }).join('');
 }
 
 // ---------- الأحداث ----------
 document.addEventListener('input', e=>{
+  if (e.target.id === 'marja'){ renderKhilaf(last ? last.inp : null, last ? last.est : null); return; }
   const card = e.target.closest('.heir');
   if (card && e.target.dataset.k){
     const h = heirs.find(x=>x.id===card.dataset.id);
@@ -1128,9 +1173,10 @@ $('#example').onclick = ()=>{
     newHeir({name:'مريم', rel:'ولد', gender:'f', age:20, cap:'مصروع (صرع يذهب بالعقل)'}), newHeir({name:'علي', rel:'أخ شقيق', gender:'m', age:45}) ];
   renderHeirs(); refresh(); resetResult();
 };
+$('#marja').innerHTML = '<option value="">— لم يُحدَّد (مقارنة بين الجميع) —</option>' + ((window.MARAJI && window.MARAJI.maraji) || []).map(m=>`<option value="${m.key}">${esc(m.name)}</option>`).join('');
 const src = (window.MARAJI && window.MARAJI.sources) || [];
 $('#sources').innerHTML = src.map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join(' · ');
-renderHeirs(); refresh(); resetResult();
+renderHeirs(); refresh(); resetResult(); syncMarja();
 })();
 </script>
 
