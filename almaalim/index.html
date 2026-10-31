@@ -1,0 +1,757 @@
+<!doctype html><html lang="ar" dir="rtl"><head><title>المعالم الناضرة</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}body{margin:0}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;700&family=Tajawal:wght@400;500;700&family=Amiri:wght@400;700&display=swap">
+<style>
+/* Layout: one-screen app — a living scene behind (Kaaba / Green Dome / the road between), glass panels and a gold-rimmed tab bar in front */
+:root{
+  --ink:#0a1410;          /* deep night green-black */
+  --pine:#12261d;         /* panel green */
+  --moss:#2b3a22;         /* olive glow */
+  --gold:#e2b45a;         /* accent gold */
+  --gold-hi:#f4d48c;
+  --cream:#efe6cf;        /* reading text */
+  --muted:#a9b3a2;
+  --line:rgba(226,180,90,.35);
+  --glass:rgba(10,22,16,.78);
+  --sand:#c9a66b;
+  --ok:#22c55e; --warn:#ef4444;
+  --f-title:"El Messiri","Amiri",serif;
+  --f-body:"Tajawal","Segoe UI",Tahoma,sans-serif;
+  --f-text:"Amiri","Times New Roman",serif;
+  color-scheme:dark;
+}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--ink);color:var(--cream);font-family:var(--f-body);font-size:16px;overflow:hidden}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+
+/* ---------- scene ---------- */
+.scene{position:fixed;inset:0;z-index:0;background:radial-gradient(120% 80% at 70% 0%,#24331f 0%,var(--ink) 60%)}
+.scene .bg{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;background-size:cover;background-position:center bottom}
+.scene .bg.on{opacity:1}
+#bg-makkah{background-image:url(bg-makkah.jpg)}#bg-madinah{background-image:url(bg-madinah.jpg)}#bg-between{background-image:url(bg-between.jpg);background-position:center 60%}
+.scene::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(10,20,16,.55) 0%,rgba(10,20,16,.25) 40%,rgba(10,20,16,.85) 100%),
+  radial-gradient(rgba(226,180,90,.10) 1px,transparent 1.4px) 0 0/22px 22px}
+
+.app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}
+.view{flex:1;min-height:0;overflow-y:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 110px}
+.view[hidden]{display:none!important}
+.wrap{max-width:760px;margin-inline:auto;display:flex;flex-direction:column;gap:18px}
+
+/* ---------- header ---------- */
+.brand{display:flex;align-items:center;gap:12px}
+.brand .seal{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-family:var(--f-title);font-size:20px;background:rgba(0,0,0,.35)}
+.brand h1{margin:0;font-family:var(--f-title);color:var(--gold);font-size:clamp(26px,6vw,36px);line-height:1.1;text-wrap:balance}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:13px;letter-spacing:.02em}
+.en{display:block;font-family:"Tajawal",sans-serif;font-size:.68em;color:var(--muted);letter-spacing:.03em;direction:ltr;margin-top:2px}
+
+/* ---------- 3D buttons ---------- */
+.b3d{position:relative;border:1.5px solid var(--gold);border-radius:18px;background:linear-gradient(180deg,#1d3a2b,#0f2219);
+  box-shadow:0 6px 0 #06100b,0 10px 22px rgba(0,0,0,.55),inset 0 1px 0 rgba(244,212,140,.35);cursor:pointer;transition:transform .12s,box-shadow .12s}
+.b3d:active{transform:translateY(4px);box-shadow:0 2px 0 #06100b,0 4px 10px rgba(0,0,0,.5),inset 0 1px 0 rgba(244,212,140,.3)}
+.b3d.on{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#1a120b;border-color:var(--gold-hi)}
+.b3d.on .en{color:#3b2a12}
+
+.sections{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sections .b3d{padding:14px 6px 12px;text-align:center;font-family:var(--f-title);font-size:clamp(16px,4.2vw,21px);min-height:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.sections .ico{font-size:22px;line-height:1}
+
+.hero{padding-top:6vh;display:flex;flex-direction:column;gap:6px}
+.hero h2{margin:0;font-family:var(--f-title);font-size:clamp(28px,7.5vw,44px);color:var(--cream);text-wrap:balance;text-shadow:0 2px 18px rgba(0,0,0,.8)}
+.hero p{margin:0;color:var(--cream);opacity:.85;max-width:52ch;line-height:1.7;text-shadow:0 1px 10px rgba(0,0,0,.9)}
+
+/* ---------- landmark list ---------- */
+.list{display:flex;flex-direction:column;gap:10px}
+.lm{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;text-align:right;padding:12px 14px;border-radius:16px;
+  background:var(--glass);border:1px solid var(--line);cursor:pointer;backdrop-filter:blur(6px)}
+.lm:hover{border-color:var(--gold)}
+.lm .n{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-family:var(--f-title);font-size:18px;font-variant-numeric:tabular-nums}
+.lm h3{margin:0;font-family:var(--f-title);font-size:18px;color:var(--cream)}
+.lm .meta{font-size:12.5px;color:var(--muted);margin-top:2px}
+.lm .go{color:var(--gold);font-size:20px}
+.tag{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--gold-hi);margin-inline-start:6px}
+.tag.res{color:#9fd8cf;border-color:rgba(159,216,207,.4)}
+
+.sechead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:6px}
+.sechead h2{margin:0;font-family:var(--f-title);color:var(--gold);font-size:22px}
+.sechead span{color:var(--muted);font-size:13px}
+
+/* ---------- sheet (detail) ---------- */
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55)}
+.sheet .card{width:100%;max-width:760px;max-height:88%;overflow-y:auto;background:linear-gradient(180deg,#132a1f,#0b1712);border:1px solid var(--gold);border-bottom:0;border-radius:22px 22px 0 0;
+  padding-block:18px calc(22px + env(safe-area-inset-bottom,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:14px}
+.card h2{margin:0;font-family:var(--f-title);color:var(--gold);font-size:26px;text-wrap:balance}
+.card .sum{font-family:var(--f-text);font-size:19px;line-height:1.9;margin:0;color:var(--cream)}
+.card h4{margin:0;font-size:13px;color:var(--muted);letter-spacing:.04em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14px;padding:5px 11px;border-radius:999px;background:rgba(226,180,90,.12);border:1px solid var(--line)}
+.coord{font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;text-align:left;background:rgba(0,0,0,.35);border:1px dashed var(--line);border-radius:10px;padding:8px 10px;font-size:14px;user-select:all;font-variant-numeric:tabular-nums}
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.act{min-height:52px;padding:8px 10px;border-radius:14px;font-size:15px;font-weight:700;text-align:center;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center}
+a.act{color:var(--cream)}
+.x{align-self:flex-start;background:none;border:1px solid var(--line);border-radius:50%;width:38px;height:38px;cursor:pointer;color:var(--gold)}
+.paper{border-radius:16px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--line)}
+.paper.sand{background:url(paper.jpg) center/cover,#c9a66b;color:#2a1a0a;border-color:#8a6a35;box-shadow:inset 0 0 40px rgba(90,60,20,.35)}
+.paper.sand .sum{color:#2a1a0a}.paper.sand h4{color:#5a4020}
+.paper.sand .chip{background:rgba(255,248,230,.45);border-color:#8a6a35;color:#2a1a0a}
+.paper.green{background:radial-gradient(rgba(226,180,90,.10) 1px,transparent 1.4px) 0 0/22px 22px,linear-gradient(160deg,#2b3a22 0%,#12261d 45%,#0a1410 100%);color:var(--cream)}
+.ptog{align-self:flex-start;display:flex;gap:6px}
+.ptog button{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:none;cursor:pointer;font-size:13px;color:var(--muted)}
+.ptog button.on{border-color:var(--gold);color:var(--gold)}
+.note{font-size:13px;color:var(--muted);line-height:1.7;margin:0}
+.toast{position:fixed;z-index:40;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom,0px));background:var(--gold);color:#1a120b;font-weight:700;padding:10px 18px;border-radius:999px;box-shadow:0 8px 20px rgba(0,0,0,.5)}
+
+/* ---------- map ---------- */
+#v-map{padding-block:12px 96px;display:flex;flex-direction:column}
+.maptools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.maptools .b3d{padding:8px 14px;font-size:15px;border-radius:14px;box-shadow:0 4px 0 #06100b,0 6px 14px rgba(0,0,0,.5)}
+.mapbox{position:relative;flex:1;min-height:320px;border:1.5px solid var(--gold);border-radius:20px;overflow:hidden;background:#0b1a14;touch-action:none}
+#map{width:100%;height:100%;display:block;cursor:grab}
+#map.pinmode{cursor:crosshair}
+.zoom{position:absolute;inset-inline-start:10px;top:10px;display:flex;flex-direction:column;gap:6px}
+.zoom button{width:42px;height:42px;border-radius:12px;border:1px solid var(--gold);background:rgba(10,22,16,.85);color:var(--gold);font-size:22px;cursor:pointer}
+.maphint{position:absolute;inset-inline-end:10px;bottom:10px;background:rgba(10,22,16,.85);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:12.5px;color:var(--muted);max-width:70%}
+.pinbar{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pinbar input{flex:1;min-width:0;min-height:46px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.4);color:var(--cream);padding:0 12px;font:inherit;direction:ltr;text-align:left}
+.pinbar .b3d{padding:0 16px;min-height:46px;border-radius:12px;box-shadow:0 4px 0 #06100b}
+
+/* ---------- compass ---------- */
+.compass{position:relative;width:min(80vw,340px);aspect-ratio:1;max-width:100%;margin:6px auto 0}
+.compass svg{width:100%;height:100%}
+#rose,#needle{transition:transform .25s ease-out;transform-origin:200px 200px}
+.qinfo{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.qinfo div{background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:10px 6px}
+.qinfo b{display:block;font-family:var(--f-title);font-size:22px;color:var(--gold);font-variant-numeric:tabular-nums}
+.qinfo span{font-size:12px;color:var(--muted)}
+select,.field{width:100%;min-height:48px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.45);color:var(--cream);padding:0 12px;font:inherit}
+.panel{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+
+/* ---------- pins ---------- */
+.pin{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.pin .top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.pin h3{margin:0;font-family:var(--f-title);font-size:18px}
+.pin .acts{grid-template-columns:repeat(auto-fit,minmax(96px,1fr))}
+.pin .act{min-height:44px;font-size:14px}
+.empty{text-align:center;color:var(--muted);padding:30px 10px;border:1px dashed var(--line);border-radius:18px;line-height:1.8}
+
+/* ---------- tab bar ---------- */
+.tabs{position:fixed;z-index:10;left:0;right:0;bottom:0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px));padding-top:8px;
+  padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px));
+  background:linear-gradient(180deg,rgba(10,20,16,.6),rgba(6,12,9,.96));border-top:1px solid var(--line);display:flex;justify-content:center;gap:6px}
+.tab{flex:1;max-width:150px;min-height:58px;border-radius:16px;border:1px solid transparent;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:14px;font-weight:700;color:var(--muted)}
+.tab .i{font-size:20px;line-height:1.1}
+.tab .en{font-size:10px;margin:0}
+.tab.on{color:var(--gold);border-color:var(--gold);background:rgba(226,180,90,.1)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- tactile buttons ---------- */
+@keyframes shk{0%{transform:scale(1)}20%{transform:scale(.95) rotate(-2.5deg)}40%{transform:scale(.97) rotate(2.5deg)}60%{transform:scale(.98) rotate(-1.5deg)}80%{transform:rotate(1deg)}100%{transform:none}}
+.shk{animation:shk .34s ease-out}
+.sndfab{position:fixed;z-index:12;inset-inline-start:calc(12px + env(safe-area-inset-left,0px));bottom:calc(88px + env(safe-area-inset-bottom,0px));width:52px;height:52px;border-radius:50%;border:1.5px solid var(--gold);background:radial-gradient(circle at 35% 30%,#2a4a37,#0c1a13);box-shadow:0 5px 0 #06100b,0 8px 18px rgba(0,0,0,.6);font-size:22px;cursor:pointer}
+.sndpanel{position:fixed;z-index:13;inset-inline-start:calc(12px + env(safe-area-inset-left,0px));bottom:calc(148px + env(safe-area-inset-bottom,0px));width:min(300px,calc(100vw - 24px));background:linear-gradient(180deg,#132a1f,#0b1712);border:1px solid var(--gold);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 14px 40px rgba(0,0,0,.6)}
+.sndpanel h3{margin:0;font-family:var(--f-title);color:var(--gold);font-size:18px}
+.seg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.seg button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.35);cursor:pointer;font-size:14px}
+.seg button.on{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#1a120b;border-color:var(--gold-hi);font-weight:700}
+.sndpanel input[type=range]{width:100%;accent-color:#e2b45a}
+
+/* ---------- landmark window ---------- */
+.nf{position:fixed;inset:0;z-index:30;display:grid;place-items:center}
+.nf-dim{position:absolute;inset:0;background:rgba(4,8,6,.84);backdrop-filter:blur(3px)}
+.nf-stage{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));width:100%}
+.nf-fig{margin:0;width:min(calc(100vw - 92px),480px,calc((100dvh - 100px)*.75));aspect-ratio:3/4;border-radius:24px;overflow:hidden;border:2px solid var(--gold);position:relative;box-shadow:0 24px 70px rgba(0,0,0,.75);flex:none;background:#000}
+.nf-fig img{width:100%;height:100%;object-fit:cover;transform-origin:50% 62%;display:block}
+.nf-fig figcaption{position:absolute;inset:auto 0 0 0;padding:40px 14px 14px;background:linear-gradient(transparent,rgba(5,10,7,.92));font-family:var(--f-title);font-size:22px;color:var(--gold-hi);text-wrap:balance}
+.nf-fig figcaption .en{font-size:12px}
+.nf-btns{display:flex;flex-direction:column;gap:7px}
+.nfb{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--gold);background:radial-gradient(circle at 35% 28%,#2f5a42,#0d1f16 70%);box-shadow:0 5px 0 #06100b,0 9px 18px rgba(0,0,0,.6),inset 0 1px 0 rgba(244,212,140,.4);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:16px;line-height:1;gap:1px}
+.nfb small{font-size:8.5px;font-weight:700;color:var(--gold-hi)}
+.nfb:active{transform:translateY(3px);box-shadow:0 2px 0 #06100b}
+.nf-x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));inset-inline-end:max(16px,env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;border:1px solid var(--gold);background:rgba(10,22,16,.9);color:var(--gold);font-size:18px;cursor:pointer;z-index:2}
+.nf-panel{position:absolute;inset:auto 0 0 0;max-height:72%;overflow-y:auto;background:linear-gradient(180deg,#132a1f,#0b1712);border-top:1px solid var(--gold);border-radius:22px 22px 0 0;padding-block:16px calc(20px + env(safe-area-inset-bottom,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:12px;z-index:3}
+.nf-panel h3{margin:0;font-family:var(--f-title);color:var(--gold);font-size:21px}
+.zl{display:flex;flex-direction:column;gap:8px}
+.zl .b3d{min-height:54px;padding:8px 14px;text-align:right;display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:700}
+.zl .b3d span{font-size:12px;color:var(--muted);font-weight:400}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.gal img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.tl li{position:relative;padding:8px 22px 8px 0;border-right:2px solid var(--line);margin-right:7px}
+.tl li::before{content:"";position:absolute;right:-8px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid #0b1712}
+.fadl{border:1px dashed var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.fadl .q{font-family:var(--f-text);font-size:19px;color:var(--muted)}
+.fadl .ref{font-size:12.5px;color:var(--gold-hi)}
+
+/* ---------- book reader ---------- */
+.bk{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;background:radial-gradient(120% 90% at 50% 40%,#2a2013 0%,#0d0905 75%)}
+.bk-head{display:flex;align-items:center;gap:10px;padding-block:calc(10px + env(safe-area-inset-top,0px)) 8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.bk-head h3{flex:1;min-width:0;margin:0;font-family:var(--f-title);color:var(--gold);font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk-head button{width:42px;height:42px;border-radius:50%;border:1px solid var(--gold);background:rgba(0,0,0,.4);color:var(--gold);cursor:pointer;font-size:17px;flex:none}
+.bk-stage{flex:1;min-height:0;display:grid;place-items:center;perspective:1800px;touch-action:pan-y;padding-inline:12px}
+.bk-book{position:relative}
+.bk-page{position:absolute;inset:0;border-radius:4px 12px 12px 4px;overflow:hidden;background:#fbf7ee;transform-origin:right center;backface-visibility:hidden;box-shadow:0 18px 40px rgba(0,0,0,.6)}
+.bk-page::after{content:"";position:absolute;inset:0 0 0 auto;width:26px;background:linear-gradient(270deg,rgba(0,0,0,.28),transparent);pointer-events:none}
+.bk-page img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.bk-page .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.45),transparent 60%);opacity:0;pointer-events:none}
+.bk-page .tx{height:100%;padding:28px 22px;display:flex;flex-direction:column;gap:14px;overflow:auto}
+.bk-page .tx.sand{background:url(paper.jpg) center/cover,#c9a66b;color:#2a1a0a}
+.bk-page .tx.green{background:radial-gradient(rgba(226,180,90,.10) 1px,transparent 1.4px) 0 0/22px 22px,linear-gradient(160deg,#2b3a22,#12261d 45%,#0a1410);color:var(--cream)}
+.bk-page .tx h2{margin:0;font-family:var(--f-title);font-size:26px;text-align:center}
+.bk-page .tx.sand h2{color:#6b4a14}.bk-page .tx.green h2{color:var(--gold)}
+.bk-page .tx p,.bk-page .tx li{font-family:var(--f-text);font-size:20px;line-height:1.95;margin:0}
+.bk-page .tx .pn{margin-top:auto;text-align:center;font-size:14px;opacity:.7}
+.bk-foot{display:flex;align-items:center;justify-content:center;gap:14px;padding-block:8px calc(12px + env(safe-area-inset-bottom,0px))}
+.bk-foot .b3d{width:56px;height:48px;font-size:22px;border-radius:14px}
+.bk-foot output{min-width:110px;text-align:center;color:var(--cream);font-variant-numeric:tabular-nums}
+.bk-note{text-align:center;font-size:12.5px;color:var(--muted);margin:0;padding-inline:16px}
+
+/* ---------- alignment: reading text starts from the right; titles and data centred in their boxes ---------- */
+p,.sum,.note,.hero p,.tl li,.fadl .q,.bk-page .tx p,.bk-page .tx li,label{text-align:right}
+.brand{justify-content:center;text-align:center;flex-direction:column;gap:8px}
+.hero{text-align:center;align-items:center}.hero p{text-align:center}
+.sechead{flex-direction:column;align-items:center;text-align:center;gap:2px}
+.lm{text-align:center}.lm .meta{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 0}
+.card h2,.card h4,.nf-panel h3,.sndpanel h3,.pin .top h3,.bk-page .tx h2{text-align:center}
+.card h2 .en{text-align:center}
+.bk-head h3{text-align:center}
+.chips{justify-content:center}
+.coord{text-align:center}
+.zl .b3d{justify-content:center;flex-direction:column;text-align:center;gap:2px}
+.pin .top{justify-content:center;position:relative}.pin .top .x{position:absolute;inset-inline-end:0}
+.fadl{text-align:center}.fadl .ref{text-align:center}
+.qinfo div{display:flex;flex-direction:column;justify-content:center}
+.maptools{justify-content:center}
+.ptog{align-self:center}
+.paper h4{text-align:center}
+.brand p,.brand p .en{text-align:center}
+.sndfab,.sndpanel{inset-inline-start:auto;left:calc(12px + env(safe-area-inset-left,0px))}
+.artb{display:block;width:max-content;margin:0 auto 6px;font-family:var(--f-body);font-size:11px;padding:2px 10px;border-radius:999px;background:rgba(10,20,16,.7);border:1px solid var(--line);color:var(--gold-hi)}
+.nf-fig figcaption{text-align:center}
+.gi{margin:0;display:flex;flex-direction:column;gap:4px}.gi figcaption{text-align:center;font-size:12px;color:var(--muted)}
+.mutefab{position:fixed;z-index:45;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(148px + env(safe-area-inset-bottom,0px));width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold);background:radial-gradient(circle at 35% 30%,#2a4a37,#0c1a13);box-shadow:0 4px 0 #06100b,0 7px 16px rgba(0,0,0,.6);font-size:19px;cursor:pointer}
+.mutefab.off{background:radial-gradient(circle at 35% 30%,#4a2a2a,#1a0c0c);border-color:#ef4444}
+.sndpanel{bottom:calc(204px + env(safe-area-inset-bottom,0px))}
+</style>
+
+<div class="scene" aria-hidden="true">
+  <div class="bg on" id="bg-makkah"></div>
+  <div class="bg" id="bg-madinah"></div>
+  <div class="bg" id="bg-between"></div>
+</div>
+
+<div class="app">
+  <!-- HOME -->
+  <section class="view" id="v-home">
+    <div class="wrap">
+      <div class="brand">
+        <div class="seal">ح</div>
+        <div><h1>حدائق المدينة الناضرة<br>ومعالم مكة العامرة</h1><p>مكة · ما بينهما · المدينة <span class="en">Gardens of Madinah &amp; Landmarks of Makkah</span></p></div>
+      </div>
+      <div class="hero">
+        <h2 id="heroTitle">مكة المكرمة</h2>
+        <p id="heroText">أم القرى ووسط العالم، وفيها البيت العتيق والمشاعر.</p>
+      </div>
+      <div class="sections" role="tablist" aria-label="الأقسام">
+        <button class="b3d on" data-sec="makkah" role="tab"><span class="ico">🕋</span>مكة<span class="en">Makkah</span></button>
+        <button class="b3d" data-sec="between" role="tab"><span class="ico">🛤️</span>ما بينهما<span class="en">Between</span></button>
+        <button class="b3d" data-sec="madinah" role="tab"><span class="ico">🕌</span>المدينة<span class="en">Madinah</span></button>
+      </div>
+      <div class="sechead"><h2 id="listTitle">معالم مكة</h2><span id="listCount"></span></div>
+      <div class="list" id="list"></div>
+      <p class="note">الإحداثيات المعلَّمة «تقريبية» تُراجَع قبل الإصدار. المعالم الموسومة «بحث مكمّل» ليست في ملفاتك وتُستكمل بالتوثيق.</p>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section class="view" id="v-map" hidden>
+    <div class="maptools">
+      <button class="b3d" data-fly="makkah">مكة<span class="en">Makkah</span></button>
+      <button class="b3d" data-fly="route">ما بينهما<span class="en">Between</span></button>
+      <button class="b3d" data-fly="madinah">المدينة<span class="en">Madinah</span></button>
+      <button class="b3d" id="pinToggle" aria-pressed="false">📌 ضع دبوسًا<span class="en">Drop a pin</span></button>
+    </div>
+    <div class="mapbox">
+      <svg id="map" role="img" aria-label="خريطة معالم مكة والمدينة"></svg>
+      <div class="zoom"><button id="zin" aria-label="تكبير">+</button><button id="zout" aria-label="تصغير">−</button></div>
+      <div class="maphint" id="maphint">اسحب للتنقّل، وقرّب بإصبعين أو بالأزرار. اضغط معلمًا لعرضه.</div>
+    </div>
+    <form class="pinbar" id="coordForm">
+      <input id="coordIn" placeholder="21.4225, 39.8262  أو رابط خرائط Google" aria-label="إحداثيات">
+      <button class="b3d" type="submit">اذهب وثبّت 📌</button>
+    </form>
+  </section>
+
+  <!-- COMPASS -->
+  <section class="view" id="v-compass" hidden>
+    <div class="wrap">
+      <div class="sechead"><h2>بوصلة القبلة</h2><span>Qibla compass</span></div>
+      <div class="panel">
+        <label for="locSel" class="note">من أين تتّجه؟</label>
+        <select id="locSel"></select>
+        <div class="acts">
+          <button class="b3d act" id="gpsBtn">📍 موقعي الآن<span class="en">My location</span></button>
+          <button class="b3d act" id="liveBtn">🧭 البوصلة الحية<span class="en">Live compass</span></button>
+        </div>
+        <p class="note" id="cmpNote">بدون البوصلة الحية: ضع الهاتف والشمال أعلاه، فالسهم الذهبي يشير إلى القبلة.</p>
+      </div>
+      <div class="compass">
+        <svg viewBox="0 0 400 400" aria-label="بوصلة">
+          <g id="rose">
+            <circle cx="200" cy="200" r="186" fill="rgba(10,22,16,.85)" stroke="#e2b45a" stroke-width="2"/>
+            <circle cx="200" cy="200" r="160" fill="none" stroke="rgba(226,180,90,.3)"/>
+            <g id="ticks"></g>
+            <g font-family="El Messiri, serif" font-size="26" fill="#efe6cf" text-anchor="middle">
+              <text x="200" y="64" fill="#ef4444">ش</text><text x="342" y="209">ق</text><text x="200" y="354">ج</text><text x="58" y="209">غ</text>
+            </g>
+          </g>
+          <g id="needle">
+            <path d="M200 52l16 150h-32z" fill="#e2b45a"/><path d="M200 348l10-146h-20z" fill="#5b4a2a"/>
+            <rect x="188" y="30" width="24" height="24" fill="#0b0b0b" stroke="#e2b45a" stroke-width="2"/><rect x="188" y="36" width="24" height="4" fill="#e2b45a"/>
+          </g>
+          <circle cx="200" cy="200" r="10" fill="#0a1410" stroke="#e2b45a" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="qinfo">
+        <div><b id="qDeg">—</b><span>اتجاه القبلة من الشمال</span></div>
+        <div><b id="qDir">—</b><span>الجهة</span></div>
+        <div><b id="qKm">—</b><span>المسافة إلى الكعبة (كم)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PINS -->
+  <section class="view" id="v-pins" hidden>
+    <div class="wrap">
+      <div class="sechead"><h2>دبابيسي</h2><span id="pinCount"></span></div>
+      <div class="list" id="pinList"></div>
+    </div>
+  </section>
+
+  <nav class="tabs" aria-label="التنقل">
+    <button class="tab on" data-v="home"><span class="i">🏠</span>المعالم<span class="en">Landmarks</span></button>
+    <button class="tab" data-v="map"><span class="i">🗺️</span>الخريطة<span class="en">Map</span></button>
+    <button class="tab" data-v="compass"><span class="i">🧭</span>البوصلة<span class="en">Compass</span></button>
+    <button class="tab" data-v="pins"><span class="i">📌</span>دبابيسي<span class="en">My pins</span></button>
+  </nav>
+</div>
+
+<div class="sheet" id="sheet" hidden><div class="card" id="card" role="dialog" aria-modal="true"></div></div>
+<div class="toast" id="toast" hidden></div>
+<button class="sndfab" id="sndFab" aria-label="الأصوات">🔘</button>
+<button class="mutefab" id="muteFab" aria-label="كتم أصوات الأزرار والانتقالات والنغمات" aria-pressed="false">🔔</button>
+<div class="sndpanel" id="sndPanel" hidden>
+  <h3>الأصوات</h3>
+  <div class="seg"><button data-btnsnd="1">🔔 أصوات الأزرار</button><button data-btnsnd="0">🔕 صامتة</button></div>
+  <span class="note">أجواء الخلفية</span>
+  <div class="seg">
+    <button data-amb="off">🔇 بلا أجواء</button><button data-amb="birds">🐦 طيور خفيفة</button>
+    <button data-amb="leaves">🌿 حفيف الشجر</button><button data-amb="rain">🌧️ مطر</button>
+  </div>
+  <label class="note" for="ambVol">مستوى الأجواء</label><input type="range" id="ambVol" min="0" max="1" step="0.05">
+</div>
+
+<div class="nf" id="nf" hidden>
+  <div class="nf-dim" id="nfDim"></div>
+  <button class="nf-x" id="nfX" aria-label="إغلاق">✕</button>
+  <div class="nf-stage">
+    <figure class="nf-fig" id="nfFig"><img id="nfImg" alt=""><figcaption id="nfCap"></figcaption></figure>
+    <div class="nf-btns" id="nfBtns"></div>
+  </div>
+  <div class="nf-panel" id="nfPanel" hidden></div>
+</div>
+
+<div class="bk" id="bk" hidden>
+  <div class="bk-head"><button id="bkX" aria-label="إغلاق">✕</button><h3 id="bkTitle"></h3><button id="bkSnd" aria-label="صوت الورق">🔊</button></div>
+  <p class="bk-note" id="bkNote"></p>
+  <div class="bk-stage" id="bkStage"><div class="bk-book" id="bkBook"><div class="bk-page" id="bkUnder"></div><div class="bk-page" id="bkTop"></div></div></div>
+  <div class="bk-foot"><button class="b3d" id="bkPrev" aria-label="الصفحة السابقة">›</button><output id="bkNum"></output><button class="b3d" id="bkNext" aria-label="الصفحة التالية">‹</button></div>
+</div>
+
+
+<script>
+document.documentElement.dir="rtl";document.documentElement.lang="ar";
+const KAABA=[21.4225,39.8262];
+const SRC={hadaiq:"الحدائق الناضرة في معالم مكة",ziyarat:"زيارات المدينة المنورة",research:"بحث مكمّل"};
+const SECS={
+  makkah:{t:"مكة المكرمة",d:"أم القرى ووسط العالم، وفيها البيت العتيق والمشاعر.",l:"معالم مكة"},
+  madinah:{t:"المدينة المنورة",d:"مدينة الرسول صلى الله عليه وآله، وفيها مرقده الشريف والبقيع وأُحد.",l:"معالم المدينة"},
+  between:{t:"ما بين الحرمين",d:"طريق الهجرة ومنازل الحجيج: الجحفة وغدير خم والأبواء وبدر.",l:"معالم الطريق"}
+};
+const L=[
+ {id:"haram",s:"makkah",n:"المسجد الحرام والكعبة",en:"Al-Masjid al-Haram",lat:21.4225,lng:39.8262,src:"hadaiq",d:"قلب مكة ووسط العالم كما يقرّر المصدر، وقواعد البيت فيه معجزة باقية.",items:["مقام إبراهيم","الشاذروان","صحن المطاف","المعجن","باب بني شيبة","بئر زمزم","الميزاب","الحطيم","الملتزم","المستجار","الركن اليماني","حجر إسماعيل","محل ولادة أمير المؤمنين","توسعات المسجد وأبوابه ومآذنه"]},
+ {id:"khadija",s:"makkah",n:"دار خديجة",en:"House of Khadija",lat:21.4236,lng:39.8283,ap:1,src:"hadaiq",d:"بيت السيدة خديجة عليها السلام، ومولد السيدة فاطمة الزهراء عليها السلام.",items:["دعاء الاعتصام ليلة المبيت"]},
+ {id:"amina",s:"makkah",n:"دار آمنة (مولد النبي)",en:"Birthplace of the Prophet",lat:21.4247,lng:39.8297,ap:1,src:"hadaiq",d:"موضع مولد النبي صلى الله عليه وآله، وفي المصدر أحاديث في ولادته.",items:["أحاديث في ولادة النبي"]},
+ {id:"shib",s:"makkah",n:"شِعب أبي طالب",en:"Shi'b Abi Talib",lat:21.4262,lng:39.8318,ap:1,src:"hadaiq",d:"الشِّعب الذي حوصر فيه بنو هاشم سنين في نصرة النبي صلى الله عليه وآله.",items:[]},
+ {id:"qubais",s:"makkah",n:"جبل أبي قبيس",en:"Mount Abu Qubais",lat:21.4207,lng:39.8303,ap:1,src:"hadaiq",d:"الجبل المطلّ على المسجد الحرام من الشرق، أحد الأخشبين، وعنده مسجد انشقاق القمر.",items:["مسجد انشقاق القمر","مسجد إبراهيم","دار الأرقم"]},
+ {id:"quayqian",s:"makkah",n:"جبل قعيقعان",en:"Mount Qu'ayqi'an",lat:21.4252,lng:39.8196,ap:1,src:"hadaiq",d:"الجبل المقابل لأبي قبيس من الغرب، وهو الأخشب الآخر.",items:["الأخشبان"]},
+ {id:"hajun",s:"makkah",n:"مقبرة الحجون",en:"Al-Hajun Cemetery",lat:21.4314,lng:39.8283,src:"hadaiq",d:"مقبرة مكة التاريخية (المعلاة)، وفيها قبر السيدة خديجة وعبد المطلب وأبي طالب.",items:["مسجد الشجرة بمكة ومعجزة الشجرة"]},
+ {id:"khandama",s:"makkah",n:"جبل خندمة",en:"Mount Khandama",lat:21.4178,lng:39.8425,ap:1,src:"hadaiq",d:"من جبال مكة الواردة في المصدر، شرقي المسجد الحرام.",items:["شِعب ابن عامر","السوق المسقّفة"]},
+ {id:"tuwa",s:"makkah",n:"وادي ذي طوى",en:"Wadi Dhi Tuwa",lat:21.4296,lng:39.8146,ap:1,src:"hadaiq",d:"من أودية مكة الرئيسة، ويُستحب الغسل فيه لدخول مكة.",items:["عقبة المدنيين","كَداء وكُدى","مداخل مكة القديمة"]},
+ {id:"hira",s:"makkah",n:"جبل حراء (غار حراء)",en:"Mount Hira",lat:21.4576,lng:39.8587,src:"hadaiq",d:"فيه الغار الذي كان النبي صلى الله عليه وآله يتعبّد فيه، وفيه نزل الوحي أول مرة.",items:[]},
+ {id:"thawr",s:"makkah",n:"جبل ثور (غار ثور)",en:"Mount Thawr",lat:21.3777,lng:39.8500,src:"hadaiq",d:"فيه الغار الذي أوى إليه النبي صلى الله عليه وآله ليلة الهجرة.",items:[]},
+ {id:"mina",s:"makkah",n:"منى",en:"Mina",lat:21.4140,lng:39.8880,src:"hadaiq",d:"من المشاعر، وفيها الجمرات ومسجد الخيف.",items:["الجمرات","مسجد الخيف"]},
+ {id:"muzd",s:"makkah",n:"المزدلفة (المشعر الحرام)",en:"Muzdalifah",lat:21.3897,lng:39.9147,ap:1,src:"hadaiq",d:"من المشاعر، يبيت فيها الحاج ليلة العاشر ويقف بها.",items:[]},
+ {id:"arafat",s:"makkah",n:"عرفات (جبل الرحمة)",en:"Arafat",lat:21.3549,lng:39.9842,src:"hadaiq",d:"موقف الحج الأعظم يوم التاسع من ذي الحجة.",items:["مسجد نمرة"]},
+ {id:"tanim",s:"makkah",n:"التنعيم",en:"At-Tan'im",lat:21.4655,lng:39.7880,ap:1,src:"research",d:"أقرب الحِلّ إلى المسجد الحرام، ويُحرم منه للعمرة المفردة.",items:[]},
+ {id:"jirana",s:"makkah",n:"الجِعرانة",en:"Al-Ji'ranah",lat:21.5617,lng:40.0450,ap:1,src:"research",d:"من أدنى الحِلّ، أحرم منها النبي صلى الله عليه وآله للعمرة بعد حنين.",items:[]},
+
+ {id:"nabawi",s:"madinah",n:"المسجد النبوي الشريف",en:"The Prophet's Mosque",lat:24.4672,lng:39.6111,src:"ziyarat",d:"مرقد النبي الأكرم صلى الله عليه وآله، وفيه الروضة الشريفة.",z:["إذن الدخول","زيارة النبي","زيارة فاطمة الزهراء","الزيارة الجامعة الكبيرة","وداع النبي"]},
+ {id:"baqi",s:"madinah",n:"البقيع",en:"Al-Baqi'",lat:24.4673,lng:39.6143,src:"ziyarat",d:"مدفن أئمة البقيع عليهم السلام وجمع من أهل البيت والصحابة.",z:["زيارة أئمة البقيع","باقي زيارات البقيع","الدعاء بعد الزيارة"]},
+ {id:"uhud",s:"madinah",n:"أُحد وسيد الشهداء",en:"Uhud",lat:24.5045,lng:39.6125,ap:1,src:"ziyarat",d:"موضع غزوة أُحد، وفيه قبر حمزة سيد الشهداء وشهداء أُحد.",z:["زيارة حمزة","زيارة قبور الشهداء بأُحد"]},
+ {id:"quba",s:"madinah",n:"مسجد قباء",en:"Quba Mosque",lat:24.4393,lng:39.6173,src:"research",d:"أول مسجد أُسّس في الإسلام عند قدوم النبي صلى الله عليه وآله مهاجرًا."},
+ {id:"qiblatain",s:"madinah",n:"مسجد القبلتين",en:"Masjid al-Qiblatayn",lat:24.4840,lng:39.5790,src:"research",d:"المسجد الذي نزل فيه الأمر بتحويل القبلة إلى الكعبة."},
+ {id:"sabaa",s:"madinah",n:"المساجد السبعة (الخندق)",en:"The Seven Mosques",lat:24.4774,lng:39.5937,ap:1,src:"research",d:"مساجد في موضع غزوة الخندق، منها مسجد الفتح."},
+ {id:"shajara",s:"madinah",n:"مسجد الشجرة (ذو الحليفة)",en:"Dhul-Hulayfah",lat:24.4136,lng:39.5432,src:"research",d:"ميقات أهل المدينة، وفيه أحرم النبي صلى الله عليه وآله."},
+
+ {id:"usfan",s:"between",n:"عُسفان",en:"Usfan",lat:21.9300,lng:39.3600,ap:1,src:"research",d:"منزل على طريق الهجرة بين مكة والمدينة."},
+ {id:"juhfa",s:"between",n:"الجُحفة",en:"Al-Juhfah",lat:22.6981,lng:39.1428,ap:1,src:"research",d:"ميقات أهل الشام ومصر ومن مرّ بها."},
+ {id:"ghadir",s:"between",n:"غدير خُم",en:"Ghadir Khumm",lat:22.7900,lng:39.1300,ap:1,src:"research",d:"موضع بيعة الغدير وإعلان ولاية أمير المؤمنين عليه السلام في حجة الوداع، قرب الجحفة."},
+ {id:"abwa",s:"between",n:"الأبواء",en:"Al-Abwa",lat:23.0800,lng:39.0700,ap:1,src:"research",d:"فيها قبر السيدة آمنة بنت وهب أم النبي صلى الله عليه وآله."},
+ {id:"badr",s:"between",n:"بدر",en:"Badr",lat:23.7800,lng:38.7900,ap:1,src:"research",d:"موضع غزوة بدر الكبرى في السنة الثانية للهجرة."}
+];
+const ROUTE=[[21.4225,39.8262],[21.93,39.36],[22.15,39.32],[22.6981,39.1428],[23.08,39.07],[23.45,38.95],[23.78,38.79],[24.1,39.2],[24.4672,39.6111]];
+const COAST=[[20.9,39.35],[21.2,39.17],[21.5,39.15],[22.0,39.04],[22.5,39.07],[22.8,38.98],[23.2,38.78],[23.6,38.5],[23.9,38.25],[24.1,38.05],[24.5,37.75],[25.2,37.35]];
+const PRESETS=[["الكويت",29.3759,47.9774],["المدينة المنورة",24.4672,39.6111],["الرياض",24.7136,46.6753],["المنامة",26.2285,50.586],["الدوحة",25.2854,51.531],["دبي",25.2048,55.2708],["مسقط",23.588,58.3829],["بغداد",33.3152,44.3661],["كربلاء",32.616,44.0249],["النجف",32.0,44.33],["مشهد",36.2972,59.6067],["طهران",35.6892,51.389],["بيروت",33.8938,35.5018],["القاهرة",30.0444,31.2357]];
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let pins=store.get("maalim.pins",[]);
+let sec="makkah";
+let paperBg=store.get("maalim.paper","sand");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ar=n=>String(n).replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
+let toast=function(t){const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2000)}
+
+/* ---------- geo ---------- */
+const R=Math.PI/180;
+function bearing(a,b,c,d){const p1=a*R,p2=c*R,dl=(d-b)*R;return(Math.atan2(Math.sin(dl)*Math.cos(p2),Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl))/R+360)%360}
+function dist(a,b,c,d){const x=Math.sin((c-a)*R/2)**2+Math.cos(a*R)*Math.cos(c*R)*Math.sin((d-b)*R/2)**2;return 12742*Math.asin(Math.sqrt(x))}
+function dirName(g){return["شمال","شمال شرق","شرق","جنوب شرق","جنوب","جنوب غرب","غرب","شمال غرب"][Math.round(g/45)%8]}
+const fmt=(lat,lng)=>`${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+const gmap=(lat,lng)=>`https://www.google.com/maps?q=${lat.toFixed(6)},${lng.toFixed(6)}`;
+const shareText=(n,lat,lng)=>`📍 ${n}\n${fmt(lat,lng)}\n${gmap(lat,lng)}`;
+const wa=(n,lat,lng)=>`https://wa.me/?text=${encodeURIComponent(shareText(n,lat,lng))}`;
+async function copy(text,btn){try{await navigator.clipboard.writeText(text);toast("نُسخت الإحداثيات")}catch(e){const c=btn&&btn.closest(".card,.pin")?.querySelector(".coord");if(c){const r=document.createRange();r.selectNodeContents(c);const s=getSelection();s.removeAllRanges();s.addRange(r)}toast("حدِّد النص وانسخه")}}
+
+/* ---------- home ---------- */
+function setSec(s){
+  sec=s;$$(".sections .b3d").forEach(b=>b.classList.toggle("on",b.dataset.sec===s));
+  $$(".scene .bg").forEach(b=>b.classList.toggle("on",b.id==="bg-"+s));
+  $("#heroTitle").textContent=SECS[s].t;$("#heroText").textContent=SECS[s].d;$("#listTitle").textContent=SECS[s].l;
+  const items=L.filter(x=>x.s===s);$("#listCount").textContent=ar(items.length)+" معلمًا";
+  $("#list").innerHTML=items.map((x,i)=>`<button class="lm" data-id="${x.id}"><span class="n">${ar(i+1)}</span><span><h3>${esc(x.n)}</h3><span class="meta">${esc(x.en)}<span class="tag ${x.src==="research"?"res":""}">${SRC[x.src]}</span>${x.ap?'<span class="tag res">تقريبي</span>':""}</span></span><span class="go">‹</span></button>`).join("");
+}
+$$(".sections .b3d").forEach(b=>b.onclick=()=>setSec(b.dataset.sec));
+$("#list").onclick=e=>{const b=e.target.closest(".lm");if(b)openNf(b.dataset.id,b.querySelector(".n"))};
+
+function openSheet(html){$("#card").innerHTML=html;$("#sheet").hidden=false}
+function closeSheet(){$("#sheet").hidden=true;try{speechSynthesis.cancel()}catch(e){}}
+$("#sheet").onclick=e=>{if(e.target.id==="sheet")closeSheet()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet()});
+
+function actsHTML(n,lat,lng,extra=""){return `<div class="coord">${fmt(lat,lng)}</div>
+ <div class="acts">
+  <button class="b3d act" data-a="map">🗺️ على الخريطة<span class="en">Show on map</span></button>
+  <button class="b3d act" data-a="copy">📋 نسخ الإحداثيات<span class="en">Copy</span></button>
+  <a class="b3d act" href="${wa(n,lat,lng)}" target="_blank" rel="noopener">📤 إرسال واتساب<span class="en">Send</span></a>
+  <a class="b3d act" href="${gmap(lat,lng)}" target="_blank" rel="noopener">🧭 خرائط Google<span class="en">Navigate</span></a>
+  ${extra}
+ </div>`}
+function openLm(id){
+  const x=L.find(v=>v.id===id);const b=bearing(x.lat,x.lng,...KAABA);
+  openSheet(`<button class="x" aria-label="إغلاق">✕</button><h2>${esc(x.n)}<span class="en">${esc(x.en)}</span></h2>
+  <div class="ptog" role="group" aria-label="خلفية النص"><button data-a="pp" data-p="sand" class="${paperBg==="sand"?"on":""}">🟨 ورقية</button><button data-a="pp" data-p="green" class="${paperBg==="green"?"on":""}">🟩 خضراء</button></div>
+  <div class="paper ${paperBg}">
+  <p class="sum">${esc(x.d)}</p>
+  ${x.items&&x.items.length?`<h4>من موضوعات المصدر</h4><div class="chips">${x.items.map(i=>`<span class="chip">${esc(i)}</span>`).join("")}</div>`:""}
+  ${x.z?`<h4>الزيارات والأعمال (زيارات المدينة المنورة)</h4><div class="chips">${x.z.map(i=>`<span class="chip">${esc(i)}</span>`).join("")}</div>`:""}
+  </div>
+  <h4>الموقع ${x.ap?"(تقريبي)":""} · المصدر: ${SRC[x.src]}</h4>
+  ${actsHTML(x.n,x.lat,x.lng,`<button class="b3d act" data-a="pin">📌 ثبّت دبوسًا<span class="en">Pin it</span></button><button class="b3d act" data-a="speak">🔊 استمع<span class="en">Listen</span></button>`)}
+  ${id!=="haram"?`<p class="note">اتجاه الكعبة من هنا ${ar(Math.round(b))}° (${dirName(b)}) على بعد ${ar(dist(x.lat,x.lng,...KAABA).toFixed(1))} كم.</p>`:""}`);
+  $("#card").onclick=e=>{const a=e.target.closest("[data-a],.x");if(!a)return;if(a.classList.contains("x"))return closeSheet();
+    const k=a.dataset.a;
+    if(k==="pp"){paperBg=a.dataset.p;store.set("maalim.paper",paperBg);$("#card .paper").className="paper "+paperBg;$$("#card .ptog button").forEach(b=>b.classList.toggle("on",b===a));return}
+    if(k==="map"){closeSheet();go("map");flyTo(x.lat,x.lng,x.s==="between"?400:60,x.id)}
+    if(k==="copy")copy(shareText(x.n,x.lat,x.lng),a);
+    if(k==="pin"){addPin(x.n,x.lat,x.lng);}
+    if(k==="speak"){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(x.n+". "+x.d);u.lang="ar-SA";speechSynthesis.speak(u)}catch(e){toast("القراءة الصوتية غير متاحة هنا")}}
+  };
+}
+
+/* ---------- pins ---------- */
+function addPin(n,lat,lng){pins.push({id:Date.now().toString(36),n:n||"دبوس "+ar(pins.length+1),lat,lng});store.set("maalim.pins",pins);renderPins();drawMap();toast("📌 ثُبّت الدبوس");fillLoc()}
+function renderPins(){
+  $("#pinCount").textContent=ar(pins.length)+" دبوس";
+  $("#pinList").innerHTML=pins.length?pins.map(p=>`<div class="pin" data-id="${p.id}"><div class="top"><h3>📌 <span>${esc(p.n)}</span></h3><button class="x" data-a="del" aria-label="حذف">🗑</button></div>
+   <input class="field" data-a="name" value="${esc(p.n)}" aria-label="اسم الدبوس">
+   <div class="coord">${fmt(p.lat,p.lng)}</div>
+   <div class="acts"><button class="b3d act" data-a="map">🗺️ الخريطة</button><button class="b3d act" data-a="copy">📋 نسخ</button><a class="b3d act" href="${wa(p.n,p.lat,p.lng)}" target="_blank" rel="noopener">📤 واتساب</a><a class="b3d act" href="${gmap(p.lat,p.lng)}" target="_blank" rel="noopener">🧭 Google</a><button class="b3d act" data-a="qibla">🕋 القبلة</button></div></div>`).join("")
+  :`<div class="empty">لا دبابيس بعد.<br>من «الخريطة» اضغط «📌 ضع دبوسًا» ثم المس الموضع، أو الصق إحداثيات وصلتك.</div>`;
+}
+$("#pinList").addEventListener("click",e=>{const a=e.target.closest("[data-a]");if(!a)return;const p=pins.find(v=>v.id===a.closest(".pin").dataset.id);
+  const k=a.dataset.a;
+  if(k==="del"){pins=pins.filter(v=>v!==p);store.set("maalim.pins",pins);renderPins();drawMap();fillLoc()}
+  if(k==="map"){go("map");flyTo(p.lat,p.lng,60,null)}
+  if(k==="copy")copy(shareText(p.n,p.lat,p.lng),a);
+  if(k==="qibla"){go("compass");fillLoc();$("#locSel").value="pin:"+p.id;updQibla()}
+});
+$("#pinList").addEventListener("change",e=>{if(e.target.dataset.a!=="name")return;const p=pins.find(v=>v.id===e.target.closest(".pin").dataset.id);p.n=e.target.value.trim()||p.n;store.set("maalim.pins",pins);renderPins();drawMap();fillLoc()});
+
+/* ---------- map ---------- */
+const NS="http://www.w3.org/2000/svg",K=1000,CO=Math.cos(23*R);
+const P=(lat,lng)=>[(lng-37.3)*K*CO,(25.3-lat)*K];
+const U=(x,y)=>[25.3-y/K,x/(K*CO)+37.3];
+const svg=$("#map");let V={cx:0,cy:0,w:1},pinMode=false,focusId=null;
+function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e}
+function setView(){const r=svg.getBoundingClientRect();const h=V.w*(r.height/Math.max(r.width,1));svg.setAttribute("viewBox",`${V.cx-V.w/2} ${V.cy-h/2} ${V.w} ${h}`);drawMap()}
+function flyTo(lat,lng,w,id){const [x,y]=P(lat,lng);V={cx:x,cy:y,w};focusId=id;requestAnimationFrame(setView)}
+const PRESET_V={makkah:()=>flyTo(21.42,39.885,230),madinah:()=>flyTo(24.465,39.585,150),route:()=>flyTo(23.0,39.25,1700)};
+function drawMap(){
+  if($("#v-map").hidden)return;
+  const r=svg.getBoundingClientRect();if(!r.width)return;const s=V.w/r.width;const h=V.w*(r.height/r.width);
+  svg.innerHTML="";
+  const x0=V.cx-V.w/2,y0=V.cy-h/2;
+  el("rect",{x:x0,y:y0,width:V.w,height:h,fill:"#1b2a1d"},svg);
+  // sea
+  const sea=COAST.map(c=>P(...c));const far=P(25.3,36.5),far2=P(20.9,36.5);
+  el("path",{d:"M"+sea.map(p=>p.join(" ")).join("L")+`L${far[0]} ${far[1]}L${far2[0]} ${far2[1]}Z`,fill:"#0d2230"},svg);
+  el("path",{d:"M"+sea.map(p=>p.join(" ")).join("L"),fill:"none",stroke:"#3c5f6e","stroke-width":1.5*s},svg);
+  // graticule
+  const step=V.w>1200?1:V.w>400?0.25:V.w>120?0.05:0.01;
+  const [la1,lo1]=U(x0,y0),[la2,lo2]=U(x0+V.w,y0+h);
+  const g=el("g",{stroke:"rgba(226,180,90,.13)","stroke-width":s},svg);
+  const t=el("g",{fill:"rgba(239,230,207,.45)","font-size":11*s,"font-family":"monospace"},svg);
+  for(let lo=Math.ceil(lo1/step)*step;lo<=lo2;lo+=step){const [x]=P(0,lo);el("line",{x1:x,x2:x,y1:y0,y2:y0+h},g);el("text",{x:x+3*s,y:y0+h-6*s},t).textContent=lo.toFixed(step<0.1?2:2)+"°E"}
+  for(let la=Math.ceil(la2/step)*step;la<=la1;la+=step){const [,y]=P(la,0);el("line",{x1:x0,x2:x0+V.w,y1:y,y2:y},g);el("text",{x:x0+4*s,y:y-3*s},t).textContent=la.toFixed(2)+"°N"}
+  // route
+  const rp=ROUTE.map(c=>P(...c));
+  el("path",{d:"M"+rp.map(p=>p.join(" ")).join("L"),fill:"none",stroke:"#e2b45a","stroke-opacity":.55,"stroke-width":4*s,"stroke-linejoin":"round"},svg);
+  el("path",{d:"M"+rp.map(p=>p.join(" ")).join("L"),fill:"none",stroke:"#1b2a1d","stroke-width":1.2*s,"stroke-dasharray":`${6*s} ${6*s}`},svg);
+  // city halos
+  [[21.4225,39.8262,"مكة المكرمة"],[24.4672,39.6111,"المدينة المنورة"]].forEach(([a,b,n])=>{const [x,y]=P(a,b);el("circle",{cx:x,cy:y,r:Math.max(9*s,6),fill:"rgba(226,180,90,.08)",stroke:"rgba(226,180,90,.35)","stroke-width":s},svg);
+    if(V.w>300){const tx=el("text",{x:x,y:y-Math.max(9*s,6)-6*s,"text-anchor":"middle",fill:"#f4d48c","font-size":15*s,"font-family":"El Messiri, serif"},svg);tx.textContent=n}});
+  // landmarks
+  const showLabels=V.w<500;
+  L.forEach(m=>{const [x,y]=P(m.lat,m.lng);const gg=el("g",{transform:`translate(${x} ${y}) scale(${s})`},svg);
+    const on=m.id===focusId;
+    el("circle",{r:on?11:8,fill:m.s==="between"?"#14b8a6":m.s==="madinah"?"#22a35a":"#e2b45a",stroke:"#0a1410","stroke-width":2.5},gg);
+    if(on)el("circle",{r:17,fill:"none",stroke:"#f4d48c","stroke-width":2},gg);
+    if(showLabels||on||m.s==="between"&&V.w<2200){const tx=el("text",{x:0,y:-14,"text-anchor":"middle",fill:"#efe6cf","font-size":13,"font-family":"Tajawal, sans-serif",stroke:"#0a1410","stroke-width":3,"paint-order":"stroke"},gg);tx.textContent=m.n}});
+  // pins
+  pins.forEach(p=>{const [x,y]=P(p.lat,p.lng);const gg=el("g",{transform:`translate(${x} ${y}) scale(${s})`},svg);
+    el("path",{d:"M0 0c-8-12-12-17-12-23a12 12 0 0 1 24 0c0 6-4 11-12 23z",fill:"#ef4444",stroke:"#fff","stroke-width":1.5},gg);el("circle",{cy:-23,r:4,fill:"#fff"},gg);
+    const tx=el("text",{x:0,y:-40,"text-anchor":"middle",fill:"#fecaca","font-size":13,"font-family":"Tajawal, sans-serif",stroke:"#0a1410","stroke-width":3,"paint-order":"stroke"},gg);tx.textContent=p.n});
+}
+function toSvg(cx,cy){const pt=svg.createSVGPoint();pt.x=cx;pt.y=cy;return pt.matrixTransform(svg.getScreenCTM().inverse())}
+const ptrs=new Map();let start=null,pinch=null;
+svg.addEventListener("pointerdown",e=>{svg.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});start={x:e.clientX,y:e.clientY,t:Date.now(),moved:false};
+  if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y),w:V.w}}});
+svg.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;const prev=ptrs.get(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  const r=svg.getBoundingClientRect(),s=V.w/r.width;
+  if(ptrs.size===2&&pinch){const [a,b]=[...ptrs.values()];V.w=Math.min(4000,Math.max(3,pinch.w*pinch.d/Math.max(Math.hypot(a.x-b.x,a.y-b.y),1)));start.moved=true;setView();return}
+  if(ptrs.size===1){const dx=e.clientX-prev.x,dy=e.clientY-prev.y;if(Math.hypot(e.clientX-start.x,e.clientY-start.y)>6)start.moved=true;if(start.moved){V.cx-=dx*s;V.cy-=dy*s;setView()}}});
+function up(e){if(!ptrs.has(e.pointerId))return;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;
+  if(ptrs.size===0&&start&&!start.moved&&Date.now()-start.t<600)tap(e.clientX,e.clientY)}
+svg.addEventListener("pointerup",up);svg.addEventListener("pointercancel",e=>{ptrs.delete(e.pointerId);pinch=null});
+svg.addEventListener("wheel",e=>{e.preventDefault();zoomAt(e.deltaY>0?1.25:0.8,e.clientX,e.clientY)},{passive:false});
+function zoomAt(f,cx,cy){const r=svg.getBoundingClientRect();if(cx==null){cx=r.left+r.width/2;cy=r.top+r.height/2}const p=toSvg(cx,cy);const nw=Math.min(4000,Math.max(3,V.w*f));const k=nw/V.w;V.cx=p.x+(V.cx-p.x)*k;V.cy=p.y+(V.cy-p.y)*k;V.w=nw;setView()}
+$("#zin").onclick=()=>zoomAt(0.6);$("#zout").onclick=()=>zoomAt(1.6);
+function tap(cx,cy){const p=toSvg(cx,cy);const [lat,lng]=U(p.x,p.y);
+  if(pinMode){addPin(null,lat,lng);setPinMode(false);return}
+  const r=svg.getBoundingClientRect(),s=V.w/r.width;let best=null,bd=22*s;
+  L.forEach(m=>{const [x,y]=P(m.lat,m.lng);const d=Math.hypot(x-p.x,y-p.y);if(d<bd){bd=d;best=m}});
+  if(best){focusId=best.id;drawMap();openNf(best.id,null)}else{$("#maphint").textContent=`الموضع: ${fmt(lat,lng)}`}}
+function setPinMode(on){pinMode=on;svg.classList.toggle("pinmode",on);$("#pinToggle").classList.toggle("on",on);$("#pinToggle").setAttribute("aria-pressed",on);$("#maphint").textContent=on?"المس الموضع لتثبيت الدبوس 📌":"اسحب للتنقّل، وقرّب بإصبعين أو بالأزرار. اضغط معلمًا لعرضه."}
+$("#pinToggle").onclick=()=>setPinMode(!pinMode);
+$$("[data-fly]").forEach(b=>b.onclick=()=>{focusId=null;PRESET_V[b.dataset.fly]()});
+$("#coordForm").addEventListener("submit",e=>{e.preventDefault();const v=$("#coordIn").value;
+  const m=v.match(/(-?\d{1,2}\.\d+)\s*[,،\s]\s*(-?\d{1,3}\.\d+)/);
+  if(!m){toast("اكتب الإحداثيات هكذا: 21.4225, 39.8262");return}
+  const lat=+m[1],lng=+m[2];if(Math.abs(lat)>90||Math.abs(lng)>180){toast("الإحداثيات خارج النطاق");return}
+  addPin("موقع مُرسَل",lat,lng);flyTo(lat,lng,80,null);$("#coordIn").value=""});
+addEventListener("resize",()=>setView());
+
+/* ---------- compass ---------- */
+(function ticks(){const g=$("#ticks");for(let i=0;i<360;i+=5){const l=i%30===0?18:i%10===0?11:6;const a=i*R;el("line",{x1:200+Math.sin(a)*186,y1:200-Math.cos(a)*186,x2:200+Math.sin(a)*(186-l),y2:200-Math.cos(a)*(186-l),stroke:i%30===0?"#e2b45a":"rgba(239,230,207,.5)","stroke-width":i%30===0?2.5:1.2},g);
+  if(i%30===0&&i%90!==0){const t=el("text",{x:200+Math.sin(a)*140,y:206-Math.cos(a)*140,"text-anchor":"middle",fill:"#a9b3a2","font-size":14,"font-family":"monospace"},g);t.textContent=i}}})();
+let gps=null,heading=null;
+function fillLoc(){const s=$("#locSel"),cur=s.value;
+  s.innerHTML=(gps?`<option value="gps">📍 موقعي (${fmt(gps[0],gps[1])})</option>`:"")+
+   `<optgroup label="مدن">${PRESETS.map((p,i)=>`<option value="c:${i}">${p[0]}</option>`).join("")}</optgroup>`+
+   (pins.length?`<optgroup label="دبابيسي">${pins.map(p=>`<option value="pin:${p.id}">📌 ${esc(p.n)}</option>`).join("")}</optgroup>`:"")+
+   `<optgroup label="المعالم">${L.filter(x=>x.id!=="haram").map(x=>`<option value="lm:${x.id}">${esc(x.n)}</option>`).join("")}</optgroup>`;
+  if(cur&&[...s.options].some(o=>o.value===cur))s.value=cur}
+function curLoc(){const v=$("#locSel").value||"c:0";
+  if(v==="gps"&&gps)return gps;
+  if(v.startsWith("c:")){const p=PRESETS[+v.slice(2)];return[p[1],p[2]]}
+  if(v.startsWith("pin:")){const p=pins.find(x=>x.id===v.slice(4));if(p)return[p.lat,p.lng]}
+  if(v.startsWith("lm:")){const m=L.find(x=>x.id===v.slice(3));return[m.lat,m.lng]}
+  return[PRESETS[0][1],PRESETS[0][2]]}
+let qb=0;
+function updQibla(){const [a,b]=curLoc();qb=bearing(a,b,...KAABA);const d=dist(a,b,...KAABA);
+  $("#qDeg").textContent=ar(Math.round(qb))+"°";$("#qDir").textContent=dirName(qb);$("#qKm").textContent=d<0.05?"أنت عندها":ar(Math.round(d).toLocaleString("en"));rot()}
+function rot(){const hd=heading??0;$("#rose").style.transform=`rotate(${-hd}deg)`;$("#needle").style.transform=`rotate(${qb-hd}deg)`}
+$("#locSel").onchange=updQibla;
+$("#gpsBtn").onclick=()=>{if(!navigator.geolocation){toast("تحديد الموقع غير متاح");return}
+  $("#cmpNote").textContent="جارٍ تحديد موقعك…";
+  navigator.geolocation.getCurrentPosition(p=>{gps=[p.coords.latitude,p.coords.longitude];fillLoc();$("#locSel").value="gps";updQibla();$("#cmpNote").textContent="تمّ تحديد موقعك."},
+   ()=>{$("#cmpNote").textContent="لم يُسمح بتحديد الموقع في هذه المعاينة؛ يعمل في نسخة التطبيق على الهاتف. اختر مدينتك أو دبوسًا من القائمة."},{enableHighAccuracy:true,timeout:10000})};
+function onOri(e){let h=null;if(typeof e.webkitCompassHeading==="number")h=e.webkitCompassHeading;else if(e.absolute&&e.alpha!=null)h=360-e.alpha;else if(e.alpha!=null)h=360-e.alpha;if(h==null)return;heading=h;rot();$("#cmpNote").textContent="البوصلة الحية تعمل. أبعِد الهاتف عن المعادن، ووجّه أعلاه حتى يلتقي السهم بالكعبة."}
+$("#liveBtn").onclick=async()=>{try{if(typeof DeviceOrientationEvent!=="undefined"&&DeviceOrientationEvent.requestPermission){const r=await DeviceOrientationEvent.requestPermission();if(r!=="granted")throw 0}
+  addEventListener("deviceorientationabsolute",onOri);addEventListener("deviceorientation",onOri);
+  setTimeout(()=>{if(heading==null)$("#cmpNote").textContent="لم تصل قراءة الحسّاس في هذه المعاينة؛ البوصلة الحية تعمل في نسخة التطبيق على الهاتف. الآن: ضع الهاتف والشمال أعلاه."},2500)}
+  catch(e){$("#cmpNote").textContent="لم يُسمح بالحسّاس هنا؛ يعمل في نسخة التطبيق على الهاتف."}};
+
+
+/* ---------- sound engine (UI ticks, paper, nature) ---------- */
+let SND=Object.assign({btn:true,amb:"off",vol:.45,paper:true},store.get("maalim.snd",{}));
+const saveSnd=()=>store.set("maalim.snd",SND);
+let AC=null,ambNode=null,ambTimers=[];
+function ac(){try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();return AC}catch(e){return null}}
+function noiseBuf(c,sec){const b=c.createBuffer(1,c.sampleRate*sec,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return b}
+function tick(kind){ // short UI sounds: tap / open / ding
+  if(!SND.btn)return;const c=ac();if(!c)return;const t=c.currentTime,g=c.createGain();g.connect(c.destination);
+  if(kind==="open"){const n=c.createBufferSource();n.buffer=noiseBuf(c,.5);const f=c.createBiquadFilter();f.type="bandpass";f.Q.value=1.2;f.frequency.setValueAtTime(400,t);f.frequency.exponentialRampToValueAtTime(3200,t+.35);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.18,t+.12);g.gain.exponentialRampToValueAtTime(.001,t+.45);n.connect(f).connect(g);n.start(t);n.stop(t+.5);return}
+  if(kind==="ding"){const o=c.createOscillator();o.type="sine";o.frequency.value=1320;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.12,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.35);o.connect(g);o.start(t);o.stop(t+.4);return}
+  // tap: soft click + tiny pop
+  const o=c.createOscillator();o.type="sine";o.frequency.setValueAtTime(900,t);o.frequency.exponentialRampToValueAtTime(420,t+.06);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.16,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+.08);o.connect(g);o.start(t);o.stop(t+.1);
+  const n=c.createBufferSource();n.buffer=noiseBuf(c,.03);const hp=c.createBiquadFilter();hp.type="highpass";hp.frequency.value=3000;const g2=c.createGain();g2.gain.value=.05;n.connect(hp).connect(g2).connect(c.destination);n.start(t)}
+function rustle(){ // paper page turn
+  if(!SND.paper)return;const c=ac();if(!c)return;const t=c.currentTime,len=.55,b=c.createBuffer(1,c.sampleRate*len,c.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++){const x=i/d.length;const env=Math.pow(Math.sin(Math.PI*x),1.4)*(0.55+0.45*Math.random()*(Math.random()<.08?2.2:1));d[i]=(Math.random()*2-1)*env}
+  const n=c.createBufferSource();n.buffer=b;const bp=c.createBiquadFilter();bp.type="bandpass";bp.frequency.value=2600;bp.Q.value=.7;const hp=c.createBiquadFilter();hp.type="highpass";hp.frequency.value=700;
+  const g=c.createGain();g.gain.value=.32;n.connect(hp).connect(bp).connect(g).connect(c.destination);n.start(t)}
+function stopAmb(){ambTimers.forEach(clearTimeout);ambTimers=[];if(ambNode){try{ambNode.gain.setTargetAtTime(0,AC.currentTime,.3);const old=ambNode;setTimeout(()=>old.disconnect(),900)}catch(e){}ambNode=null}}
+function startAmb(kind){stopAmb();if(kind==="off")return;const c=ac();if(!c)return;
+  const m=c.createGain();m.gain.value=0;m.gain.setTargetAtTime(SND.vol,c.currentTime,.6);m.connect(c.destination);ambNode=m;
+  const bed=(lo,hi,lvl)=>{const n=c.createBufferSource();n.buffer=noiseBuf(c,3);n.loop=true;const a=c.createBiquadFilter();a.type="highpass";a.frequency.value=lo;const b=c.createBiquadFilter();b.type="lowpass";b.frequency.value=hi;const g=c.createGain();g.gain.value=lvl;n.connect(a).connect(b).connect(g).connect(m);n.start();return g};
+  const loop=(fn,min,max)=>{const step=()=>{fn();ambTimers.push(setTimeout(step,min+Math.random()*(max-min)))};ambTimers.push(setTimeout(step,300))};
+  if(kind==="rain"){bed(500,7000,.22);loop(()=>{const t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.frequency.setValueAtTime(2200+Math.random()*2600,t);o.frequency.exponentialRampToValueAtTime(900,t+.03);g.gain.setValueAtTime(.025,t);g.gain.exponentialRampToValueAtTime(.0001,t+.04);o.connect(g).connect(m);o.start(t);o.stop(t+.05)},25,110)}
+  if(kind==="leaves"){const g=bed(900,4200,.12);loop(()=>{const t=c.currentTime,v=.05+Math.random()*.22;g.gain.setTargetAtTime(v,t,.6+Math.random())},1200,3200)}
+  if(kind==="birds"){bed(1500,5000,.012);loop(()=>{let t=c.currentTime;const base=2600+Math.random()*1800,notes=2+Math.floor(Math.random()*4);
+    for(let k=0;k<notes;k++){const o=c.createOscillator(),g=c.createGain(),d=.06+Math.random()*.1;o.type="sine";o.frequency.setValueAtTime(base*(0.9+Math.random()*.25),t);o.frequency.exponentialRampToValueAtTime(base*(1.15+Math.random()*.4),t+d*.6);o.frequency.exponentialRampToValueAtTime(base*.85,t+d);
+      g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.05,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(m);o.start(t);o.stop(t+d+.02);t+=d+.03+Math.random()*.05}},1400,4200)}}
+let syncSndUI=function(){$$("[data-btnsnd]").forEach(b=>b.classList.toggle("on",(b.dataset.btnsnd==="1")===SND.btn));$$("[data-amb]").forEach(b=>b.classList.toggle("on",b.dataset.amb===SND.amb));$("#ambVol").value=SND.vol;$("#bkSnd").textContent=SND.paper?"🔊":"🔇"}
+$("#sndFab").onclick=()=>{$("#sndPanel").hidden=!$("#sndPanel").hidden;syncSndUI()};
+$("#sndPanel").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.btnsnd){SND.btn=b.dataset.btnsnd==="1"}
+  if(b.dataset.amb){SND.amb=b.dataset.amb;startAmb(SND.amb)}
+  saveSnd();syncSndUI()});
+$("#ambVol").oninput=e=>{SND.vol=+e.target.value;saveSnd();if(ambNode&&AC)ambNode.gain.setTargetAtTime(SND.vol,AC.currentTime,.2)};
+// shake + tap sound on every pressable thing
+document.addEventListener("pointerdown",e=>{const b=e.target.closest(".b3d,.tab,.lm,.nfb,.sndfab,.seg button,.zoom button");if(!b)return;
+  b.classList.remove("shk");void b.offsetWidth;b.classList.add("shk");tick("tap");try{navigator.vibrate&&navigator.vibrate(12)}catch(x){}});
+document.addEventListener("animationend",e=>e.target.classList&&e.target.classList.remove("shk"));
+const _toast=toast;toast=t=>{_toast(t);tick("ding")};
+
+/* ---------- landmark window ---------- */
+const SECIMG={makkah:"bg-makkah.jpg",madinah:"bg-madinah.jpg",between:"bg-between.jpg"};
+const LMIMG={ghadir:"img/ghadir-art.jpg"}; // main image per landmark
+const LMGAL={ghadir:[["img/ghadir-art.jpg","تصوير فني"],["img/ghadir.jpg","صورة الموضع"]]}; // up to two images
+const ART=new Set(["img/ghadir-art.jpg"]);
+const ZY={adhn:["إذن الدخول",3,4],nabi:["زيارة النبي",5,8],fatima:["زيارة فاطمة الزهراء",9,11],baqi:["زيارة أئمة البقيع",12,16],baqi2:["باقي زيارات البقيع",17,26],hamza:["زيارة حمزة في أحد",27,30],shuhada:["زيارة قبور الشهداء بأحد",31,32],wada:["وداع النبي",33,33],jamia:["الزيارة الجامعة الكبيرة",34,47],dua:["الدعاء بعد الزيارة",48,55],yasin:["زيارة آل يس",56,59],faraj:["دعاء الفرج",60,61]};
+const ZMAP={nabawi:["adhn","nabi","fatima","jamia","dua","wada"],baqi:["adhn","baqi","baqi2","jamia","dua"],uhud:["hamza","shuhada"]};
+const pg=n=>`zp/p-${String(n).padStart(2,"0")}.jpg`;
+let NF=null;
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function openNf(id,src){
+  const x=L.find(v=>v.id===id);NF=x;tick("open");
+  $("#nfImg").src=LMIMG[x.id]||SECIMG[x.s];$("#nfCap").innerHTML=`${ART.has(LMIMG[x.id])?'<span class="artb">تصوير فني</span>':""}${esc(x.n)}<span class="en">${esc(x.en)}</span>`;
+  const has=!!ZMAP[id];
+  const B=[["🔉",has?"الزيارة":"استمع","zy"],["🖼️","الصور","gal"],["📜","الوقائع","ev"],["📖","النص","tx"],["✨","الفضل","fadl"],["🗺️","الموقع","loc"]];
+  $("#nfBtns").innerHTML=B.map(b=>`<button class="nfb" data-k="${b[2]}" aria-label="${b[1]}">${b[0]}<small>${b[1]}</small></button>`).join("");
+  $("#nfPanel").hidden=true;$("#nf").hidden=false;
+  const fig=$("#nfFig"),img=$("#nfImg");
+  if(reduce)return;
+  const last=fig.getBoundingClientRect();let first;
+  if(src){first=src.getBoundingClientRect()}else{first={left:last.left+last.width*.4,top:last.top+last.height*.4,width:last.width*.2,height:last.height*.2}}
+  const dx=first.left-last.left,dy=first.top-last.top,sx=first.width/last.width,sy=first.height/last.height;
+  fig.animate([{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`,borderRadius:"16px",opacity:.6},{transform:"none",opacity:1}],{duration:560,easing:"cubic-bezier(.2,.85,.25,1)"});
+  img.animate([{transform:"scale(1)"},{transform:"scale(1.12)"}],{duration:2400,delay:500,easing:"ease-out",fill:"forwards"});
+  fig.animate([{boxShadow:"0 0 0 0 rgba(244,212,140,0)"},{boxShadow:"0 0 0 6px rgba(244,212,140,.55)"},{boxShadow:"0 24px 70px rgba(0,0,0,.75)"}],{duration:900,delay:520});
+  $("#nfDim").animate([{opacity:0},{opacity:1}],{duration:400});
+  $$("#nfBtns .nfb").forEach((b,i)=>b.animate([{opacity:0,transform:"translateX(-30px) scale(.4) rotate(-40deg)"},{opacity:1,transform:"none"}],{duration:380,delay:560+i*85,easing:"cubic-bezier(.3,1.5,.5,1)",fill:"backwards"}));
+}
+function closeNf(){$("#nf").hidden=true;NF=null;try{speechSynthesis.cancel()}catch(e){}}
+$("#nfX").onclick=closeNf;$("#nfDim").onclick=()=>{if(!$("#nfPanel").hidden)$("#nfPanel").hidden=true;else closeNf()};
+function panel(h){const p=$("#nfPanel");p.innerHTML=`<button class="x" data-k="close" aria-label="إغلاق اللوحة">✕</button>`+h;p.hidden=false;if(!reduce)p.animate([{transform:"translateY(100%)"},{transform:"none"}],{duration:320,easing:"cubic-bezier(.2,.8,.2,1)"})}
+$("#nfBtns").addEventListener("click",e=>{const b=e.target.closest(".nfb");if(!b||!NF)return;const x=NF,k=b.dataset.k;
+  if(k==="zy"){
+    if(!ZMAP[x.id]){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(x.n+". "+x.d);u.lang="ar-SA";speechSynthesis.speak(u);toast("🔉 قراءة النبذة")}catch(e){toast("القراءة الصوتية غير متاحة هنا")}return}
+    panel(`<h3>🔉 الزيارات والأعمال</h3><p class="note">من كتاب «زيارات المدينة المنورة». التسجيل الصوتي يُضاف بصوت القارئ المعتمد؛ الآن تُتصفَّح الزيارة كتابًا.</p><div class="zl">${ZMAP[x.id].map(z=>`<button class="b3d" data-z="${z}">${ZY[z][0]}<span>${ar(ZY[z][2]-ZY[z][1]+1)} ص</span></button>`).join("")}</div>`)}
+  if(k==="gal"){const imgs=[SECIMG[x.s]].concat(x.s==="madinah"?[pg(1)]:[]);
+    const G=LMGAL[x.id]||imgs.map(i=>[i,"صورة مؤقتة"]);
+    panel(`<h3>🖼️ الصور</h3><div class="gal">${G.map(g=>`<figure class="gi"><img src="${g[0]}" alt="${esc(x.n)}"><figcaption>${g[1]}</figcaption></figure>`).join("")}</div><p class="note">صور مؤقتة للتصور. تُضاف صور المعلم، وقسم «بين الأمس واليوم» من صور «مرآة الحرمين» (١٩٢٥م).</p>`)}
+  if(k==="ev"){const it=(x.items&&x.items.length?x.items:(x.z||[]));
+    panel(`<h3>📜 الوقائع</h3><ul class="tl"><li>${esc(x.d)}</li>${it.map(i=>`<li>${esc(i)}</li>`).join("")}</ul><p class="note">تُرتَّب الوقائع بالسنوات الهجرية بعد وصول كتب المعالم المعتمدة.</p>`)}
+  if(k==="tx")openBook(x.n,textPages(x),"");
+  if(k==="fadl")panel(`<h3>✨ ما ورد في فضل ${esc(x.n)}</h3>
+    <div class="fadl"><span class="q">﴿ … ﴾ — موضع الآية الكريمة</span><span class="ref">السورة ورقم الآية</span></div>
+    <div class="fadl"><span class="q">« … » — موضع الحديث الشريف</span><span class="ref">المصدر الشيعي · الجزء · الصفحة · رابط مكتبة أهل البيت</span></div>
+    <p class="note">هذا شكل العرض فقط. تُؤخذ النصوص من مكتبة أهل البيت (ablibrary.net) من مصادر شيعية حصرًا، ولا يُعرض نص بلا مصدر وصفحة.</p>`);
+  if(k==="loc"){closeNf();openLm(x.id)}
+});
+$("#nfPanel").addEventListener("click",e=>{const b=e.target.closest("[data-k=close],[data-z]");if(!b)return;
+  if(b.dataset.k==="close"){$("#nfPanel").hidden=true;return}
+  const z=ZY[b.dataset.z],pages=[];for(let n=z[1];n<=z[2];n++)pages.push({img:pg(n)});
+  openBook(z[0],pages,"🔉 التسجيل الصوتي يُضاف لاحقًا · قلّب بالسحب أو بالضغط على طرف الصفحة")});
+function textPages(x){const c=paperBg;const P=[];
+  P.push({html:`<div class="tx ${c}"><h2>${esc(x.n)}</h2><p>${esc(x.d)}</p><span class="pn">١</span></div>`});
+  const it=(x.items||[]).concat(x.z||[]);
+  if(it.length)P.push({html:`<div class="tx ${c}"><h2>من موضوعاته</h2><ul>${it.map(i=>`<li>${esc(i)}</li>`).join("")}</ul><span class="pn">٢</span></div>`});
+  P.push({html:`<div class="tx ${c}"><h2>المصدر</h2><p>${SRC[x.src]}${x.ap?"<br>الموقع تقريبي يُراجَع.":""}</p><p>يُستكمل النص من كتب المعالم المعتمدة مع الصفحة والمصدر.</p><span class="pn">${ar(P.length+1)}</span></div>`});
+  return P}
+
+/* ---------- book reader with paper sound ---------- */
+let BK={pages:[],i:0,busy:false};
+function pageHTML(p){return p?(p.img?`<img src="${p.img}" alt="">`:p.html)+'<div class="shade"></div>':""}
+function sizeBook(){const st=$("#bkStage").getBoundingClientRect();const w=Math.min(st.width-24,(st.height-8)*9/16);$("#bkBook").style.width=w+"px";$("#bkBook").style.height=(w*16/9)+"px"}
+function bkNum(){$("#bkNum").textContent=`${ar(BK.i+1)} / ${ar(BK.pages.length)}`;const n=BK.pages[BK.i+1];if(n&&n.img){const im=new Image();im.src=n.img}}
+function openBook(title,pages,note){BK={pages,i:0,busy:false};$("#bkTitle").textContent=title;$("#bkNote").textContent=note||"قلّب بالسحب أو بالضغط على طرف الصفحة";
+  $("#bk").hidden=false;syncSndUI();sizeBook();$("#bkTop").innerHTML=pageHTML(pages[0]);$("#bkUnder").innerHTML="";bkNum();rustle()}
+function flip(dir){const ni=BK.i+dir;if(BK.busy||ni<0||ni>=BK.pages.length){if(!BK.busy)tick("tap");return}
+  BK.busy=true;rustle();const top=$("#bkTop"),und=$("#bkUnder"),D=reduce?1:620;
+  if(dir>0){und.innerHTML=pageHTML(BK.pages[ni]);
+    const a=top.animate([{transform:"rotateY(0deg)"},{transform:"rotateY(-178deg)"}],{duration:D,easing:"cubic-bezier(.45,.05,.35,1)"});
+    top.querySelector(".shade")?.animate([{opacity:0},{opacity:1}],{duration:D});
+    a.onfinish=()=>{top.innerHTML=pageHTML(BK.pages[ni]);und.innerHTML="";BK.i=ni;BK.busy=false;bkNum()}}
+  else{und.innerHTML=pageHTML(BK.pages[BK.i]);top.innerHTML=pageHTML(BK.pages[ni]);
+    const a=top.animate([{transform:"rotateY(-178deg)"},{transform:"rotateY(0deg)"}],{duration:D,easing:"cubic-bezier(.45,.05,.35,1)"});
+    a.onfinish=()=>{und.innerHTML="";BK.i=ni;BK.busy=false;bkNum()}}}
+$("#bkNext").onclick=()=>flip(1);$("#bkPrev").onclick=()=>flip(-1);
+$("#bkX").onclick=()=>{$("#bk").hidden=true};
+$("#bkSnd").onclick=()=>{SND.paper=!SND.paper;saveSnd();syncSndUI()};
+(function(){let sx=null,st=0;const S=$("#bkStage");
+  S.addEventListener("pointerdown",e=>{sx=e.clientX;st=Date.now()});
+  S.addEventListener("pointerup",e=>{if(sx==null)return;const dx=e.clientX-sx;sx=null;
+    if(Math.abs(dx)>40)return flip(dx>0?1:-1); // Arabic book: drag left→right turns forward
+    const r=$("#bkBook").getBoundingClientRect();if(e.clientX<r.left+r.width/2)flip(1);else flip(-1)})})();
+addEventListener("resize",()=>{if(!$("#bk").hidden)sizeBook()});
+document.addEventListener("keydown",e=>{if($("#bk").hidden)return;if(e.key==="ArrowLeft")flip(1);if(e.key==="ArrowRight")flip(-1);if(e.key==="Escape")$("#bk").hidden=true});
+if(SND.amb!=="off"){const once=()=>{startAmb(SND.amb);removeEventListener("pointerdown",once)};addEventListener("pointerdown",once)}
+
+
+/* ---------- quick mute: buttons, transitions and tones ---------- */
+function syncMute(){const m=!SND.btn&&!SND.paper;const b=$("#muteFab");b.textContent=m?"🔕":"🔔";b.classList.toggle("off",m);b.setAttribute("aria-pressed",m);b.title=m?"تشغيل أصوات الأزرار والانتقالات":"كتم أصوات الأزرار والانتقالات"}
+$("#muteFab").onclick=()=>{const m=!SND.btn&&!SND.paper;SND.btn=m;SND.paper=m;saveSnd();syncMute();syncSndUI();_toast(m?"🔔 الأصوات تعمل":"🔕 كُتمت أصوات الأزرار والانتقالات")};
+const _sync=syncSndUI;syncSndUI=function(){_sync();syncMute()};syncMute();
+/* ---------- routing ---------- */
+const VIEWS=["home","map","compass","pins"];
+function go(v){if(!VIEWS.includes(v))v="home";VIEWS.forEach(n=>$("#v-"+n).hidden=n!==v);$$(".tab").forEach(t=>t.classList.toggle("on",t.dataset.v===v));
+  if(location.hash.slice(1)!==v)history.replaceState(null,"","#"+v);
+  if(v==="map"){if(V.w===1)PRESET_V[sec==="between"?"route":sec]();else requestAnimationFrame(setView)}
+  if(v==="compass"){fillLoc();updQibla()}
+  if(v==="pins")renderPins()}
+$$(".tab").forEach(t=>t.onclick=()=>go(t.dataset.v));
+addEventListener("hashchange",()=>go(location.hash.slice(1)));
+setSec("makkah");renderPins();fillLoc();go(location.hash.slice(1)||"home");
+</script>
+
+</body></html>
