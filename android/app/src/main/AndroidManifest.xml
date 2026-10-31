@@ -3,6 +3,8 @@
 
     <!-- للبحث في الإنترنت وروابط المصادر فقط؛ الحساب يعمل بدون اتصال -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- لمعرفة وجود اتصال قبل فتح الحاسبة من الموقع -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"

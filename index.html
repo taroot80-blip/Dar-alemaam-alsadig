@@ -1962,6 +1962,11 @@ const src = (window.MARAJI && window.MARAJI.sources) || [];
 $('#sources').innerHTML = src.map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join(' · ');
 renderHeirs(); goStep(1); refresh(); resetResult(); syncMarja();
 $('#hdrPhoto').src = $('.designer-photo').src;
+// داخل تطبيق أندرويد: إصدار التطبيق، وهل الحاسبة من الموقع (محدّثة) أم من نسخة التطبيق
+if (window.AndroidApp && window.AndroidApp.version){
+  const v = window.AndroidApp.version(), src = window.AndroidApp.source ? window.AndroidApp.source() : '';
+  if (v) $('.netnote').insertAdjacentHTML('beforebegin', `<p class="hint" style="margin:14px 0 0">إصدار التطبيق ${esc(v)} · ${src === 'site' ? 'الحاسبة محدّثة من الموقع' : 'نسخة التطبيق المحفوظة (بدون إنترنت)'}</p>`);
+}
 // تطبيق ويب: يعمل بعد أول زيارة بدون إنترنت على الآيفون وغيره (لا يعمل داخل إطار Claude)
 if ('serviceWorker' in navigator && location.protocol === 'https:' && window.top === window && !/claude/.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();
