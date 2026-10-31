@@ -256,6 +256,13 @@ p,.sum,.note,.hero p,.tl li,.fadl .q,.bk-page .tx p,.bk-page .tx li,label{text-a
 .paper.sand .sum,.paper.sand.about dd{color:#1c1106}.paper.sand.about dt,.paper.sand h4{color:#3d2a10}
 .paper.sand.about dd:not(.list){color:#2b1903}
 .paper.sand .abimg figcaption{color:#f4d48c}
+.shelf{display:flex;flex-direction:column;gap:8px}.shelf:empty{display:none}
+.shelfb{min-height:58px;padding:8px 14px;font-family:var(--f-title);font-size:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.alam{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:start;background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:12px}
+.alam img{width:96px;aspect-ratio:3/4;object-fit:cover;border-radius:12px;border:1px solid var(--gold)}
+.alam h3{margin:0;font-family:var(--f-title);color:var(--gold-hi);font-size:19px}
+.alam p{margin:6px 0;line-height:1.8}
+.tab{max-width:130px}.tab .en{font-size:9px}
 </style>
 
 <div class="scene" aria-hidden="true">
@@ -282,6 +289,7 @@ p,.sum,.note,.hero p,.tl li,.fadl .q,.bk-page .tx p,.bk-page .tx li,label{text-a
         <button class="b3d" data-sec="madinah" role="tab"><span class="ico">🕌</span>المدينة<span class="en">Madinah</span></button>
       </div>
       <div class="sechead"><h2 id="listTitle">معالم مكة</h2><span id="listCount"></span></div>
+      <div class="shelf" id="shelf"></div>
       <div class="list" id="list"></div>
       <p class="note">الإحداثيات المعلَّمة «تقريبية» تُراجَع قبل الإصدار. المعالم الموسومة «بحث مكمّل» ليست في ملفاتك وتُستكمل بالتوثيق.</p>
     </div>
@@ -345,6 +353,13 @@ p,.sum,.note,.hero p,.tl li,.fadl .q,.bk-page .tx p,.bk-page .tx li,label{text-a
   </section>
 
   <!-- PINS -->
+  <section class="view" id="v-alam" hidden>
+    <div class="wrap">
+      <div class="sechead"><h2>أعلام المدينة المنورة</h2><span>من مشايخ الطائفة وساداتها · Notables of Madinah</span></div>
+      <div class="seg" id="alamSeg" style="grid-template-columns:repeat(3,1fr)"><button data-f="all" class="on">الكل</button><button data-f="شيخ">المشايخ</button><button data-f="سيد">السادة</button></div>
+      <div class="list" id="alamList"></div>
+    </div>
+  </section>
   <section class="view" id="v-pins" hidden>
     <div class="wrap">
       <div class="sechead"><h2>دبابيسي</h2><span id="pinCount"></span></div>
@@ -356,6 +371,7 @@ p,.sum,.note,.hero p,.tl li,.fadl .q,.bk-page .tx p,.bk-page .tx li,label{text-a
     <button class="tab on" data-v="home"><span class="i">🏠</span>المعالم<span class="en">Landmarks</span></button>
     <button class="tab" data-v="map"><span class="i">🗺️</span>الخريطة<span class="en">Map</span></button>
     <button class="tab" data-v="compass"><span class="i">🧭</span>البوصلة<span class="en">Compass</span></button>
+    <button class="tab" data-v="alam"><span class="i">🎓</span>الأعلام<span class="en">Notables</span></button>
     <button class="tab" data-v="pins"><span class="i">📌</span>دبابيسي<span class="en">My pins</span></button>
   </nav>
 </div>
@@ -464,6 +480,7 @@ function setSec(s){
   $$(".scene .bg").forEach(b=>b.classList.toggle("on",b.id==="bg-"+s));
   $("#heroTitle").textContent=SECS[s].t;$("#heroText").textContent=SECS[s].d;$("#listTitle").textContent=SECS[s].l;
   const items=L.filter(x=>x.s===s);$("#listCount").textContent=ar(items.length)+" معلمًا";
+  $("#shelf").innerHTML=s==="makkah"?`<button class="b3d shelfb" data-book="hq">📚 الحدائق الناضرة في معالم مكة العامرة<span class="en">${ar(94)} صفحة · كتاب المعالم</span></button>`:s==="madinah"?`<button class="b3d shelfb" data-book="zy">📚 زيارات المدينة المنورة<span class="en">${ar(61)} صفحة · الزيارات والأعمال</span></button>`:"";
   $("#list").innerHTML=items.map((x,i)=>`<button class="lm" data-id="${x.id}"><span class="n">${ar(i+1)}</span><span><h3>${esc(x.n)}</h3><span class="meta">${esc(x.en)}<span class="tag ${x.src==="research"?"res":""}">${SRC[x.src]}</span>${x.ap?'<span class="tag res">تقريبي</span>':""}</span></span><span class="go">‹</span></button>`).join("");
 }
 $$(".sections .b3d").forEach(b=>b.onclick=()=>setSec(b.dataset.sec));
@@ -680,6 +697,28 @@ const ART=new Set(["img/ghadir-art.jpg"]);
 const ZY={adhn:["إذن الدخول",3,4],nabi:["زيارة النبي",5,8],fatima:["زيارة فاطمة الزهراء",9,11],baqi:["زيارة أئمة البقيع",12,16],baqi2:["باقي زيارات البقيع",17,26],hamza:["زيارة حمزة في أحد",27,30],shuhada:["زيارة قبور الشهداء بأحد",31,32],wada:["وداع النبي",33,33],jamia:["الزيارة الجامعة الكبيرة",34,47],dua:["الدعاء بعد الزيارة",48,55],yasin:["زيارة آل يس",56,59],faraj:["دعاء الفرج",60,61]};
 const ZMAP={nabawi:["adhn","nabi","fatima","jamia","dua","wada"],baqi:["adhn","baqi","baqi2","jamia","dua"],uhud:["hamza","shuhada"]};
 const pg=n=>`zp/p-${String(n).padStart(2,"0")}.jpg`;
+const hq=n=>`hp/p-${String(n).padStart(2,"0")}.jpg`;
+const HQ_NAME="الحدائق الناضرة في معالم مكة العامرة";
+const HQ={
+ haram:[["قواعد البيت الحرام معجزة",20,20],["مقام إبراهيم",21,21],["الشاذروان",22,22],["صحن المطاف",23,25],["المِعجن",26,26],["باب بني شيبة",27,27],["بئر زمزم",28,28],["الأروقة",29,29],["الميزاب وفضل مائه",30,30],["الحطيم والملتزم والمستجار",31,31],["الركن اليماني وحجر إسماعيل",32,32],["مراحل صلاة الجماعة ومقامات المذاهب",33,33],["ولاية مكة عبر العصور",34,35],["بناء الكعبة عبر الأزمان",36,38],["صفة المسجد قبل الإسلام وفي العصر النبوي",39,40],["توسعات المسجد الحرام",41,45],["أبواب المسجد الحرام",46,47],["مآذن المسجد الحرام",48,48],["محل ولادة أمير المؤمنين والدعاء عنده",49,49],["إيداع الشهادات في المحال الشريفة",50,54]],
+ shib:[["شِعب أبي طالب",55,55]],
+ khadija:[["دار خديجة ومولد فاطمة",56,57],["دعاء الاعتصام ليلة المبيت",58,58]],
+ amina:[["دار آمنة (مولد النبي)",59,59],["أحاديث في ولادة النبي",60,61]],
+ qubais:[["جبل أبي قبيس",62,63],["مسجد انشقاق القمر",64,65],["مسجد إبراهيم",66,66]],
+ quayqian:[["جبل قعيقعان والأخشبان",67,69]],
+ hajun:[["مقبرة الحجون",78,78],["مسجد الشجرة ومعجزة الشجرة",72,75]],
+ khandama:[["جبل خندمة",76,76],["شِعب ابن عامر",77,77]],
+ tuwa:[["مداخل مكة الرئيسة",12,12],["أودية مكة الرئيسة",13,13],["وادي ذي طوى",14,14],["عقبة المدنيين",15,15],["الأكدية: كَداء وكُدى",16,16]],
+ hira:[["جبل حراء",80,80]],thawr:[["جبل ثور",81,81]],
+ mina:[["منى",89,89],["مسجد الخيف",90,90],["مسجد المرسلات",91,91],["الجمرات",92,92]],
+ muzd:[["المأزمان",85,85],["المزدلفة",86,86],["وادي محسّر",87,87]]
+};
+const HQ_ALL=[["مكة وسط العالم",6,6],["تعامد الشمس على مكة",7,7],["من أسماء مكة وأم القرى",8,9],["سكان مكة ومناطقها القديمة",10,11],["مداخل مكة وأوديتها",12,16],["مكات الحجاز وجبل أجياد وثبير",17,19],["المسجد الحرام ومعالمه",20,54],["الدور والمواضع حول المسجد",55,71],["مسجد الشجرة ومعجزتها",72,75],["جبال مكة وشعابها",76,82],["السيول في مكة",83,84],["من معالم المشاعر",85,92],["المسافات بين المواضع",93,94]];
+const ZY_ALL=Object.keys(ZY);
+/* events of Shia scholars at landmarks: shown only with source; pending ones are marked */
+const EV={haram:[{t:"صلاة الجماعة في المسجد الحرام بإمامة السيد عبد الحسين شرف الدين العاملي (١٢٩٠–١٣٧٧هـ)",src:""}]};
+const ALAM=[]; // أعلام المدينة: {n,role:"شيخ"|"سيد",bio,img,src}
+
 let NF=null;
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 function openNf(id,src){
@@ -710,17 +749,23 @@ $("#nfBtns").addEventListener("click",e=>{const b=e.target.closest(".nfb");if(!b
   if(k==="gal"){const imgs=[SECIMG[x.s]].concat(x.s==="madinah"?[pg(1)]:[]);
     const G=LMGAL[x.id]||imgs.map(i=>[i,"صورة مؤقتة"]);
     panel(`<h3>🖼️ الصور</h3><div class="gal">${G.map(g=>`<figure class="gi"><img src="${g[0]}" alt="${esc(x.n)}"><figcaption>${g[1]}</figcaption></figure>`).join("")}</div><p class="note">صور مؤقتة للتصور. تُضاف صور المعلم، وقسم «بين الأمس واليوم» من صور «مرآة الحرمين» (١٩٢٥م).</p>`)}
-  if(k==="ev"){const it=(x.items&&x.items.length?x.items:(x.z||[]));
-    panel(`<h3>📜 الوقائع</h3><ul class="tl"><li>${esc(x.d)}</li>${it.map(i=>`<li>${esc(i)}</li>`).join("")}</ul><p class="note">تُرتَّب الوقائع بالسنوات الهجرية بعد وصول كتب المعالم المعتمدة.</p>`)}
-  if(k==="tx")openBook(x.n,textPages(x),"");
+  if(k==="ev"){const it=(x.items&&x.items.length?x.items:(x.z||[])),ev=EV[x.id]||[];
+    panel(`<h3>📜 الوقائع</h3><ul class="tl"><li>${esc(x.d)}</li>${it.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>
+    <h3 style="font-size:17px">🎓 وقائع الأعلام</h3>
+    ${ev.length?`<ul class="tl">${ev.map(v=>`<li>${esc(v.t)}<br><span class="tag ${v.src?"":"res"}">${v.src?esc(v.src):"بانتظار التوثيق: المصدر والصفحة"}</span></li>`).join("")}</ul>`:`<p class="note">لا وقائع موثّقة لهذا المعلم بعد.</p>`}
+    <p class="note">تُضاف وقائع علماء الشيعة في المعالم من مصادر شيعية مع المصدر والصفحة، وتُرتَّب بالسنوات الهجرية.</p>`)}
+  if(k==="tx"){if(!HQ[x.id])return openBook(x.n,textPages(x),"");
+    panel(`<h3>📖 النص</h3><p class="note">من كتاب «${HQ_NAME}»، يُتصفَّح بصفحاته الأصلية.</p><div class="zl">${HQ[x.id].map((c,i)=>`<button class="b3d" data-hq="${x.id}:${i}">${esc(c[0])}<span>${c[2]>c[1]?"ص "+ar(c[1])+"–"+ar(c[2]):"ص "+ar(c[1])}</span></button>`).join("")}<button class="b3d" data-tx="${x.id}">نبذة التطبيق عن المعلم<span>${SRC[x.src]}</span></button></div>`)}
   if(k==="fadl")panel(`<h3>✨ ما ورد في فضل ${esc(x.n)}</h3>
     <div class="fadl"><span class="q">﴿ … ﴾ — موضع الآية الكريمة</span><span class="ref">السورة ورقم الآية</span></div>
     <div class="fadl"><span class="q">« … » — موضع الحديث الشريف</span><span class="ref">المصدر الشيعي · الجزء · الصفحة · رابط مكتبة أهل البيت</span></div>
     <p class="note">هذا شكل العرض فقط. تُؤخذ النصوص من مكتبة أهل البيت (ablibrary.net) من مصادر شيعية حصرًا، ولا يُعرض نص بلا مصدر وصفحة.</p>`);
   if(k==="loc"){closeNf();openLm(x.id)}
 });
-$("#nfPanel").addEventListener("click",e=>{const b=e.target.closest("[data-k=close],[data-z]");if(!b)return;
+$("#nfPanel").addEventListener("click",e=>{const b=e.target.closest("[data-k=close],[data-z],[data-hq],[data-tx]");if(!b)return;
   if(b.dataset.k==="close"){$("#nfPanel").hidden=true;return}
+  if(b.dataset.tx){const x=L.find(v=>v.id===b.dataset.tx);return openBook(x.n,textPages(x),"")}
+  if(b.dataset.hq){const [id,i]=b.dataset.hq.split(":"),c=HQ[id][+i],P=[];for(let n=c[1];n<=c[2];n++)P.push({img:hq(n)});return openBook(c[0],P,`من «${HQ_NAME}» · ص ${ar(c[1])}${c[2]>c[1]?"–"+ar(c[2]):""}`)}
   const z=ZY[b.dataset.z],pages=[];for(let n=z[1];n<=z[2];n++)pages.push({img:pg(n)});
   openBook(z[0],pages,"🔉 التسجيل الصوتي يُضاف لاحقًا · قلّب بالسحب أو بالضغط على طرف الصفحة")});
 function textPages(x){const c=paperBg;const P=[];
@@ -777,13 +822,30 @@ $("#aboutBtn").onclick=()=>{openSheet(`<button class="x" aria-label="إغلاق"
  </dl></div></div>
  <p class="note" style="text-align:center">نسخة تجريبية</p>`);
  $("#card").onclick=e=>{if(e.target.closest(".x"))closeSheet()}};
+
+/* ---------- bookshelf (full books with chapter index) ---------- */
+$("#shelf").addEventListener("click",e=>{const b=e.target.closest("[data-book]");if(!b)return;
+  const isHq=b.dataset.book==="hq";
+  const ch=isHq?HQ_ALL:ZY_ALL.map(z=>[ZY[z][0],ZY[z][1],ZY[z][2]]);
+  openSheet(`<button class="x" aria-label="إغلاق">✕</button><h2>${isHq?HQ_NAME:"زيارات المدينة المنورة"}<span class="en">الفهرس</span></h2>
+   <div class="zl">${ch.map((c,i)=>`<button class="b3d" data-ch="${i}">${esc(c[0])}<span>${c[2]>c[1]?"ص "+ar(c[1])+"–"+ar(c[2]):"ص "+ar(c[1])}</span></button>`).join("")}</div>`);
+  $("#card").onclick=ev=>{if(ev.target.closest(".x"))return closeSheet();const c=ev.target.closest("[data-ch]");if(!c)return;const r=ch[+c.dataset.ch],P=[];
+    for(let n=r[1];n<=r[2];n++)P.push({img:isHq?hq(n):pg(n)});closeSheet();openBook(r[0],P,isHq?`من «${HQ_NAME}»`:"من «زيارات المدينة المنورة»")}});
+
+/* ---------- أعلام المدينة ---------- */
+let alamF="all";
+function renderAlam(){const list=ALAM.filter(a=>alamF==="all"||a.role===alamF);
+  $$("#alamSeg button").forEach(b=>b.classList.toggle("on",b.dataset.f===alamF));
+  $("#alamList").innerHTML=list.length?list.map(a=>`<div class="alam"><img src="${a.img}" alt="${esc(a.n)}"><div><h3>${esc(a.n)}</h3><span class="tag">${a.role==="سيد"?"من السادة":"من المشايخ"}</span><p>${esc(a.bio)}</p><span class="note">المصدر: ${esc(a.src)}</span></div></div>`).join("")
+  :`<div class="empty"><b>بانتظار قائمة الأعلام المعتمدة</b><br>لكل علَم بطاقة فيها: صورته، واسمه، وصفته (شيخ أو سيد)، ولمحة عن سيرته ودوره في المدينة، والمصدر.<br>تُضاف الأسماء والصور من قِبلكم، فأهل المدينة أعلم بأعلامها.</div>`}
+$("#alamSeg").addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(!b)return;alamF=b.dataset.f;renderAlam()});
 /* ---------- routing ---------- */
-const VIEWS=["home","map","compass","pins"];
+const VIEWS=["home","map","compass","alam","pins"];
 function go(v){if(!VIEWS.includes(v))v="home";VIEWS.forEach(n=>$("#v-"+n).hidden=n!==v);$$(".tab").forEach(t=>t.classList.toggle("on",t.dataset.v===v));
   if(location.hash.slice(1)!==v)history.replaceState(null,"","#"+v);
   if(v==="map"){if(V.w===1)PRESET_V[sec==="between"?"route":sec]();else requestAnimationFrame(setView)}
   if(v==="compass"){fillLoc();updQibla()}
-  if(v==="pins")renderPins()}
+  if(v==="pins")renderPins();if(v==="alam")renderAlam()}
 $$(".tab").forEach(t=>t.onclick=()=>go(t.dataset.v));
 addEventListener("hashchange",()=>go(location.hash.slice(1)));
 setSec("makkah");renderPins();fillLoc();go(location.hash.slice(1)||"home");
