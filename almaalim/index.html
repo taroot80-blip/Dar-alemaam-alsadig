@@ -242,6 +242,11 @@ p,.sum,.note,.hero p,.tl li,.fadl .q,.bk-page .tx p,.bk-page .tx li,label{text-a
 .mutefab{position:fixed;z-index:45;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(148px + env(safe-area-inset-bottom,0px));width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold);background:radial-gradient(circle at 35% 30%,#2a4a37,#0c1a13);box-shadow:0 4px 0 #06100b,0 7px 16px rgba(0,0,0,.6);font-size:19px;cursor:pointer}
 .mutefab.off{background:radial-gradient(circle at 35% 30%,#4a2a2a,#1a0c0c);border-color:#ef4444}
 .sndpanel{bottom:calc(204px + env(safe-area-inset-bottom,0px))}
+.aboutbtn{margin-top:8px;min-height:40px;padding:4px 16px;border-radius:999px;border:1px solid var(--line);background:rgba(10,22,16,.6);color:var(--gold-hi);cursor:pointer;font-size:14px;font-weight:700;display:inline-flex;flex-direction:column;align-items:center}
+.about dl{margin:0;display:flex;flex-direction:column;gap:12px}
+.about dt{font-size:13px;color:var(--muted);text-align:center}
+.about dd{margin:4px 0 0;font-family:var(--f-title);font-size:21px;color:var(--gold-hi);text-align:center}
+.about dd.list{font-family:var(--f-body);font-size:15px;color:var(--cream);line-height:1.8}
 </style>
 
 <div class="scene" aria-hidden="true">
@@ -256,7 +261,7 @@ p,.sum,.note,.hero p,.tl li,.fadl .q,.bk-page .tx p,.bk-page .tx li,label{text-a
     <div class="wrap">
       <div class="brand">
         <div class="seal">ح</div>
-        <div><h1>حدائق المدينة الناضرة<br>ومعالم مكة العامرة</h1><p>مكة · ما بينهما · المدينة <span class="en">Gardens of Madinah &amp; Landmarks of Makkah</span></p></div>
+        <div><h1>حدائق المدينة الناضرة<br>ومعالم مكة العامرة</h1><p>مكة · ما بينهما · المدينة <span class="en">Gardens of Madinah &amp; Landmarks of Makkah</span></p><button class="aboutbtn" id="aboutBtn">ⓘ حول التطبيق<span class="en">About</span></button></div>
       </div>
       <div class="hero">
         <h2 id="heroTitle">مكة المكرمة</h2>
@@ -749,6 +754,18 @@ if(SND.amb!=="off"){const once=()=>{startAmb(SND.amb);removeEventListener("point
 function syncMute(){const m=!SND.btn&&!SND.paper;const b=$("#muteFab");b.textContent=m?"🔕":"🔔";b.classList.toggle("off",m);b.setAttribute("aria-pressed",m);b.title=m?"تشغيل أصوات الأزرار والانتقالات":"كتم أصوات الأزرار والانتقالات"}
 $("#muteFab").onclick=()=>{const m=!SND.btn&&!SND.paper;SND.btn=m;SND.paper=m;saveSnd();syncMute();syncSndUI();_toast(m?"🔔 الأصوات تعمل":"🔕 كُتمت أصوات الأزرار والانتقالات")};
 const _sync=syncSndUI;syncSndUI=function(){_sync();syncMute()};syncMute();
+
+/* ---------- about ---------- */
+$("#aboutBtn").onclick=()=>{openSheet(`<button class="x" aria-label="إغلاق">✕</button>
+ <h2>حول تطبيق المعالم<span class="en">About</span></h2>
+ <div class="paper ${paperBg} about"><dl>
+  <div><dt>اسم التطبيق</dt><dd>حدائق المدينة الناضرة ومعالم مكة العامرة</dd></div>
+  <div><dt>جهود الجمع والتأليف</dt><dd>الشيخ حسين الجزيري</dd></div>
+  <div><dt>المصادر المعتمدة</dt><dd class="list">الحدائق الناضرة في معالم مكة العامرة<br>زيارات المدينة المنورة</dd></div>
+  <div><dt>قواعد المحتوى</dt><dd class="list">نصوص الفضل من مصادر شيعية مع المصدر والصفحة<br>الصور الفنية موسومة «تصوير فني»</dd></div>
+ </dl></div>
+ <p class="note" style="text-align:center">نسخة تجريبية</p>`);
+ $("#card").onclick=e=>{if(e.target.closest(".x"))closeSheet()}};
 /* ---------- routing ---------- */
 const VIEWS=["home","map","compass","pins"];
 function go(v){if(!VIEWS.includes(v))v="home";VIEWS.forEach(n=>$("#v-"+n).hidden=n!==v);$$(".tab").forEach(t=>t.classList.toggle("on",t.dataset.v===v));
