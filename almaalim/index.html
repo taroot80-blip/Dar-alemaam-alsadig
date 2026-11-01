@@ -281,6 +281,18 @@ p,.sum,.note,.hero p,.tl li,.fadl .q,.bk-page .tx p,.bk-page .tx li,label{text-a
 .tmseg{grid-template-columns:repeat(4,1fr)}
 .sheet{z-index:47}
 body.bkopen .timer{top:calc(104px + env(safe-area-inset-top,0px))}
+:root{--fs:1}
+.bk-page .tx p,.bk-page .tx li{font-size:calc(20px*var(--fs))}.bk-page .tx h2{font-size:calc(26px*var(--fs))}
+.card .sum{font-size:calc(19px*var(--fs))}.paper .chip{font-size:calc(14px*var(--fs))}
+.fsbar{display:flex;justify-content:center;gap:8px}.fsbar button{min-width:44px;height:36px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--gold);cursor:pointer;font-weight:700}
+.timefab{left:auto;bottom:auto;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));width:auto;min-width:44px;height:40px;padding:0 10px;border-radius:0;
+  clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,14px 100%,0 50%);border:0;background:linear-gradient(180deg,#2ee07a,#0f8a43);box-shadow:none;display:flex;align-items:center;gap:6px;color:#021a0b;font-weight:800}
+.timefab .ti{font-size:18px;line-height:1}.timefab .tm{font-family:"Share Tech Mono",ui-monospace,monospace;font-size:15px;direction:ltr}.timefab .tm:empty{display:none}
+.timefab.on{background:linear-gradient(180deg,#0b2a17,#041209);color:#39ff88;box-shadow:none;outline:1.5px solid #22c55e}
+.timefab.done{color:#ff6b6b;animation:blink 1s steps(2) infinite}
+.sndpanel{bottom:calc(204px + env(safe-area-inset-bottom,0px))}
+.timer{cursor:pointer}
+body.bkopen .timefab{top:calc(58px + env(safe-area-inset-top,0px))}
 </style>
 
 <div class="scene" aria-hidden="true">
@@ -397,7 +409,7 @@ body.bkopen .timer{top:calc(104px + env(safe-area-inset-top,0px))}
 <div class="sheet" id="sheet" hidden><div class="card" id="card" role="dialog" aria-modal="true"></div></div>
 <div class="toast" id="toast" hidden></div>
 <button class="sndfab" id="sndFab" aria-label="الأصوات">🔘</button>
-<button class="timefab" id="timeFab" aria-label="ساعة التوقيت التنازلي">⏱</button>
+<button class="timefab" id="timeFab" aria-label="ساعة التوقيت التنازلي"><span class="ti">⏱</span><span class="tm" id="tMini"></span></button>
 <div class="timer" id="timer" hidden role="timer" aria-live="off"><span class="tl-lbl" id="tLbl"></span><output id="tOut">00:00</output><button id="tCancel" aria-label="إلغاء التوقيت">✕</button></div>
 <button class="mutefab" id="muteFab" aria-label="كتم أصوات الأزرار والانتقالات والنغمات" aria-pressed="false">🔔</button>
 <div class="sndpanel" id="sndPanel" hidden>
@@ -523,6 +535,7 @@ function actsHTML(n,lat,lng,extra=""){return `<div class="coord">${fmt(lat,lng)}
 function openLm(id){
   const x=L.find(v=>v.id===id);const b=bearing(x.lat,x.lng,...KAABA);
   openSheet(`<button class="x" aria-label="إغلاق">✕</button><h2>${esc(x.n)}<span class="en">${esc(x.en)}</span></h2>
+  <div class="fsbar"><button data-a="fs-" aria-label="تصغير الخط">−A</button><button data-a="fs+" aria-label="تكبير الخط">A＋</button></div>
   <div class="ptog" role="group" aria-label="خلفية النص"><button data-a="pp" data-p="sand" class="${paperBg==="sand"?"on":""}">🟨 ورقية</button><button data-a="pp" data-p="green" class="${paperBg==="green"?"on":""}">🟩 خضراء</button></div>
   <div class="paper ${paperBg}">
   <p class="sum">${esc(x.d)}</p>
@@ -534,6 +547,7 @@ function openLm(id){
   ${id!=="haram"?`<p class="note">اتجاه الكعبة من هنا ${ar(Math.round(b))}° (${dirName(b)}) على بعد ${ar(dist(x.lat,x.lng,...KAABA).toFixed(1))} كم.</p>`:""}`);
   $("#card").onclick=e=>{const a=e.target.closest("[data-a],.x");if(!a)return;if(a.classList.contains("x"))return closeSheet();
     const k=a.dataset.a;
+    if(k==="fs+"){setFs(FS+.15);return}if(k==="fs-"){setFs(FS-.15);return}
     if(k==="pp"){paperBg=a.dataset.p;store.set("maalim.paper",paperBg);$("#card .paper").className="paper "+paperBg;$$("#card .ptog button").forEach(b=>b.classList.toggle("on",b===a));return}
     if(k==="map"){closeSheet();go("map");flyTo(x.lat,x.lng,x.s==="between"?400:60,x.id)}
     if(k==="copy")copy(shareText(x.n,x.lat,x.lng),a);
@@ -800,7 +814,7 @@ function textPages(x){const c=paperBg;const P=[];
 let BK={pages:[],i:0,busy:false};
 function pageHTML(p){return p?(p.img?`<img src="${p.img}" alt="">`:p.html)+'<div class="shade"></div>':""}
 function sizeBook(){const st=$("#bkStage").getBoundingClientRect();const w=Math.min(st.width-24,(st.height-8)*9/16);$("#bkBook").style.width=w+"px";$("#bkBook").style.height=(w*16/9)+"px"}
-function bkNum(){$("#bkNum").textContent=`${ar(BK.i+1)} / ${ar(BK.pages.length)}`;const n=BK.pages[BK.i+1];if(n&&n.img){const im=new Image();im.src=n.img}}
+function bkNum(){if(typeof updZLabel==="function")updZLabel();$("#bkNum").textContent=`${ar(BK.i+1)} / ${ar(BK.pages.length)}`;const n=BK.pages[BK.i+1];if(n&&n.img){const im=new Image();im.src=n.img}}
 function openBook(title,pages,note){document.body.classList.add("bkopen");BK={pages,i:0,busy:false};ZM.z=1;ZM.x=0;ZM.y=0;applyZoom();$("#bkTitle").textContent=title;$("#bkNote").textContent=(note?note+" · ":"")+"قلّب بالسحب، وكبّر بإصبعين أو بالنقر مرتين";
   $("#bk").hidden=false;syncSndUI();sizeBook();$("#bkTop").innerHTML=pageHTML(pages[0]);$("#bkUnder").innerHTML="";bkNum();rustle()}
 function flip(dir){const ni=BK.i+dir;if(BK.busy||ni<0||ni>=BK.pages.length){if(!BK.busy)tick("tap");return}
@@ -817,7 +831,7 @@ $("#bkX").onclick=()=>{$("#bk").hidden=true;document.body.classList.remove("bkop
 $("#bkSnd").onclick=()=>{SND.paper=!SND.paper;saveSnd();syncSndUI()};
 /* gestures: swipe/tap to turn; pinch, double-tap or +/- to zoom; drag to pan when zoomed */
 const ZM={z:1,x:0,y:0};
-function applyZoom(){const B=$("#bkBook");B.style.transform=ZM.z>1?`translate(${ZM.x}px,${ZM.y}px) scale(${ZM.z})`:"";B.style.transformOrigin="center center";$("#bkStage").classList.toggle("zoomed",ZM.z>1);$("#bkZ").textContent=Math.round(ZM.z*100)+"%"}
+function applyZoom(){const B=$("#bkBook");B.style.transform=ZM.z>1?`translate(${ZM.x}px,${ZM.y}px) scale(${ZM.z})`:"";B.style.transformOrigin="center center";$("#bkStage").classList.toggle("zoomed",ZM.z>1);if(typeof updZLabel==="function")updZLabel()}
 function setZoom(z){ZM.z=Math.min(4,Math.max(1,z));if(ZM.z===1){ZM.x=0;ZM.y=0}clampPan();applyZoom()}
 function clampPan(){const B=$("#bkBook");const w=B.offsetWidth,h=B.offsetHeight,mx=w*(ZM.z-1)/2,my=h*(ZM.z-1)/2;ZM.x=Math.max(-mx,Math.min(mx,ZM.x));ZM.y=Math.max(-my,Math.min(my,ZM.y))}
 (function(){const S=$("#bkStage"),P=new Map();let start=null,pinch=null,lastTap=0;
@@ -835,7 +849,12 @@ function clampPan(){const B=$("#bkBook");const w=B.offsetWidth,h=B.offsetHeight,
     const r=$("#bkBook").getBoundingClientRect();const cx=e.clientX;setTimeout(()=>{if(lastTap&&Date.now()-lastTap>=280){lastTap=0;if(cx<r.left+r.width/2)flip(1);else flip(-1)}},300)};
   S.addEventListener("pointerup",end);S.addEventListener("pointercancel",e=>{P.delete(e.pointerId);pinch=null});
   S.addEventListener("wheel",e=>{if(e.ctrlKey||ZM.z>1){e.preventDefault();setZoom(ZM.z*(e.deltaY>0?.9:1.1))}},{passive:false});
-  $("#bkZin").onclick=()=>setZoom(ZM.z+.5);$("#bkZout").onclick=()=>setZoom(ZM.z-.5);})();
+  const isTextPage=()=>{const p=BK.pages[BK.i];return p&&!p.img};
+  $("#bkZin").onclick=()=>isTextPage()?setFs(FS+.15):setZoom(ZM.z+.5);$("#bkZout").onclick=()=>isTextPage()?setFs(FS-.15):setZoom(ZM.z-.5);})();
+let FS=store.get("maalim.fs",1);
+function setFs(v){FS=Math.min(2,Math.max(.8,Math.round(v*100)/100));store.set("maalim.fs",FS);document.documentElement.style.setProperty("--fs",FS);updZLabel()}
+function updZLabel(){const p=BK.pages&&BK.pages[BK.i];$("#bkZ").textContent=p&&!p.img?"الخط "+Math.round(FS*100)+"%":Math.round(ZM.z*100)+"%"}
+document.documentElement.style.setProperty("--fs",FS);
 addEventListener("resize",()=>{if(!$("#bk").hidden)sizeBook()});
 document.addEventListener("keydown",e=>{if($("#bk").hidden)return;if(e.key==="ArrowLeft")flip(1);if(e.key==="ArrowRight")flip(-1);if(e.key==="Escape"){$("#bk").hidden=true;document.body.classList.remove("bkopen")}});
 if(SND.amb!=="off"){const once=()=>{startAmb(SND.amb);removeEventListener("pointerdown",once)};addEventListener("pointerdown",once)}
@@ -883,13 +902,15 @@ const p2=n=>String(n).padStart(2,"0");
 function fmtT(ms){const t=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(t/3600),m=Math.floor(t%3600/60),sec=t%60;return(h?h+":"+p2(m):p2(m))+":"+p2(sec)}
 function alarm(){try{navigator.vibrate&&navigator.vibrate([400,150,400,150,600])}catch(e){}
   if(!SND.btn)return;const c=ac();if(!c)return;[0,.35,.7].forEach(d=>{const t=c.currentTime+d,o=c.createOscillator(),g=c.createGain();o.type="square";o.frequency.value=1200;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.12,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.22);o.connect(g).connect(c.destination);o.start(t);o.stop(t+.25)})}
-function tmTick(){const el=$("#timer");if(!TM){el.hidden=true;$("#timeFab").classList.remove("on");return}
-  el.hidden=false;$("#timeFab").classList.add("on");$("#tLbl").textContent=TM.label||"";const r=TM.end-Date.now();
+let tmShowUntil=0;
+function tmTick(){const el=$("#timer"),fb=$("#timeFab");if(!TM){el.hidden=true;fb.classList.remove("on");$("#tMini").textContent="";return}
+  const r0=TM.end-Date.now();$("#tMini").textContent=r0>0?fmtT(r0):"00:00";fb.classList.add("on");fb.classList.toggle("done",r0<=0);
+  el.hidden=!(r0<=0||Date.now()<tmShowUntil);if(el.hidden)return;$("#tLbl").textContent=TM.label||"";const r=TM.end-Date.now();
   if(r<=0){$("#tOut").textContent="00:00";el.classList.add("done");if(!tmDone){tmDone=true;alarm();$("#tLbl").textContent="انتهى الوقت"}}
   else{el.classList.remove("done");tmDone=false;$("#tOut").textContent=fmtT(r)}}
-function startTimer(ms,label){TM={end:Date.now()+ms,label};tmDone=false;store.set("maalim.timer",TM);closeSheet();tmTick();toast("⏱ بدأ العدّ التنازلي")}
+function startTimer(ms,label){TM={end:Date.now()+ms,label};tmShowUntil=Date.now()+5000;tmDone=false;store.set("maalim.timer",TM);closeSheet();tmTick();toast("⏱ بدأ العدّ التنازلي")}
 $("#tCancel").onclick=()=>{TM=null;store.set("maalim.timer",null);tmTick();_toast("أُلغي التوقيت")};
-$("#timeFab").onclick=()=>{openSheet(`<button class="x" aria-label="إغلاق">✕</button><h2>⏱ العدّ التنازلي<span class="en">Countdown</span></h2>
+$("#timeFab").onclick=()=>{if(TM&&$("#timer").hidden){tmShowUntil=Date.now()+8000;tmTick();return}openSheet(`<button class="x" aria-label="إغلاق">✕</button><h2>⏱ العدّ التنازلي<span class="en">Countdown</span></h2>
   <div class="seg tmseg">${[5,10,15,20,30,45,60,90].map(m=>`<button data-m="${m}">${ar(m)} دقيقة</button>`).join("")}</div>
   <div class="panel"><label class="note" for="tmMin">مدة مخصّصة بالدقائق</label><div class="pinbar" style="margin:0"><input id="tmMin" type="number" min="1" max="600" inputmode="numeric" placeholder="مثلًا 25"><button class="b3d" data-a="min">ابدأ</button></div>
   <label class="note" for="tmAt">أو حتى ساعة محددة (موعد التجمّع)</label><div class="pinbar" style="margin:0"><input id="tmAt" type="time"><button class="b3d" data-a="at">ابدأ</button></div>
@@ -901,6 +922,7 @@ $("#timeFab").onclick=()=>{openSheet(`<button class="x" aria-label="إغلاق">
     if(a.dataset.a==="min"){const v=+$("#tmMin").value;if(!(v>0))return toast("اكتب عدد الدقائق");return startTimer(v*60000,lbl())}
     if(a.dataset.a==="at"){const v=$("#tmAt").value;if(!v)return toast("اختر الساعة");const [h,mi]=v.split(":").map(Number);const d=new Date();d.setHours(h,mi,0,0);if(d<=new Date())d.setDate(d.getDate()+1);return startTimer(d-Date.now(),lbl()||("حتى "+v))}
     if(a.dataset.a==="cancel"){TM=null;store.set("maalim.timer",null);tmTick();closeSheet()}}};
+$("#timer").addEventListener("click",e=>{if(e.target.closest("#tCancel"))return;tmShowUntil=0;tmTick()});
 setInterval(tmTick,250);tmTick();
 /* ---------- routing ---------- */
 const VIEWS=["home","map","compass","alam","pins"];
