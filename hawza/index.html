@@ -1,0 +1,747 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+
+<title>حوزة الإمام الصادق (ع)</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=El+Messiri:wght@500;700&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+/* التخطيط: لوحة أسطرلاب ليلية على طراز «المسبار»؛ رأس ثابت، وتبويبات علوية تصير شريطا سفليا على الجوال، وألواح شبه شفافة */
+:root {
+  color-scheme: dark;
+  --ink: #0b0805;        /* الأرضية */
+  --umber: #2a1d12;      /* التدرج البني */
+  --copper: #c9a25a;     /* الحدود النحاسية */
+  --gold: #f2b632;       /* الأزرار والإبراز */
+  --ivory: #f5ead6;      /* النص */
+  --muted: #c2b394;      /* النص الثانوي */
+  --teal: #14b8a6;       /* اللون الثانوي */
+  --panel: rgba(42, 29, 18, .62);
+  --line: rgba(201, 162, 90, .38);
+  --f-ruqaa: "Aref Ruqaa", "Amiri", serif;
+  --f-title: "Amiri", "Times New Roman", serif;
+  --f-display: "El Messiri", "Amiri", serif;
+  --f-body: "Tajawal", "Segoe UI", Tahoma, sans-serif;
+  --r: 14px;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(201,162,90,.16), transparent 55%),
+    linear-gradient(180deg, var(--umber) 0%, var(--ink) 60%);
+  background-color: var(--ink);
+  background-attachment: fixed;
+  color: var(--ivory);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.75;
+}
+#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: .5; }
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink); }
+
+/* الرأس */
+header.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: linear-gradient(180deg, rgba(11,8,5,.96), rgba(11,8,5,.82));
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+}
+.brand { display: flex; align-items: center; gap: 12px; padding-block: 12px 6px; }
+.brand svg { width: 44px; height: 44px; flex: none; }
+.brand h1 { margin: 0; font-family: var(--f-ruqaa); font-weight: 700; font-size: 1.7rem; line-height: 1.2; color: var(--gold); }
+.brand p { margin: 0; font-size: .85rem; color: var(--muted); }
+nav.tabs { display: flex; gap: 6px; padding-block: 6px 10px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs button {
+  flex: none; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 40px; padding: 4px 14px; border-radius: 999px;
+  border: 1px solid var(--line); background: transparent; color: var(--muted);
+  font: 500 .95rem var(--f-display); cursor: pointer;
+}
+nav.tabs button svg { width: 18px; height: 18px; }
+nav.tabs button[aria-current="page"] { background: linear-gradient(180deg, #f6c95a, var(--gold)); color: #2a1a05; border-color: var(--gold); }
+nav.tabs button:focus-visible, .btn:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+main { padding-block: 22px 40px; }
+section.view { display: grid; gap: 22px; }
+h2 { margin: 0; font-family: var(--f-title); font-weight: 700; font-size: 1.6rem; color: var(--gold); text-wrap: balance; }
+h3 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: 1.12rem; color: var(--ivory); }
+.lead { margin: 0; color: var(--muted); max-width: 65ch; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; box-shadow: inset 0 1px 0 rgba(242,182,50,.12); min-width: 0; }
+.eyebrow { font: 500 .8rem var(--f-display); letter-spacing: .04em; color: var(--teal); }
+.grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 42px; padding: 6px 16px; border-radius: 12px; cursor: pointer;
+  font: 700 .95rem var(--f-body); text-decoration: none;
+  color: #2a1a05; border: 1px solid #b8860b;
+  background: linear-gradient(180deg, #f8d27a, var(--gold) 65%, #d99a12);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 4px 0 #6b4a0e;
+}
+.btn:active { transform: translateY(2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 2px 0 #6b4a0e; }
+.btn.ghost { background: transparent; color: var(--gold); border-color: var(--line); box-shadow: none; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.chip { justify-self: start; display: inline-block; padding: 0 10px; border-radius: 999px; font-size: .78rem; border: 1px solid var(--line); color: var(--muted); }
+.chip.ok { color: var(--teal); border-color: rgba(20,184,166,.5); }
+
+/* المصادر */
+.lib { display: grid; gap: 8px; align-content: start; }
+.lib a.url { color: var(--teal); direction: ltr; text-align: right; font-size: .9rem; word-break: break-all; }
+.science { display: grid; gap: 10px; }
+.science ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.book { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(201,162,90,.22); background: rgba(11,8,5,.35); }
+.book b { font-family: var(--f-title); font-size: 1.12rem; font-weight: 700; }
+.book .btn { min-height: 36px; padding: 2px 12px; font-size: .85rem; }
+.note { font-size: .85rem; color: var(--muted); margin: 0; }
+
+/* القارئ */
+.reader { display: grid; gap: 12px; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.bar input[type=number] { width: 5.5em; }
+.bar input, .search input {
+  min-height: 42px; padding: 4px 10px; border-radius: 10px; border: 1px solid var(--line);
+  background: rgba(11,8,5,.6); color: var(--ivory); font: inherit; font-size: .95rem;
+}
+.search { display: flex; gap: 8px; flex-wrap: wrap; }
+.search input { flex: 1 1 200px; min-width: 0; }
+.pageinfo { font-variant-numeric: tabular-nums; color: var(--muted); }
+.stage { overflow: auto; max-height: 78vh; border-radius: 10px; border: 1px solid var(--line); background: #1a130c; display: grid; place-items: start center; padding: 10px; min-height: 240px; }
+.stage canvas { max-width: none; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.5); }
+.empty { text-align: center; color: var(--muted); padding: 40px 10px; display: grid; gap: 12px; justify-items: center; }
+.empty svg { width: 64px; height: 64px; opacity: .8; }
+.hits { display: flex; flex-wrap: wrap; gap: 6px; }
+.hits button { min-height: 34px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--gold); font: inherit; font-size: .85rem; cursor: pointer; font-variant-numeric: tabular-nums; }
+.msg { min-height: 1.4em; margin: 0; font-size: .9rem; color: var(--muted); }
+.msg.err { color: #fca5a5; }
+.textpane { white-space: pre-wrap; max-height: 40vh; overflow: auto; font-family: var(--f-title); font-size: 1.1rem; line-height: 2; padding: 12px; border-radius: 10px; background: rgba(11,8,5,.45); border: 1px solid rgba(201,162,90,.22); }
+mark { background: rgba(242,182,50,.45); color: inherit; border-radius: 3px; }
+
+.soon { display: grid; gap: 10px; }
+.soon ul { margin: 0; padding-inline-start: 1.2em; color: var(--muted); }
+footer { padding-block: 10px 30px; font-size: .8rem; color: #8f8268; text-align: center; }
+
+@media (max-width: 720px) {
+  header.top { backdrop-filter: none; background: rgba(11,8,5,.96); }
+  nav.tabs {
+    position: fixed; inset: auto 0 0 0; z-index: 6; justify-content: space-around; gap: 0;
+    padding: 6px max(6px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(6px, env(safe-area-inset-left, 0px));
+    background: rgba(11,8,5,.97); border-top: 1px solid var(--line);
+  }
+  nav.tabs button { flex: 1 1 0; flex-direction: column; gap: 0; min-height: 52px; padding: 4px 2px; border: 0; border-radius: 10px; font-size: .72rem; line-height: 1.3; }
+  nav.tabs button svg { width: 22px; height: 22px; }
+  main { padding-bottom: 96px; }
+  .brand h1 { font-size: 1.45rem; }
+}
+/* ===== الحركة: ليزر الخلفية ===== */
+.lasers { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.lasers i { position: absolute; right: -70vw; width: 70vw; height: 1px; top: 18%;
+  background: linear-gradient(90deg, transparent, rgba(242,182,50,.6), transparent);
+  box-shadow: 0 0 8px rgba(242,182,50,.35); animation: beam 10s linear infinite; }
+.lasers i:nth-child(2) { top: 58%; animation-duration: 14s; animation-delay: -6s;
+  background: linear-gradient(90deg, transparent, rgba(20,184,166,.5), transparent); box-shadow: 0 0 8px rgba(20,184,166,.3); }
+.lasers i:nth-child(3) { top: 86%; animation-duration: 18s; animation-delay: -12s; }
+@keyframes beam { from { transform: translateX(0); } to { transform: translateX(-240vw); } }
+
+/* ===== الحركة: الأزرار ===== */
+.btn, nav.tabs button, .hits button { position: relative; overflow: hidden; isolation: isolate;
+  transition: transform .18s cubic-bezier(.23,1,.32,1), border-color .25s, color .25s, background-color .25s; -webkit-tap-highlight-color: transparent; }
+.btn:not(.ghost) { animation: glow 2.8s ease-in-out infinite; }
+.btn:not(.ghost)::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.6) 50%, transparent 65%);
+  transform: translateX(130%); animation: shine 3.8s cubic-bezier(.77,0,.175,1) infinite; }
+@keyframes shine { 0%, 60% { transform: translateX(130%); } 100% { transform: translateX(-130%); } }
+@keyframes glow {
+  0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 4px 0 #6b4a0e, 0 0 0 rgba(242,182,50,0); }
+  50% { box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 4px 0 #6b4a0e, 0 0 22px rgba(242,182,50,.5); } }
+.btn[disabled] { animation: none; }
+.btn[disabled]::after { display: none; }
+nav.tabs button[aria-current="page"] { box-shadow: 0 0 16px rgba(242,182,50,.45); }
+.ripple { position: absolute; left: 0; top: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; pointer-events: none; z-index: -1;
+  background: radial-gradient(circle, rgba(255,244,214,.9), rgba(242,182,50,.35) 45%, rgba(242,182,50,0) 70%); }
+.spark { position: fixed; left: 0; top: 0; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; pointer-events: none; z-index: 60;
+  background: #ffe39a; box-shadow: 0 0 8px #f2b632; }
+.panel { transition: transform .3s cubic-bezier(.23,1,.32,1), border-color .3s, box-shadow .3s; }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { transform: translateY(-2px); }
+  .btn.ghost:hover { border-color: var(--gold); color: #ffd56b; }
+  nav.tabs button:hover { color: var(--ivory); border-color: var(--copper); }
+  .panel.lib:hover, .panel.science:hover { transform: translateY(-4px); border-color: rgba(242,182,50,.7);
+    box-shadow: inset 0 1px 0 rgba(242,182,50,.2), 0 10px 26px rgba(0,0,0,.45), 0 0 18px rgba(242,182,50,.18); }
+}
+
+/* ===== الافتتاحية: كتب الطاولة تعود إلى الرف ===== */
+#intro { position: fixed; inset: 0; z-index: 50; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 28%, rgba(242,182,50,.14), transparent 60%), linear-gradient(180deg, #1f160d, #0b0805 72%); }
+#intro .desk { position: absolute; inset: auto 0 0 0; height: 32%; z-index: 1;
+  background: repeating-linear-gradient(178deg, rgba(255,255,255,.025) 0 2px, transparent 2px 9px), linear-gradient(180deg, #4a3220, #2a1d12 45%, #160f09);
+  border-top: 2px solid rgba(242,182,50,.28); box-shadow: 0 -18px 40px rgba(0,0,0,.45); }
+#intro .stage2 { position: absolute; z-index: 2; left: 50%; top: 12%; width: min(92vw, 640px); transform: translateX(-50%); }
+#intro .ititle { text-align: center; margin-bottom: 22px; min-height: 92px; }
+#intro .ititle h2 { margin: 0; font: 700 clamp(1.9rem, 7vw, 2.8rem)/1.3 var(--f-ruqaa); color: var(--gold); text-shadow: 0 0 22px rgba(242,182,50,.45); }
+#intro .ititle h2 span, #intro .ititle p span { display: inline-block; opacity: 0; }
+#intro .ititle p { margin: 4px 0 0; font: 500 1rem var(--f-display); color: var(--muted); }
+#intro .ibooks { display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 160px; padding-inline: 12px; }
+.ibook { position: relative; flex: none; width: clamp(24px, 6.3vw, 40px); height: var(--h); border-radius: 3px 3px 2px 2px;
+  background: linear-gradient(90deg, rgba(0,0,0,.4), transparent 28%, rgba(255,255,255,.1) 55%, rgba(0,0,0,.35)), var(--c);
+  display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(0,0,0,.55); will-change: transform; }
+.ibook::before, .ibook::after { content: ""; position: absolute; left: 3px; right: 3px; height: 2px; background: #f2b632; opacity: .85; }
+.ibook::before { top: 10px; } .ibook::after { bottom: 12px; }
+.ibook span { writing-mode: vertical-rl; font: 700 clamp(10px, 2.5vw, 13px)/1 var(--f-title); color: #f5ead6; white-space: nowrap; overflow: hidden; max-height: calc(var(--h) - 34px); }
+#intro .ishelf { position: relative; height: 14px; border-radius: 3px; overflow: hidden;
+  background: linear-gradient(180deg, #7a5530, #3d2914); box-shadow: 0 12px 26px rgba(0,0,0,.6), inset 0 1px 0 rgba(242,182,50,.4); }
+#intro .ishelf i { position: absolute; top: 0; bottom: 0; width: 40%; right: -40%;
+  background: linear-gradient(90deg, transparent, rgba(255,226,150,.95), transparent); }
+#intro canvas { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+#intro .iflash { position: absolute; left: 50%; top: 50%; z-index: 5; width: 100vmax; height: 100vmax; margin: -50vmax 0 0 -50vmax; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, #fffdf5 0%, #fff3c4 30%, rgba(242,182,50,.85) 55%, rgba(242,182,50,0) 72%); }
+#intro .skip { position: absolute; z-index: 4; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); left: max(18px, env(safe-area-inset-left, 0px)); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+<div dir="rtl" lang="ar">
+<canvas id="stars" aria-hidden="true"></canvas>
+<div id="intro" hidden aria-label="افتتاحية المنصة">
+  <div class="desk" aria-hidden="true"></div>
+  <div class="stage2">
+    <div class="ititle">
+      <h2><span>حوزة</span> <span>الإمام</span> <span>الصادق</span> <span>(ع)</span></h2>
+      <p><span>منصة</span> <span>لطلاب</span> <span>الحوزة</span> <span>العلمية</span></p>
+    </div>
+    <div class="ibooks" id="ibooks" aria-hidden="true"></div>
+    <div class="ishelf" aria-hidden="true"><i></i></div>
+  </div>
+  <canvas id="isparks" aria-hidden="true"></canvas>
+  <button class="btn ghost skip" id="iskip" type="button">تخطَّ</button>
+</div>
+<div class="lasers" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="21" fill="none" stroke="#c9a25a" stroke-width="1.6"/>
+        <circle cx="24" cy="24" r="15" fill="none" stroke="#c9a25a" stroke-width=".8" stroke-dasharray="2 2.4"/>
+        <path d="M24 6 L27 21 L42 24 L27 27 L24 42 L21 27 L6 24 L21 21 Z" fill="#f2b632"/>
+        <circle cx="24" cy="24" r="2.6" fill="#0b0805" stroke="#f2b632"/>
+      </svg>
+      <div>
+        <h1>حوزة الإمام الصادق (ع)</h1>
+        <p>منصة لطلاب الحوزة العلمية</p>
+      </div>
+    </div>
+    <nav class="tabs" aria-label="أقسام المنصة" id="tabs">
+      <button data-view="sources" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h6a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4z"/><path d="M20 5h-6a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h6z"/></svg>المنهج</button>
+      <button data-view="mubahatha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h11v8H8l-4 3z"/><path d="M15 9h5v8l-3-2h-6v-2"/></svg>المباحثة</button>
+      <button data-view="reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/><path d="M8.5 11h5"/></svg>القراءة والتحقيق</button>
+      <button data-view="bahth"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h4"/></svg>البحث</button>
+      <button data-view="kashkul"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 9c0 7 3 11 7 11s7-4 7-11z"/><path d="M3 9h18"/><path d="M12 9V4"/></svg>الكشكول</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- المنهج والمصادر -->
+  <section class="view" id="view-sources">
+    <div>
+      <div class="eyebrow">المرحلة الأولى: المصادر والمناهج</div>
+      <h2>المنهج والمصادر</h2>
+      <p class="lead">الكتب المقررة مرتبة بحسب العلوم، والمكاتب المعتبرة التي تُؤخذ منها نسخ PDF. نزّل الكتاب من المكتبة، ثم افتحه هنا في القارئ.</p>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:10px">المكاتب المعتمدة</h3>
+      <div class="grid" id="libs"></div>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:6px">الكتب المقررة</h3>
+      <p class="note" style="margin-bottom:10px">ترتيبها على المراحل (المقدمات، والسطوح، والبحث الخارج) يُحسم لاحقا.</p>
+      <div class="grid" id="curriculum"></div>
+    </div>
+  </section>
+
+  <!-- القارئ -->
+  <section class="view" id="view-reader" hidden>
+    <div>
+      <div class="eyebrow">قارئ PDF</div>
+      <h2>القراءة والتحقيق</h2>
+      <p class="lead">افتح ملف الكتاب من جهازك، وتنقّل بين صفحاته، وابحث في نصه. يُحفظ آخر موضع قرأته في كل كتاب على جهازك.</p>
+    </div>
+    <div class="panel reader">
+      <div class="bar">
+        <label class="btn" for="file">افتح ملف PDF</label>
+        <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+        <span class="chip" id="bookname">لم يُفتح كتاب</span>
+      </div>
+      <div class="bar" id="urlbar">
+        <input type="url" id="url" placeholder="أو الصق رابط ملف PDF مباشر" style="flex:1 1 220px;min-width:0;direction:ltr;text-align:right">
+        <button class="btn ghost" id="openurl">افتح الرابط</button>
+      </div>
+      <div class="bar">
+        <button class="btn" id="prev" disabled>الصفحة السابقة</button>
+        <button class="btn" id="next" disabled>الصفحة التالية</button>
+        <span class="pageinfo">صفحة <input type="number" id="pagenum" min="1" value="1" aria-label="رقم الصفحة"> من <span id="pagecount">0</span></span>
+        <button class="btn ghost" id="zoomout" aria-label="تصغير">−</button>
+        <span class="pageinfo" id="zoomlbl">100٪</span>
+        <button class="btn ghost" id="zoomin" aria-label="تكبير">+</button>
+      </div>
+      <div class="search">
+        <input type="search" id="q" placeholder="ابحث في نص الكتاب">
+        <button class="btn ghost" id="dosearch">ابحث</button>
+      </div>
+      <p class="msg" id="msg" role="status"></p>
+      <div class="hits" id="hits"></div>
+      <div class="stage" id="stage">
+        <div class="empty" id="empty">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#c9a25a" stroke-width="2"><path d="M8 12h20a4 4 0 0 1 4 4v38a4 4 0 0 0-4-4H8z"/><path d="M56 12H36a4 4 0 0 0-4 4v38a4 4 0 0 1 4-4h20z"/></svg>
+          <span>افتح ملف كتاب لتبدأ القراءة.</span>
+        </div>
+        <canvas id="canvas" hidden></canvas>
+      </div>
+      <details>
+        <summary style="cursor:pointer;color:var(--gold)">نص الصفحة القابل للنسخ</summary>
+        <div class="textpane" id="pagetext">—</div>
+        <p class="note">يُستخرج النص من الملف نفسه. إن كان الملف صورا ممسوحة فلا نص فيه، وإن كان خط الملف قديما فقد يظهر النص العربي مضطربا.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="view" id="view-mubahatha" hidden>
+    <div class="panel soon">
+      <div class="eyebrow">قيد البناء</div>
+      <h2>المباحثة</h2>
+      <p class="lead">مساحة يتباحث فيها الطالب في درسه. النموذج المختار للاستفادة منه: مدرسة الفقاهة، لما فيها من بحوث على هيئة مباحثات ونقاشات.</p>
+      <ul><li>شكل المباحثة (فردية مع الذكاء، أو بين الطلاب، أو كلاهما): لم يُحسم بعد.</li></ul>
+    </div>
+  </section>
+
+  <section class="view" id="view-bahth" hidden>
+    <div class="panel soon">
+      <div class="eyebrow">قيد البناء</div>
+      <h2>البحث</h2>
+      <p class="lead">أدوات البحث في المصادر والنصوص. يأتي بعد اكتمال وحدة المصادر والمناهج.</p>
+      <ul><li>البحث داخل الكتاب الواحد متاح الآن في القارئ.</li></ul>
+    </div>
+  </section>
+
+  <section class="view" id="view-kashkul" hidden>
+    <div class="panel soon">
+      <div class="eyebrow">قيد البناء</div>
+      <h2>الكشكول</h2>
+      <p class="lead">أرشيف الطالب لفوائده وبحوثه على نسق كشاكيل العلماء.</p>
+      <ul><li>ما يُحفظ فيه، وكيف يُفهرس ويُبحث: لم يُحسم بعد.</li></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">حوزة الإمام الصادق (ع) · نسخة تجريبية في طور البناء</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  // ===== البيانات (من قرارات محمد في المشروع) =====
+  var LIBS = [
+    { name: "مكتبة شبكة الفكر", url: "https://alfeker.net" },
+    { name: "مكتبة الفقاهة", url: "https://ar.lib.eshia.ir" },
+    { name: "مكتبة أهل البيت", url: "https://ablibrary.net" },
+    { name: "موقع الدراسات الحوزوية المتخصصة", url: "" }
+  ];
+  var CURRICULUM = [
+    { science: "النحو", books: ["قطر الندى", "شرح ابن عقيل"] },
+    { science: "الصرف", books: ["شذا العرف"] },
+    { science: "البلاغة", books: ["المطوّل"] },
+    { science: "المنطق", books: ["المنطق للمظفر"] },
+    { science: "أصول الفقه", books: ["معالم الأصول", "أصول الفقه للمظفر", "الرسائل", "الكفاية"] },
+    { science: "الفقه", books: ["المكاسب", "العروة الوثقى"] },
+    { science: "التفسير", books: ["مجمع البيان"] }
+  ];
+
+  function el(tag, attrs, text) {
+    var e = document.createElement(tag);
+    if (attrs) for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+  // ===== المكاتب =====
+  var libsBox = document.getElementById("libs");
+  LIBS.forEach(function (l) {
+    var p = el("div", { "class": "panel lib" });
+    p.appendChild(el("h3", null, l.name));
+    if (l.url) {
+      var a = el("a", { "class": "url", href: l.url, target: "_blank", rel: "noopener" }, l.url.replace("https://", ""));
+      p.appendChild(a);
+      p.appendChild(el("span", { "class": "chip ok" }, "معتمدة"));
+    } else {
+      p.appendChild(el("p", { "class": "note" }, "رابطه لم يُحدَّد بعد."));
+      p.appendChild(el("span", { "class": "chip" }, "ينتظر الرابط"));
+    }
+    libsBox.appendChild(p);
+  });
+
+  // ===== المنهج =====
+  var cur = document.getElementById("curriculum");
+  CURRICULUM.forEach(function (s) {
+    var p = el("div", { "class": "panel science" });
+    p.appendChild(el("div", { "class": "eyebrow" }, "علم " + s.science));
+    var ul = el("ul");
+    s.books.forEach(function (b) {
+      var li = el("li", { "class": "book" });
+      li.appendChild(el("b", null, b));
+      var last = store("dar:last:" + b);
+      var btn = el("button", { "class": "btn ghost", type: "button" }, last ? "تابع من ص " + last : "افتحه في القارئ");
+      btn.addEventListener("click", function () { pendingBook = b; show("reader"); document.getElementById("file").click(); });
+      li.appendChild(btn);
+      ul.appendChild(li);
+    });
+    p.appendChild(ul);
+    cur.appendChild(p);
+  });
+
+  // ===== التبويبات =====
+  var tabs = document.querySelectorAll("#tabs button");
+  function show(v) {
+    document.querySelectorAll("section.view").forEach(function (s) { s.hidden = s.id !== "view-" + v; });
+    tabs.forEach(function (t) { if (t.dataset.view === v) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
+    if (location.hash.slice(1) !== v) history.replaceState(null, "", "#" + v);
+    window.scrollTo(0, 0);
+  }
+  tabs.forEach(function (t) { t.addEventListener("click", function () { show(t.dataset.view); }); });
+  function fromHash() { var h = location.hash.slice(1); if (document.getElementById("view-" + h)) show(h); }
+  window.addEventListener("hashchange", fromHash);
+  fromHash();
+
+  // ===== القارئ =====
+  var pdfDoc = null, pageNo = 1, scale = 1.2, bookKey = "", pendingBook = null, rendering = false, queued = null;
+  var texts = [];
+  var $ = function (id) { return document.getElementById(id); };
+  var canvas = $("canvas"), ctx = canvas.getContext("2d");
+  function msg(t, err) { $("msg").textContent = t || ""; $("msg").className = "msg" + (err ? " err" : ""); }
+
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  }
+
+  function renderPage(n) {
+    if (!pdfDoc) return;
+    if (rendering) { queued = n; return; }
+    rendering = true;
+    pdfDoc.getPage(n).then(function (page) {
+      var ratio = window.devicePixelRatio || 1;
+      var vp = page.getViewport({ scale: scale });
+      canvas.width = Math.floor(vp.width * ratio);
+      canvas.height = Math.floor(vp.height * ratio);
+      canvas.style.width = Math.floor(vp.width) + "px";
+      canvas.style.height = Math.floor(vp.height) + "px";
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      return page.render({ canvasContext: ctx, viewport: vp }).promise;
+    }).then(function () {
+      rendering = false;
+      pageNo = n;
+      $("pagenum").value = n;
+      $("prev").disabled = n <= 1;
+      $("next").disabled = n >= pdfDoc.numPages;
+      $("zoomlbl").textContent = Math.round(scale / 1.2 * 100) + "٪";
+      if (bookKey) store("dar:last:" + bookKey, String(n));
+      getText(n).then(function (t) { showText(t); });
+      if (queued != null) { var q = queued; queued = null; renderPage(q); }
+    }).catch(function (e) { rendering = false; msg("تعذر عرض الصفحة: " + e.message, true); });
+  }
+
+  function getText(n) {
+    if (texts[n] != null) return Promise.resolve(texts[n]);
+    return pdfDoc.getPage(n).then(function (p) { return p.getTextContent(); }).then(function (c) {
+      var t = c.items.map(function (i) { return i.str + (i.hasEOL ? "\n" : " "); }).join("").replace(/[ \t]+/g, " ").trim();
+      texts[n] = t; return t;
+    });
+  }
+  function norm(s) { return s.replace(/[ً-ْٰـ]/g, "").replace(/[أإآ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه"); }
+  function showText(t) {
+    var box = $("pagetext"); box.textContent = "";
+    if (!t) { box.textContent = "لا نص في هذه الصفحة."; return; }
+    var q = $("q").value.trim();
+    if (!q) { box.textContent = t; return; }
+    // إبراز الكلمة مع تجاهل الحركات والهمزات
+    var nt = norm(t), nq = norm(q), i = 0, j, map = [], acc = "";
+    for (var k = 0; k < t.length; k++) { var c = norm(t[k]); for (var m = 0; m < c.length; m++) map.push(k); acc += c; }
+    var pos = 0;
+    while ((j = acc.indexOf(nq, pos)) !== -1) {
+      var s = map[j], e = map[j + nq.length - 1] + 1;
+      box.appendChild(document.createTextNode(t.slice(i, s)));
+      box.appendChild(el("mark", null, t.slice(s, e)));
+      i = e; pos = j + nq.length;
+    }
+    box.appendChild(document.createTextNode(t.slice(i)));
+  }
+
+  function openDoc(src, name) {
+    if (!window.pdfjsLib) { msg("تعذر تحميل أداة قراءة PDF. تأكد من الاتصال بالإنترنت ثم أعد فتح الصفحة.", true); return; }
+    msg("جارٍ فتح الكتاب…");
+    pdfjsLib.getDocument(src).promise.then(function (doc) {
+      pdfDoc = doc; texts = []; $("hits").textContent = "";
+      bookKey = pendingBook || name; pendingBook = null;
+      $("bookname").textContent = bookKey;
+      $("pagecount").textContent = doc.numPages;
+      $("pagenum").max = doc.numPages;
+      $("empty").hidden = true; canvas.hidden = false;
+      var last = parseInt(store("dar:last:" + bookKey), 10);
+      var start = last && last <= doc.numPages ? last : 1;
+      msg(start > 1 ? "عدت إلى آخر موضع قرأته: صفحة " + start + "." : "");
+      renderPage(start);
+    }).catch(function (e) {
+      msg(src && src.url ? "تعذر فتح الرابط. بعض المكاتب تمنع فتح ملفاتها من موقع آخر، فنزّل الملف إلى جهازك ثم افتحه من زر «افتح ملف PDF»." : "تعذر فتح الملف. تأكد أنه ملف PDF سليم.", true);
+    });
+  }
+
+  $("file").addEventListener("change", function (ev) {
+    var f = ev.target.files && ev.target.files[0];
+    if (!f) { pendingBook = null; return; }
+    var r = new FileReader();
+    r.onload = function () { openDoc({ data: new Uint8Array(r.result) }, f.name.replace(/\.pdf$/i, "")); };
+    r.readAsArrayBuffer(f);
+    ev.target.value = "";
+  });
+  $("openurl").addEventListener("click", function () {
+    var u = $("url").value.trim();
+    if (!/^https?:\/\//.test(u)) { msg("اكتب رابطا يبدأ بـ https://", true); return; }
+    openDoc({ url: u }, decodeURIComponent(u.split("/").pop().replace(/\.pdf$/i, "")) || "كتاب");
+  });
+  $("prev").addEventListener("click", function () { if (pageNo > 1) renderPage(pageNo - 1); });
+  $("next").addEventListener("click", function () { if (pdfDoc && pageNo < pdfDoc.numPages) renderPage(pageNo + 1); });
+  $("pagenum").addEventListener("change", function () {
+    var n = parseInt(this.value, 10);
+    if (pdfDoc && n >= 1 && n <= pdfDoc.numPages) renderPage(n); else this.value = pageNo;
+  });
+  $("zoomin").addEventListener("click", function () { if (scale < 4) { scale = Math.round((scale + .2) * 10) / 10; renderPage(pageNo); } });
+  $("zoomout").addEventListener("click", function () { if (scale > .5) { scale = Math.round((scale - .2) * 10) / 10; renderPage(pageNo); } });
+  document.addEventListener("keydown", function (e) {
+    if ($("view-reader").hidden || !pdfDoc || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+    // في الكتاب العربي: السهم الأيسر للصفحة التالية
+    if (e.key === "ArrowLeft") $("next").click();
+    if (e.key === "ArrowRight") $("prev").click();
+  });
+
+  function search() {
+    var q = $("q").value.trim(), hits = $("hits");
+    hits.textContent = "";
+    if (!pdfDoc) { msg("افتح كتابا أولا.", true); return; }
+    if (!q) { showText(texts[pageNo]); msg(""); return; }
+    var nq = norm(q), total = pdfDoc.numPages, found = [], n = 1;
+    msg("جارٍ البحث في " + total + " صفحة…");
+    (function step() {
+      var batch = [];
+      for (var k = 0; k < 10 && n <= total; k++, n++) batch.push(getText(n).then(function (num) { return function (t) { if (norm(t).indexOf(nq) !== -1) found.push(num); }; }(n)));
+      Promise.all(batch).then(function () {
+        if (n <= total) { msg("جارٍ البحث… " + (n - 1) + " من " + total); setTimeout(step, 0); return; }
+        found.sort(function (a, b) { return a - b; });
+        if (!found.length) { msg("لم أجد «" + q + "» في نص الكتاب. إن كان الملف صورا ممسوحة فلا نص فيه يُبحث."); showText(texts[pageNo]); return; }
+        msg("وُجدت في " + found.length + " صفحة. اختر صفحة:");
+        found.slice(0, 200).forEach(function (p) {
+          var b = el("button", { type: "button" }, "ص " + p);
+          b.addEventListener("click", function () { renderPage(p); });
+          hits.appendChild(b);
+        });
+        if (found[0] !== pageNo) renderPage(found[0]); else showText(texts[pageNo]);
+      }).catch(function (e) { msg("تعذر البحث: " + e.message, true); });
+    })();
+  }
+  $("dosearch").addEventListener("click", search);
+  $("q").addEventListener("keydown", function (e) { if (e.key === "Enter") search(); });
+
+  // ===== الزخرفة النجمية الخافتة =====
+  var sc = $("stars"), sx = sc.getContext("2d");
+  function stars() {
+    var w = sc.width = window.innerWidth, h = sc.height = window.innerHeight;
+    sx.clearRect(0, 0, w, h);
+    var seed = 7; function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    for (var i = 0; i < 90; i++) {
+      sx.fillStyle = "rgba(245,234,214," + (0.15 + rnd() * 0.5) + ")";
+      sx.beginPath(); sx.arc(rnd() * w, rnd() * h, rnd() * 1.3 + .2, 0, 6.283); sx.fill();
+    }
+    // نجمة ثمانية هندسية خافتة
+    sx.strokeStyle = "rgba(201,162,90,.10)"; sx.lineWidth = 1;
+    var cx = w * 0.85, cy = h * 0.8, r = Math.min(w, h) * 0.35;
+    for (var a = 0; a < 2; a++) {
+      sx.beginPath();
+      for (var p = 0; p <= 4; p++) { var t = a * Math.PI / 4 + p * Math.PI / 2; var x = cx + r * Math.cos(t), y = cy + r * Math.sin(t); if (p) sx.lineTo(x, y); else sx.moveTo(x, y); }
+      sx.stroke();
+    }
+    sx.beginPath(); sx.arc(cx, cy, r * 0.72, 0, 6.283); sx.stroke();
+  }
+  stars(); window.addEventListener("resize", stars);
+})();
+</script>
+<script>
+/* ===== حركة المنصة: الافتتاحية وتفاعل الأزرار وظهور الأقسام ===== */
+(function () {
+  "use strict";
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var canAnim = !!Element.prototype.animate;
+  var SPRING = "cubic-bezier(.23,1,.32,1)";
+
+  // ظهور عناصر القسم الظاهر بتتابع مرن
+  function revealView() {
+    if (!canAnim || reduce) return;
+    var v = document.querySelector("section.view:not([hidden])");
+    if (!v) return;
+    var items = v.querySelectorAll(":scope > div > h2, :scope > div > .lead, .panel, .book");
+    Array.prototype.forEach.call(items, function (n, i) {
+      n.animate([{ opacity: 0, transform: "translateY(18px) scale(.96)" }, { opacity: 1, transform: "translateY(-3px) scale(1.01)", offset: .7 }, { opacity: 1, transform: "none" }],
+        { duration: 520, delay: Math.min(i * 45, 900), easing: SPRING, fill: "backwards" });
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("#tabs button"), function (t) {
+    t.addEventListener("click", function () { setTimeout(revealView, 0); });
+  });
+
+  // تموّج وانبثاق ونابض عند الضغط على أي زر
+  var SEL = ".btn, nav.tabs button, .hits button";
+  document.addEventListener("pointerdown", function (e) {
+    var b = e.target.closest && e.target.closest(SEL);
+    if (!b || b.disabled || !canAnim) return;
+    var r = b.getBoundingClientRect();
+    if (!reduce) {
+      var rp = document.createElement("span"); rp.className = "ripple";
+      rp.style.left = (e.clientX - r.left) + "px"; rp.style.top = (e.clientY - r.top) + "px";
+      b.appendChild(rp);
+      var s = Math.max(r.width, r.height) / 4;
+      rp.animate([{ transform: "scale(0)", opacity: 1 }, { transform: "scale(" + s + ")", opacity: 0 }], { duration: 560, easing: "ease-out" }).onfinish = function () { rp.remove(); };
+      for (var k = 0; k < 8; k++) {
+        var sp = document.createElement("span"); sp.className = "spark";
+        document.body.appendChild(sp);
+        var ang = k / 8 * Math.PI * 2 + Math.random() * .4, d = 26 + Math.random() * 22;
+        var x0 = e.clientX, y0 = e.clientY;
+        sp.animate([{ transform: "translate(" + x0 + "px," + y0 + "px) scale(1)", opacity: 1 },
+          { transform: "translate(" + (x0 + Math.cos(ang) * d) + "px," + (y0 + Math.sin(ang) * d) + "px) scale(.2)", opacity: 0 }],
+          { duration: 480, easing: SPRING, fill: "forwards" }).onfinish = (function (n) { return function () { n.remove(); }; })(sp);
+      }
+    }
+    b.animate([{ transform: "scale(1)" }, { transform: "scale(.93)", offset: .3 }, { transform: "scale(1.05)", offset: .7 }, { transform: "scale(1)" }], { duration: 400, easing: SPRING });
+  }, { passive: true });
+
+  // ===== الافتتاحية =====
+  var intro = document.getElementById("intro");
+  if (!intro || !canAnim) { revealView(); return; }
+  var TITLES = ["قطر الندى", "شرح ابن عقيل", "شذا العرف", "المطوّل", "المنطق", "معالم الأصول", "أصول الفقه", "الرسائل", "الكفاية", "المكاسب", "العروة الوثقى", "مجمع البيان"];
+  var COLORS = ["#6a2119", "#1f4436", "#2c3159", "#6b4419", "#45213f", "#5a1e2a", "#244a4a", "#3d2a14"];
+  var box = document.getElementById("ibooks");
+  var books = TITLES.map(function (t, i) {
+    var b = document.createElement("div"); b.className = "ibook";
+    b.style.setProperty("--c", COLORS[i % COLORS.length]);
+    b.style.setProperty("--h", (118 + ((i * 37) % 40)) + "px");
+    var s = document.createElement("span"); s.textContent = t; b.appendChild(s);
+    box.appendChild(b); return b;
+  });
+  intro.hidden = false;
+  var root = document.documentElement, prevOverflow = root.style.overflow;
+  root.style.overflow = "hidden";
+  var done = false, anims = [], timers = [], sparkOn = false;
+
+  function finish() {
+    if (done) return; done = true; sparkOn = false;
+    timers.forEach(clearTimeout);
+    // ضوء باهر يغمر الشاشة، ثم يخفت وينكمش في المركز كاشفًا الأقسام
+    intro.style.pointerEvents = "none";
+    var f = document.createElement("div"); f.className = "iflash"; intro.appendChild(f);
+    f.animate([{ opacity: 0, transform: "scale(.12)" }, { opacity: 1, transform: "scale(3.2)" }], { duration: 450, easing: SPRING, fill: "forwards" }).onfinish = function () {
+      intro.style.background = "transparent";
+      Array.prototype.forEach.call(intro.children, function (c) { if (c !== f) c.style.visibility = "hidden"; });
+      root.style.overflow = prevOverflow; revealView();
+      f.animate([{ opacity: 1, transform: "scale(3.2)" }, { opacity: .85, transform: "scale(1.3)", offset: .35 }, { opacity: 0, transform: "scale(0)" }],
+        { duration: 1000, easing: "cubic-bezier(.65,0,.35,1)", fill: "forwards" }).onfinish = function () { intro.hidden = true; };
+    };
+  }
+  document.getElementById("iskip").addEventListener("click", finish);
+  timers.push(setTimeout(finish, 16000)); // أمان: لا تبقى الافتتاحية مهما حدث
+
+  function showTitle(at) {
+    var words = intro.querySelectorAll(".ititle span");
+    Array.prototype.forEach.call(words, function (w, i) {
+      w.animate([{ opacity: 0, transform: "translateY(14px) scale(.9)", filter: "blur(6px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }],
+        { duration: 600, delay: at + i * 110, easing: SPRING, fill: "both" });
+    });
+  }
+
+  intro.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 350, easing: "ease-out" });
+
+  if (reduce) { showTitle(150); timers.push(setTimeout(finish, 5200)); return; }
+
+  // شرر ذهبي يتبع الكتب أثناء الطيران
+  var cv = document.getElementById("isparks"), cx = cv.getContext("2d"), parts = [];
+  function sizeCv() { var d = window.devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; cx.setTransform(d, 0, 0, d, 0, 0); }
+  sizeCv();
+  function loop() {
+    if (!sparkOn && !parts.length) return;
+    cx.clearRect(0, 0, innerWidth, innerHeight);
+    if (sparkOn) books.forEach(function (b) {
+      if (!b._fly) return;
+      var r = b.getBoundingClientRect();
+      parts.push({ x: r.left + r.width / 2, y: r.top + r.height / 2, vx: (Math.random() - .5) * 1.4, vy: (Math.random() - .2) * 1.4, life: 1 });
+    });
+    cx.globalCompositeOperation = "lighter";
+    parts = parts.filter(function (p) {
+      p.x += p.vx; p.y += p.vy; p.life -= .035;
+      if (p.life <= 0) return false;
+      cx.fillStyle = "rgba(242,182,50," + (p.life * .8).toFixed(3) + ")";
+      cx.beginPath(); cx.arc(p.x, p.y, 1 + p.life * 2.4, 0, 6.283); cx.fill();
+      return true;
+    });
+    requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(function () {
+    var desk = intro.querySelector(".desk").getBoundingClientRect(), W = innerWidth;
+    var seed = 11; function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    var DROP = 1000, GAP = 150, FLY = 1900;
+    books.forEach(function (b, i) {
+      var r = b.getBoundingClientRect();
+      var bx = r.left + r.width / 2, by = r.top + r.height / 2;
+      var tx = W * (.1 + rnd() * .8) - bx;
+      var ty = desk.top + desk.height * (.3 + rnd() * .45) - by;
+      var rot = (rnd() < .5 ? -1 : 1) * (72 + rnd() * 36);
+      var lie = "translate(" + tx + "px," + ty + "px) rotate(" + rot + "deg) scale(.92)";
+      // تستقر الكتب متناثرة على الطاولة أولًا
+      b.animate([{ transform: "translate(" + tx + "px," + (ty - 40) + "px) rotate(" + (rot * .6) + "deg) scale(.92)", opacity: 0 }, { transform: lie, opacity: 1 }],
+        { duration: 420, delay: i * 30, easing: "cubic-bezier(.34,1.56,.64,1)", fill: "backwards" });
+      var delay = DROP + i * GAP;
+      timers.push(setTimeout(function () { b._fly = true; }, delay));
+      var fly = b.animate([
+        { transform: lie, offset: 0 },
+        { transform: "translate(" + (tx * .1) + "px," + (ty * .45 - 60) + "px) rotate(" + (rot * .15) + "deg) scale(1.08)", offset: .2 },
+        { transform: "translate(" + (tx * .35) + "px," + (-innerHeight * .1) + "px) rotate(" + (-rot * 1.6) + "deg) scale(1.22)", offset: .55 },
+        { transform: "translate(0,-22px) rotate(0deg) scale(1)", offset: .86 },
+        { transform: "none", offset: 1 }
+      ], { duration: FLY, delay: delay, easing: "cubic-bezier(.65,0,.35,1)", fill: "backwards" });
+      fly.onfinish = function () {
+        b._fly = false;
+        if (done) return;
+        b.animate([{ transform: "scaleY(.9)", transformOrigin: "bottom" }, { transform: "scaleY(1.04)", transformOrigin: "bottom", offset: .5 }, { transform: "none", transformOrigin: "bottom" }], { duration: 260, easing: SPRING });
+      };
+      anims.push(fly);
+    });
+    timers.push(setTimeout(function () { sparkOn = true; requestAnimationFrame(loop); }, DROP));
+    var landed = DROP + (books.length - 1) * GAP + FLY;
+    timers.push(setTimeout(function () {
+      sparkOn = false;
+      var beam = intro.querySelector(".ishelf i");
+      beam.animate([{ transform: "translateX(0)" }, { transform: "translateX(-" + (intro.querySelector(".ishelf").offsetWidth * 1.4 + 40) + "px)" }], { duration: 900, easing: "cubic-bezier(.77,0,.175,1)" });
+      box.animate([{ filter: "drop-shadow(0 0 0 rgba(242,182,50,0))" }, { filter: "drop-shadow(0 0 14px rgba(242,182,50,.7))" }, { filter: "drop-shadow(0 0 0 rgba(242,182,50,0))" }], { duration: 1000, easing: "ease-in-out" });
+    }, landed));
+    showTitle(landed - 200);
+    timers.push(setTimeout(finish, landed + 4500));
+  });
+})();
+</script>
+</div>
+</body></html>
