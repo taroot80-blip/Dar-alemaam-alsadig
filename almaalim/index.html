@@ -935,4 +935,5 @@ $$(".tab").forEach(t=>t.onclick=()=>go(t.dataset.v));
 addEventListener("hashchange",()=>go(location.hash.slice(1)));
 setSec("makkah");renderPins();fillLoc();go(location.hash.slice(1)||"home");
 </script>
+<script src="fx.js"></script>
 <script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));</script></body></html>
