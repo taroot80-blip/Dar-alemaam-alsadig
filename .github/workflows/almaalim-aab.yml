@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'almaalim-android/**'
+      - 'almaalim/**'
       - '.github/workflows/almaalim-aab.yml'
   workflow_dispatch:
 

@@ -292,7 +292,9 @@ body.bkopen .timer{top:calc(104px + env(safe-area-inset-top,0px))}
 .timefab.done{color:#ff6b6b;animation:blink 1s steps(2) infinite}
 .sndpanel{bottom:calc(204px + env(safe-area-inset-bottom,0px))}
 .timer{cursor:pointer}
-body.bkopen .timefab{top:calc(58px + env(safe-area-inset-top,0px))}
+body.bkopen .timefab{top:auto}
+.timefab{top:auto!important;right:auto!important;left:calc(12px + env(safe-area-inset-left,0px))!important;bottom:calc(204px + env(safe-area-inset-bottom,0px))!important}
+.sndpanel{bottom:calc(258px + env(safe-area-inset-bottom,0px))!important}
 </style>
 
 <div class="scene" aria-hidden="true">
@@ -497,6 +499,7 @@ const ar=n=>String(n).replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
 let toast=function(t){const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2000)}
 
 /* ---------- geo ---------- */
+const LBL_BELOW=new Set(["baqi","quayqian","shib"]);const LBL_SIDE=new Set(["nabawi"]); // labels drawn under the dot to avoid overlaps
 const R=Math.PI/180;
 function bearing(a,b,c,d){const p1=a*R,p2=c*R,dl=(d-b)*R;return(Math.atan2(Math.sin(dl)*Math.cos(p2),Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl))/R+360)%360}
 function dist(a,b,c,d){const x=Math.sin((c-a)*R/2)**2+Math.cos(a*R)*Math.cos(c*R)*Math.sin((d-b)*R/2)**2;return 12742*Math.asin(Math.sqrt(x))}
@@ -583,7 +586,7 @@ const svg=$("#map");let V={cx:0,cy:0,w:1},pinMode=false,focusId=null;
 function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e}
 function setView(){const r=svg.getBoundingClientRect();const h=V.w*(r.height/Math.max(r.width,1));svg.setAttribute("viewBox",`${V.cx-V.w/2} ${V.cy-h/2} ${V.w} ${h}`);drawMap()}
 function flyTo(lat,lng,w,id){const [x,y]=P(lat,lng);V={cx:x,cy:y,w};focusId=id;requestAnimationFrame(setView)}
-const PRESET_V={makkah:()=>flyTo(21.42,39.885,230),madinah:()=>flyTo(24.465,39.585,150),route:()=>flyTo(23.0,39.25,1700)};
+const PRESET_V={makkah:()=>flyTo(21.42,39.885,230),madinah:()=>flyTo(24.465,39.597,150),route:()=>flyTo(23.0,39.25,1700)};
 function drawMap(){
   if($("#v-map").hidden)return;
   const r=svg.getBoundingClientRect();if(!r.width)return;const s=V.w/r.width;const h=V.w*(r.height/r.width);
@@ -614,7 +617,7 @@ function drawMap(){
     const on=m.id===focusId;
     el("circle",{r:on?11:8,fill:m.s==="between"?"#14b8a6":m.s==="madinah"?"#22a35a":"#e2b45a",stroke:"#0a1410","stroke-width":2.5},gg);
     if(on)el("circle",{r:17,fill:"none",stroke:"#f4d48c","stroke-width":2},gg);
-    if(showLabels||on||m.s==="between"&&V.w<2200){const tx=el("text",{x:0,y:-14,"text-anchor":"middle",fill:"#efe6cf","font-size":13,"font-family":"Tajawal, sans-serif",stroke:"#0a1410","stroke-width":3,"paint-order":"stroke"},gg);tx.textContent=m.n}});
+    if(showLabels||on||m.s==="between"&&V.w<2200){const below=LBL_BELOW.has(m.id),side=LBL_SIDE.has(m.id);const tx=el("text",{x:side?12:0,y:below?26:side?5:-14,"text-anchor":side?"end":"middle",fill:"#efe6cf","font-size":13,"font-family":"Tajawal, sans-serif",stroke:"#0a1410","stroke-width":3,"paint-order":"stroke"},gg);tx.textContent=m.n}});
   // pins
   pins.forEach(p=>{const [x,y]=P(p.lat,p.lng);const gg=el("g",{transform:`translate(${x} ${y}) scale(${s})`},svg);
     el("path",{d:"M0 0c-8-12-12-17-12-23a12 12 0 0 1 24 0c0 6-4 11-12 23z",fill:"#ef4444",stroke:"#fff","stroke-width":1.5},gg);el("circle",{cy:-23,r:4,fill:"#fff"},gg);
